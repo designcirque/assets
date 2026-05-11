@@ -209,7 +209,8 @@
   const S = {
     selected: new Set(), freq:'weekly',
     borrow:20000, term:60, rate:14.95, path:'finance',
-    financeCalcOpen:false, expanded:{ membership:true, finance:true }
+    financeCalcOpen:false, expanded:{ membership:true, finance:true },
+    modalMode: 'membership'
   };
 
   /* ── Inject HTML ── */
@@ -219,11 +220,24 @@
   root.innerHTML = `
 <div class="mvg-overlay" id="mvgModal">
   <div class="mvg-modal">
-    <h3>Almost there</h3>
-    <p class="modal-sub">Give us a few details and we'll be in touch to set up your membership.</p>
-    <div class="mvg-field"><label class="mvg-lbl" for="mvgName">Name</label><input class="mvg-input" type="text" id="mvgName" placeholder="Jane Smith"><div class="mvg-error" id="mvgNameErr">Please enter your name.</div></div>
-    <div class="mvg-field"><label class="mvg-lbl" for="mvgPhone">Phone</label><input class="mvg-input" type="tel" id="mvgPhone" placeholder="021 123 4567"><div class="mvg-error" id="mvgPhoneErr">Please enter your phone number.</div></div>
-    <div class="mvg-field"><label class="mvg-lbl" for="mvgEmail">Email</label><input class="mvg-input" type="email" id="mvgEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgEmailErr">Please enter a valid email.</div></div>
+    <h3 id="mvgModalTitle">Almost there</h3>
+    <p class="modal-sub" id="mvgModalSub">Give us a few details and we'll pre-fill your application.</p>
+
+    <!-- Finance fields -->
+    <div id="mvgFinanceFields">
+      <div class="mvg-field"><label class="mvg-lbl" for="mvgFirst">First name</label><input class="mvg-input" type="text" id="mvgFirst" placeholder="Jane"><div class="mvg-error" id="mvgFirstErr">Please enter your first name.</div></div>
+      <div class="mvg-field"><label class="mvg-lbl" for="mvgLast">Last name</label><input class="mvg-input" type="text" id="mvgLast" placeholder="Smith"><div class="mvg-error" id="mvgLastErr">Please enter your last name.</div></div>
+      <div class="mvg-field"><label class="mvg-lbl" for="mvgAppEmail">Email</label><input class="mvg-input" type="email" id="mvgAppEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgAppEmailErr">Please enter a valid email.</div></div>
+      <div class="mvg-field"><label class="mvg-lbl" for="mvgMobile">Mobile</label><input class="mvg-input" type="tel" id="mvgMobile" placeholder="+64 21 123 4567"><div class="mvg-error" id="mvgMobileErr">Please enter your mobile number.</div></div>
+    </div>
+
+    <!-- Membership-only fields -->
+    <div id="mvgMembershipFields" style="display:none">
+      <div class="mvg-field"><label class="mvg-lbl" for="mvgName">Name</label><input class="mvg-input" type="text" id="mvgName" placeholder="Jane Smith"><div class="mvg-error" id="mvgNameErr">Please enter your name.</div></div>
+      <div class="mvg-field"><label class="mvg-lbl" for="mvgPhone">Phone</label><input class="mvg-input" type="tel" id="mvgPhone" placeholder="021 123 4567"><div class="mvg-error" id="mvgPhoneErr">Please enter your phone number.</div></div>
+      <div class="mvg-field"><label class="mvg-lbl" for="mvgEmail">Email</label><input class="mvg-input" type="email" id="mvgEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgEmailErr">Please enter a valid email.</div></div>
+    </div>
+
     <div class="mvg-success" id="mvgSuccess">✓ Thanks! We'll be in touch shortly.</div>
     <div class="modal-btns">
       <button class="btn btn-lime" id="mvgModalSubmit" onclick="mvgSubmitModal()" style="padding-top:17px;padding-bottom:19px;padding-left:28px;padding-right:28px;font-size:15px;">Send enquiry</button>
@@ -416,41 +430,98 @@
   /* ── Apply routing ── */
   window.mvgHandleApply = function() {
     if (hasLoan()) {
-      const p = new URLSearchParams({
-        finance: FINANCE_LOANS.filter(p=>S.selected.has(p.id)).map(p=>p.id).join(','),
-        addons:  FINANCE_ADDONS.filter(p=>S.selected.has(p.id)).map(p=>p.id).join(','),
-        membership: MEMBERSHIP.filter(p=>S.selected.has(p.id)).map(p=>p.id).join(','),
-        borrow: S.borrow, term: S.term, rate: S.rate, freq: S.freq
-      });
-      window.location.href = 'https://apply.movogo.co.nz/?' + p.toString();
+      mvgOpenModal('finance');
     } else if (S.selected.size > 0) {
-      mvgOpenModal();
+      mvgOpenModal('membership');
     } else {
       document.querySelector('#mvg-root .build-head').scrollIntoView({behavior:'smooth'});
     }
   };
 
   /* ── Modal ── */
-  window.mvgOpenModal = function() { el('mvgModal').classList.add('show'); el('mvgSuccess').classList.remove('show'); const b=el('mvgModalSubmit'); b.disabled=false; b.textContent='Send enquiry'; };
+  window.mvgOpenModal = function(mode) {
+    S.modalMode = mode || 'membership';
+    const isFinance = S.modalMode === 'finance';
+    el('mvgModalTitle').textContent = isFinance ? 'One quick step' : 'Almost there';
+    el('mvgModalSub').textContent = isFinance
+      ? 'Give us a few details and we\'ll pre-fill your application.'
+      : 'Give us a few details and we\'ll be in touch to set up your membership.';
+    el('mvgFinanceFields').style.display = isFinance ? 'block' : 'none';
+    el('mvgMembershipFields').style.display = isFinance ? 'none' : 'block';
+    el('mvgModalSubmit').textContent = isFinance ? 'Continue to apply' : 'Send enquiry';
+    el('mvgSuccess').classList.remove('show');
+    el('mvgModal').classList.add('show');
+    const b = el('mvgModalSubmit'); b.disabled = false;
+  };
   window.mvgCloseModal = function() { el('mvgModal').classList.remove('show'); };
-  el('mvgModal').addEventListener('click', e => { if(e.target===el('mvgModal'))mvgCloseModal(); });
+  el('mvgModal').addEventListener('click', e => { if(e.target===el('mvgModal')) mvgCloseModal(); });
 
   window.mvgSubmitModal = async function() {
-    const name=el('mvgName').value.trim(), phone=el('mvgPhone').value.trim(), email=el('mvgEmail').value.trim();
-    let ok=true;
-    [[name,'mvgNameErr','mvgName'],[phone,'mvgPhoneErr','mvgPhone'],[email&&email.includes('@')?email:'',' mvgEmailErr','mvgEmail']].forEach(([v,errId,inId])=>{
-      if(!v){el(errId.trim()).classList.add('show');el(inId).classList.add('error');ok=false;}
-      else{el(errId.trim()).classList.remove('show');el(inId).classList.remove('error');}
-    });
-    if(!ok)return;
-    const btn=el('mvgModalSubmit'); btn.textContent='Sending…'; btn.disabled=true;
-    const memKeys=MEMBERSHIP.filter(p=>S.selected.has(p.id)).map(p=>p.title);
-    const memW=MEMBERSHIP.filter(p=>S.selected.has(p.id)&&!p.soon&&p.price!==null).reduce((a,p)=>a+p.price,0);
-    try {
-      const res=await fetch('https://formspree.io/f/xeeryage',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name,phone,email,frequency:S.freq,membership_items:memKeys.join(', ')||'None',membership_estimate:fmtAmt(memW*FREQ_MULT[S.freq])+' '+FREQ_LABEL[S.freq]})});
-      if(res.ok){el('mvgSuccess').classList.add('show');btn.textContent='✓ Sent';}
-      else throw new Error();
-    } catch { btn.textContent='Send enquiry'; btn.disabled=false; alert('Something went wrong. Please try again or email join@movogo.co.nz'); }
+    const isFinance = S.modalMode === 'finance';
+
+    if (isFinance) {
+      // Validate finance fields
+      const first  = el('mvgFirst').value.trim();
+      const last   = el('mvgLast').value.trim();
+      const email  = el('mvgAppEmail').value.trim();
+      const mobile = el('mvgMobile').value.trim();
+      let ok = true;
+      if (!first)  { el('mvgFirstErr').classList.add('show');    el('mvgFirst').classList.add('error');    ok=false; } else { el('mvgFirstErr').classList.remove('show');    el('mvgFirst').classList.remove('error'); }
+      if (!last)   { el('mvgLastErr').classList.add('show');     el('mvgLast').classList.add('error');     ok=false; } else { el('mvgLastErr').classList.remove('show');     el('mvgLast').classList.remove('error'); }
+      if (!email||!email.includes('@')) { el('mvgAppEmailErr').classList.add('show'); el('mvgAppEmail').classList.add('error'); ok=false; } else { el('mvgAppEmailErr').classList.remove('show'); el('mvgAppEmail').classList.remove('error'); }
+      if (!mobile) { el('mvgMobileErr').classList.add('show');   el('mvgMobile').classList.add('error');   ok=false; } else { el('mvgMobileErr').classList.remove('show');   el('mvgMobile').classList.remove('error'); }
+      if (!ok) return;
+
+      // Format mobile to E.164
+      let mob = mobile.replace(/\s+/g, '');
+      if (mob.startsWith('0')) mob = '+64' + mob.slice(1);
+      else if (!mob.startsWith('+')) mob = '+64' + mob;
+
+      // Build params and redirect
+      const p = new URLSearchParams({
+        form_first_name:        first,
+        form_last_name:         last,
+        form_applicant_email:   email,
+        form_applicant_mobile:  mob,
+        form_intent_new_car:    S.selected.has('buy')      ? 'true' : 'false',
+        form_intent_refinance:  S.selected.has('refi')     ? 'true' : 'false',
+        form_intent_repairs:    S.selected.has('repairs')  ? 'true' : 'false',
+        form_loan_amount:       S.borrow,
+        form_loan_durationin_months: S.term,
+        form_repayment_frequency: S.freq.charAt(0).toUpperCase() + S.freq.slice(1),
+        form_mechanical_breakdown_insurance: S.selected.has('provident')  ? 'true' : 'false',
+        form_redundancy_waiver:              S.selected.has('redundancy') ? 'true' : 'false',
+        form_health_waiver:                  S.selected.has('health')     ? 'true' : 'false',
+        form_total_loss_waiver:              S.selected.has('totalloss')  ? 'true' : 'false',
+        form_repayment_holiday:              S.selected.has('holiday')    ? 'true' : 'false',
+      });
+      const memNames = MEMBERSHIP.filter(p => S.selected.has(p.id)).map(p => p.title);
+      if (memNames.length) p.set('form_autocare', memNames.join(', '));
+      window.location.href = 'https://apply.movogo.co.nz/?' + p.toString();
+
+    } else {
+      // Membership only — validate and POST to Formspree
+      const name  = el('mvgName').value.trim();
+      const phone = el('mvgPhone').value.trim();
+      const email = el('mvgEmail').value.trim();
+      let ok = true;
+      if (!name)  { el('mvgNameErr').classList.add('show');  el('mvgName').classList.add('error');  ok=false; } else { el('mvgNameErr').classList.remove('show');  el('mvgName').classList.remove('error'); }
+      if (!phone) { el('mvgPhoneErr').classList.add('show'); el('mvgPhone').classList.add('error'); ok=false; } else { el('mvgPhoneErr').classList.remove('show'); el('mvgPhone').classList.remove('error'); }
+      if (!email||!email.includes('@')) { el('mvgEmailErr').classList.add('show'); el('mvgEmail').classList.add('error'); ok=false; } else { el('mvgEmailErr').classList.remove('show'); el('mvgEmail').classList.remove('error'); }
+      if (!ok) return;
+
+      const btn = el('mvgModalSubmit'); btn.textContent = 'Sending…'; btn.disabled = true;
+      const memKeys = MEMBERSHIP.filter(p => S.selected.has(p.id)).map(p => p.title);
+      const memW = MEMBERSHIP.filter(p=>S.selected.has(p.id)&&!p.soon&&p.price!==null).reduce((a,p)=>a+p.price,0);
+      try {
+        const res = await fetch('https://formspree.io/f/xeeryage', {
+          method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body: JSON.stringify({ name, phone, email, frequency: S.freq, membership_items: memKeys.join(', ')||'None', membership_estimate: fmtAmt(memW * FREQ_MULT[S.freq]) + ' ' + FREQ_LABEL[S.freq] })
+        });
+        if (res.ok) { el('mvgSuccess').classList.add('show'); btn.textContent = '✓ Sent'; }
+        else throw new Error();
+      } catch { btn.textContent = 'Send enquiry'; btn.disabled = false; alert('Something went wrong. Please try again or email join@movogo.co.nz'); }
+    }
   };
 
   /* ── Controls ── */
