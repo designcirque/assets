@@ -9,11 +9,11 @@
   /* ── CSS ── */
   const CSS = `
 #mvg-root {
-  --g900:#014b43;--g700:#0A665A;--g500:#18806F;
-  --lime:#b8d87c;--lime3:#D4E8A6;--lime1:#EDF5D5;--lime0:#F7FBEB;
-  --cream:#f2ece9;--cream3:#F8F4F0;--cream1:#FBF9F5;
-  --coral:#e47250;--coral3:#EE9D85;--coral1:#FBE3DA;
-  --blue:#4E89BF;--blue3:#89B3D5;--blue1:#DCE8F2;
+  --g900:#014b43;--g700:#0A665A;
+  --lime:#b8d87c;--lime1:#EDF5D5;--lime0:#F7FBEB;
+  --cream:#f2ece9;--cream3:#F8F4F0;
+  --coral:#e47250;--coral1:#FBE3DA;
+  --blue:#4E89BF;--blue1:#DCE8F2;
   --ink:#1A2824;--ink-s:#4F605C;--ink-f:#8A958F;
   --paper:#ffffff;--line:#E5E0D8;
   --rs:14px;--rm:20px;--rl:28px;--rxl:36px;
@@ -27,7 +27,7 @@
 #mvg-root .build{padding:72px 0;background:transparent;}
 #mvg-root .build-head{text-align:left;margin-bottom:48px;}
 #mvg-root .build-head h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
-#mvg-root .build-head p{font-size:17px;color:var(--ink-s);font-weight:500;}
+#mvg-root .build-head p{font-size:17px;color:var(--ink-s);font-weight:600;}
 #mvg-root .categories{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
 @media(max-width:860px){#mvg-root .categories{grid-template-columns:1fr;}}
 #mvg-root .category{border-radius:var(--rxl);padding:0;overflow:hidden;}
@@ -36,13 +36,13 @@
 #mvg-root .category-head{width:100%;display:flex;align-items:center;gap:16px;padding:24px 28px;}
 #mvg-root .category-title-wrap{flex:1;}
 #mvg-root .category-title{font-size:22px;font-weight:800;color:var(--g900);letter-spacing:-0.01em;margin-bottom:4px;}
-#mvg-root .category-sub{font-size:13px;color:var(--ink-s);font-weight:500;line-height:1.4;}
+#mvg-root .category-sub{font-size:13px;color:var(--ink-s);font-weight:600;line-height:1.4;}
 
 
 #mvg-root .category-body{padding:0 28px 28px;}
 
 #mvg-root .category-sub-heading{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--g900);font-weight:800;margin:24px 0 14px;padding-left:2px;}
-#mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--ink-s);font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);}
+#mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--ink-s);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);}
 #mvg-root .addon-notice.active{background:var(--lime1);border-color:var(--lime);color:var(--g900);}
 #mvg-root .cards-col{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;}
 @media(max-width:480px){#mvg-root .cards-col{grid-template-columns:1fr;}}
@@ -59,12 +59,11 @@
 #mvg-root .wonky--alt2::before{border-radius:56% 44% 38% 62% / 42% 58% 42% 58%;}
 #mvg-root .wonky--alt3::before{border-radius:48% 52% 58% 42% / 62% 42% 58% 38%;}
 #mvg-root .wonky--alt4::before{border-radius:58% 42% 48% 52% / 38% 62% 38% 62%;}
+#mvg-root .wonky--green::before{background:var(--g900);}
 #mvg-root .wonky--lime::before{background:var(--lime);}
-#mvg-root .wonky--lime3::before{background:var(--lime3);}
 #mvg-root .wonky--coral::before{background:var(--coral);}
-#mvg-root .wonky--coral3::before{background:var(--coral3);}
-#mvg-root .wonky--blue::before{background:var(--blue3);}
-#mvg-root .wonky--green::before{background:var(--g500);}
+#mvg-root .wonky--cream::before{background:var(--cream);}
+#mvg-root .wonky--blue::before{background:var(--blue);}
 #mvg-root .wonky--md{width:72px;height:72px;}
 #mvg-root .wonky--sm{width:44px;height:44px;}
 #mvg-root .wonky .emoji{position:relative;z-index:1;font-size:28px;line-height:1;}
@@ -75,34 +74,35 @@
 #mvg-root .card-body{margin-top:52px;flex:1;display:flex;flex-direction:column;}
 #mvg-root .card h3{font-size:16px;font-weight:800;color:var(--g900);margin-bottom:4px;letter-spacing:-0.005em;line-height:1.2;}
 #mvg-root .card-subtitle{font-size:11px;color:var(--coral);font-weight:700;margin-bottom:6px;}
-#mvg-root .card p{color:var(--ink-s);font-size:13px;font-weight:500;flex:1;line-height:1.5;margin-bottom:10px;}
+#mvg-root .card p{color:var(--ink-s);font-size:13px;font-weight:600;flex:1;line-height:1.5;margin-bottom:10px;}
 #mvg-root .card-learn{font-size:12px;font-weight:700;color:var(--g900);text-decoration:none;display:inline-block;margin-bottom:10px;opacity:0.65;transition:opacity 0.15s;}
 #mvg-root .card-learn:hover{opacity:1;}
 #mvg-root .card-foot{margin-top:auto;padding-top:12px;border-top:1px dashed rgba(1,75,67,0.15);display:flex;align-items:center;justify-content:space-between;gap:8px;}
 #mvg-root .card-price{font-weight:800;color:var(--g900);font-size:14px;}
-#mvg-root .card-price small{font-weight:500;color:var(--ink-s);font-size:11px;display:block;margin-top:-2px;}
+#mvg-root .card-price small{font-weight:600;color:var(--ink-s);font-size:11px;display:block;margin-top:-2px;}
 #mvg-root .price-prefix{font-size:10px;font-weight:600;color:var(--ink-f);text-transform:uppercase;letter-spacing:0.05em;display:block;}
 #mvg-root .pricing-note{font-size:11px;color:var(--ink-f);font-weight:600;font-style:italic;}
 #mvg-root .select-btn{width:28px;height:28px;border-radius:999px;flex-shrink:0;border:2px solid var(--line);background:var(--paper);cursor:pointer;transition:all 0.15s;position:relative;}
+#mvg-root .select-btn::before{content:'+';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:700;color:var(--ink-f);line-height:1;}
 #mvg-root .card.selected .select-btn{background:var(--g900);border-color:var(--g900);}
 #mvg-root .category--membership .card.selected .select-btn{background:var(--lime);border-color:var(--lime);}
-#mvg-root .card.selected .select-btn::before{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);font-size:13px;font-weight:900;color:#fff;line-height:1;}
+#mvg-root .card.selected .select-btn::before{content:'✓';font-size:13px;font-weight:900;color:#fff;}
 #mvg-root .category--membership .card.selected .select-btn::before{color:var(--g900);}
 #mvg-root .estimate-wrap{margin-top:48px;}
 #mvg-root .estimate{background:var(--g900);border-radius:var(--rl);padding:28px 32px;color:#fff;}
 #mvg-root .empty-estimate{text-align:center;}
 #mvg-root .empty-estimate-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);margin-bottom:6px;font-weight:700;}
-#mvg-root .empty-estimate-amount{font-size:40px;font-weight:800;color:rgba(255,255,255,0.25);letter-spacing:-0.02em;line-height:1;margin-bottom:12px;}
-#mvg-root .empty-estimate-amount .estimate-total-freq{font-size:15px;font-weight:500;color:rgba(255,255,255,0.3);margin-left:6px;}
-#mvg-root .empty-estimate-prompt{font-size:14px;color:rgba(255,255,255,0.5);font-weight:500;margin-bottom:20px;}
+#mvg-root .empty-estimate-amount{font-size:32px;font-weight:800;color:rgba(255,255,255,0.25);letter-spacing:-0.02em;line-height:1;margin-bottom:12px;}
+#mvg-root .empty-estimate-amount .estimate-total-freq{font-size:15px;font-weight:600;color:rgba(255,255,255,0.3);margin-left:6px;}
+#mvg-root .empty-estimate-prompt{font-size:14px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:20px;}
 #mvg-root .empty-estimate-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
 #mvg-root .btn-ghost-light{font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);text-decoration:none;border:none;background:none;cursor:pointer;padding:13px 0;transition:color 0.15s;font-family:inherit;}
 #mvg-root .btn-ghost-light:hover{color:#fff;}
 #mvg-root .estimate-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;margin-bottom:20px;}
 #mvg-root .estimate-total-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:4px;}
-#mvg-root .estimate-total-amount{font-size:40px;font-weight:800;letter-spacing:-0.02em;line-height:1;}
-#mvg-root .estimate-total-freq{font-size:15px;font-weight:500;color:rgba(255,255,255,0.6);margin-left:6px;}
-#mvg-root .estimate-payday{font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;margin-top:6px;}
+#mvg-root .estimate-total-amount{font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1;}
+#mvg-root .estimate-total-freq{font-size:15px;font-weight:600;color:rgba(255,255,255,0.6);margin-left:6px;}
+#mvg-root .estimate-payday{font-size:12px;color:rgba(255,255,255,0.4);font-weight:600;margin-top:6px;}
 #mvg-root .freq-toggle{display:flex;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:var(--rs);padding:3px;gap:3px;}
 #mvg-root .freq-toggle button{padding:8px 14px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6);transition:all 0.2s;font-family:inherit;}
 #mvg-root .freq-toggle button.active{background:#fff;color:var(--g900);}
@@ -110,7 +110,7 @@
 #mvg-root .estimate-breakdown > div{display:flex;flex-direction:column;gap:2px;}
 #mvg-root .estimate-breakdown .label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.45);font-weight:700;}
 #mvg-root .estimate-breakdown .amount{font-size:20px;font-weight:800;}
-#mvg-root .estimate-guide{font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;line-height:1.5;margin-bottom:16px;}
+#mvg-root .estimate-guide{font-size:12px;color:rgba(255,255,255,0.4);font-weight:600;line-height:1.5;margin-bottom:16px;}
 #mvg-root .estimate-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 #mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:rgba(255,255,255,0.45);background:none;border:none;cursor:pointer;font-family:inherit;padding:8px 0;transition:color 0.15s;}
 #mvg-root .estimate-clear:hover{color:rgba(255,255,255,0.8);}
@@ -128,28 +128,29 @@
 #mvg-root .calc.hidden{display:none;}
 #mvg-root .calc-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
 #mvg-root .calc-head h3{font-size:20px;font-weight:800;color:var(--g900);}
-#mvg-root .calc-helper{font-size:14px;color:var(--ink-s);font-weight:500;line-height:1.5;margin-bottom:20px;}
+#mvg-root .calc-helper{font-size:14px;color:var(--ink-s);font-weight:600;line-height:1.5;margin-bottom:20px;}
 #mvg-root .calc-summary{background:var(--paper);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
 #mvg-root .calc-summary.in-plan{border-color:var(--g900);}
 #mvg-root .calc-summary-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-f);font-weight:700;margin-bottom:3px;}
 #mvg-root .calc-summary-amount{font-size:28px;font-weight:800;color:var(--g900);line-height:1;}
-#mvg-root .calc-summary-freq{font-size:13px;font-weight:500;color:var(--ink-s);margin-left:5px;}
+#mvg-root .calc-summary-freq{font-size:13px;font-weight:600;color:var(--ink-s);margin-left:5px;}
 #mvg-root .calc-summary-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-#mvg-root .calc-summary-cta-text{font-size:13px;font-weight:500;color:var(--ink-s);}
-#mvg-root .sliders{display:grid;gap:20px;margin-bottom:20px;}
+#mvg-root .calc-summary-cta-text{font-size:13px;font-weight:600;color:var(--ink-s);}
+#mvg-root .sliders{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-bottom:20px;}
+@media(max-width:640px){#mvg-root .sliders{grid-template-columns:1fr;}}
 #mvg-root .slider-group label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-s);font-weight:700;margin-bottom:4px;}
 #mvg-root .slider-value{font-size:24px;font-weight:800;color:var(--g900);line-height:1;margin-bottom:8px;}
-#mvg-root .slider-value small{font-size:14px;font-weight:500;color:var(--ink-s);}
+#mvg-root .slider-value small{font-size:14px;font-weight:600;color:var(--ink-s);}
 #mvg-root .slider-range{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-f);font-weight:600;margin-top:4px;}
-#mvg-root .slider-note{font-size:11px;color:var(--ink-f);font-weight:500;margin-top:6px;font-style:italic;}
+#mvg-root .slider-note{font-size:11px;color:var(--ink-f);font-weight:600;margin-top:6px;font-style:italic;}
 #mvg-root input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--line);outline:none;cursor:pointer;}
 #mvg-root input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--g900);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);transition:transform 0.15s;}
 #mvg-root input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
-#mvg-root .disclaimer{font-size:11px;color:var(--ink-f);line-height:1.6;font-weight:500;padding-top:16px;border-top:1px solid var(--line);}
-#mvg-root .guide-note{background:var(--lime1);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--g900);font-weight:500;margin-bottom:16px;border:1px solid var(--lime);}
+#mvg-root .disclaimer{font-size:11px;color:var(--ink-f);line-height:1.6;font-weight:600;padding-top:16px;border-top:1px solid var(--line);}
+#mvg-root .guide-note{background:var(--lime1);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--g900);font-weight:600;margin-bottom:16px;border:1px solid var(--lime);}
 #mvg-root .itemised{margin-bottom:16px;}
 #mvg-root .itemised-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed rgba(1,75,67,0.12);font-size:14px;font-weight:600;}
-#mvg-root .itemised-row .item{color:var(--ink-s);font-weight:500;}
+#mvg-root .itemised-row .item{color:var(--ink-s);font-weight:600;}
 #mvg-root .itemised-row .amt{color:var(--g900);font-weight:700;}
 #mvg-root .itemised-total{display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;font-size:16px;font-weight:800;color:var(--g900);}
 
@@ -157,7 +158,7 @@
 #mvg-root .mvg-overlay.show{display:flex;}
 #mvg-root .mvg-modal{background:var(--paper);border-radius:var(--rl);padding:32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
 #mvg-root .mvg-modal h3{font-size:22px;font-weight:800;color:var(--g900);margin-bottom:6px;}
-#mvg-root .mvg-modal .modal-sub{font-size:14px;color:var(--ink-s);font-weight:500;margin-bottom:22px;line-height:1.4;}
+#mvg-root .mvg-modal .modal-sub{font-size:14px;color:var(--ink-s);font-weight:600;margin-bottom:22px;line-height:1.4;}
 #mvg-root .mvg-field{margin-bottom:14px;}
 #mvg-root .mvg-lbl{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-s);margin-bottom:5px;}
 #mvg-root .mvg-input{width:100%;padding:12px 18px;border-radius:999px;border:2px solid var(--line);font-size:15px;font-family:inherit;color:var(--ink);background:#fff;outline:none;transition:border-color 0.15s;font-weight:600;}
@@ -177,24 +178,24 @@
   /* ── Product data ── */
   const MEMBERSHIP = [
     { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WOF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
-    { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral3 wonky--alt2' },
-    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue wonky--alt3' },
-    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime3 wonky--alt4' },
-    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--coral wonky--alt' },
-    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--blue wonky--alt2' },
-    { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--lime wonky--alt3' },
+    { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral wonky--alt2' },
+    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--cream wonky--alt3' },
+    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--blue wonky--alt4' },
+    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime wonky--alt' },
+    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral wonky--alt2' },
+    { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--green wonky--alt3' },
   ];
   const FINANCE_LOANS = [
-    { id:'buy',     title:'Buy my next car',         pill:'Buy a car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--coral wonky--alt' },
-    { id:'refi',    title:'Refinance existing loan', pill:'Refinance',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--lime wonky--alt2' },
+    { id:'buy',     title:'Buy my next car',         pill:'Buy a car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--lime wonky--alt' },
+    { id:'refi',    title:'Refinance existing loan', pill:'Refinance',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--coral wonky--alt2' },
     { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue wonky--alt3' },
   ];
   const FINANCE_ADDONS = [
-    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--coral wonky--alt4' },
-    { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--blue wonky--alt' },
-    { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--lime wonky--alt2' },
-    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--coral3 wonky--alt3' },
-    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Pause your repayments for an approved period when life gets tough.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--lime3 wonky--alt4' },
+    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--cream wonky--alt4' },
+    { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime wonky--alt' },
+    { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral wonky--alt2' },
+    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue wonky--alt3' },
+    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Pause your repayments for an approved period when life gets tough.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green wonky--alt4' },
   ];
   const ALL_PRODUCTS = [...MEMBERSHIP, ...FINANCE_LOANS, ...FINANCE_ADDONS];
 
@@ -242,7 +243,7 @@
       </div>
       <div class="category category--finance" data-category="finance">
       <div class="category-head">
-          <div class="wonky wonky--md wonky--coral3 wonky--alt"><span class="emoji">🔑</span></div>
+          <div class="wonky wonky--md wonky--coral wonky--alt"><span class="emoji">🔑</span></div>
           <div class="category-title-wrap"><div class="category-title">Finance</div><div class="category-sub">Borrow for a car, refinance, or fund repairs. Plus optional loan cover.</div></div>
         </div>
         <div class="category-body" id="financeBody">
