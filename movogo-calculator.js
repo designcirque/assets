@@ -82,11 +82,11 @@
 #mvg-root .card-price small{font-weight:600;color:var(--ink-s);font-size:11px;display:block;margin-top:-2px;}
 #mvg-root .price-prefix{font-size:10px;font-weight:600;color:var(--ink-f);text-transform:uppercase;letter-spacing:0.05em;display:block;}
 #mvg-root .pricing-note{font-size:11px;color:var(--ink-f);font-weight:600;font-style:italic;}
-#mvg-root .select-btn{width:28px;height:28px;border-radius:999px;flex-shrink:0;border:2px solid var(--line);background:var(--paper);cursor:pointer;transition:all 0.15s;position:relative;}
-#mvg-root .select-btn::before{content:'+';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:16px;font-weight:700;color:var(--ink-f);line-height:1;}
+#mvg-root .select-btn{width:32px;height:32px;border-radius:999px;flex-shrink:0;border:2.5px solid var(--g900);background:transparent;cursor:pointer;transition:all 0.15s;position:relative;}
+#mvg-root .select-btn::before{content:'+';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:18px;font-weight:700;color:var(--g900);line-height:1;}
 #mvg-root .card.selected .select-btn{background:var(--g900);border-color:var(--g900);}
 #mvg-root .category--membership .card.selected .select-btn{background:var(--lime);border-color:var(--lime);}
-#mvg-root .card.selected .select-btn::before{content:'✓';font-size:13px;font-weight:900;color:#fff;}
+#mvg-root .card.selected .select-btn::before{content:'✓';font-size:14px;font-weight:900;color:#fff;}
 #mvg-root .category--membership .card.selected .select-btn::before{color:var(--g900);}
 #mvg-root .estimate-wrap{margin-top:48px;}
 #mvg-root .estimate{background:var(--g900);border-radius:var(--rl);padding:28px 32px;color:#fff;}
