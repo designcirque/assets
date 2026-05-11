@@ -6,14 +6,6 @@
 
 (function () {
 
-  /* ── Google Font ── */
-  if (!document.querySelector('link[href*="fonts.googleapis.com/css2?family=Nunito"]')) {
-    const l = document.createElement('link');
-    l.rel = 'stylesheet';
-    l.href = 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap';
-    document.head.appendChild(l);
-  }
-
   /* ── CSS ── */
   const CSS = `
 #mvg-root {
@@ -25,15 +17,15 @@
   --ink:#1A2824;--ink-s:#4F605C;--ink-f:#8A958F;
   --paper:#ffffff;--line:#E5E0D8;
   --rs:14px;--rm:20px;--rl:28px;--rxl:36px;
-  font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  color:var(--ink);background:var(--paper);box-sizing:border-box;
+  font-family:area-normal,sans-serif;
+  color:#333;background:transparent;box-sizing:border-box;
   -webkit-font-smoothing:antialiased;
 }
-#mvg-root *,#mvg-root *::before,#mvg-root *::after{box-sizing:border-box;}
+#mvg-root *,#mvg-root *::before,#mvg-root *::after{box-sizing:border-box;font-family:area-normal,sans-serif;}
 #mvg-root h2,#mvg-root h3,#mvg-root h4,#mvg-root p{margin:0;}
-#mvg-root .mvg-wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
-#mvg-root .build{padding:72px 0;background:var(--paper);}
-#mvg-root .build-head{text-align:center;margin-bottom:48px;}
+#mvg-root .mvg-wrap{}
+#mvg-root .build{padding:72px 0;background:transparent;}
+#mvg-root .build-head{text-align:left;margin-bottom:48px;}
 #mvg-root .build-head h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
 #mvg-root .build-head p{font-size:17px;color:var(--ink-s);font-weight:500;}
 #mvg-root .categories{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
@@ -41,20 +33,14 @@
 #mvg-root .category{border-radius:var(--rxl);padding:0;overflow:hidden;}
 #mvg-root .category--membership{background:var(--lime0);}
 #mvg-root .category--finance{background:var(--cream3);}
-#mvg-root .category-head{width:100%;display:flex;align-items:center;gap:16px;padding:24px 28px;background:none;border:none;cursor:pointer;text-align:left;}
+#mvg-root .category-head{width:100%;display:flex;align-items:center;gap:16px;padding:24px 28px;}
 #mvg-root .category-title-wrap{flex:1;}
 #mvg-root .category-title{font-size:22px;font-weight:800;color:var(--g900);letter-spacing:-0.01em;margin-bottom:4px;}
 #mvg-root .category-sub{font-size:13px;color:var(--ink-s);font-weight:500;line-height:1.4;}
-#mvg-root .category-chevron{font-size:18px;color:var(--ink-f);transition:transform 0.25s;flex-shrink:0;}
-#mvg-root .category.expanded .category-chevron{transform:rotate(180deg);}
-#mvg-root .category-summary{padding:0 28px 12px;}
-#mvg-root .pill-list{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0;}
-#mvg-root .pill-list li{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink-s);cursor:pointer;transition:all 0.15s;user-select:none;}
-#mvg-root .pill-list li.selected{background:var(--g900);border-color:var(--g900);color:#fff;}
-#mvg-root .category--membership .pill-list li.selected{background:var(--lime);border-color:var(--lime);color:var(--g900);}
-#mvg-root .pill-list li.disabled{opacity:0.4;cursor:not-allowed;}
+
+
 #mvg-root .category-body{padding:0 28px 28px;}
-#mvg-root .category-body.collapsed{display:none;}
+
 #mvg-root .category-sub-heading{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--g900);font-weight:800;margin:24px 0 14px;padding-left:2px;}
 #mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--ink-s);font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);}
 #mvg-root .addon-notice.active{background:var(--lime1);border-color:var(--lime);color:var(--g900);}
@@ -166,19 +152,7 @@
 #mvg-root .itemised-row .item{color:var(--ink-s);font-weight:500;}
 #mvg-root .itemised-row .amt{color:var(--g900);font-weight:700;}
 #mvg-root .itemised-total{display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;font-size:16px;font-weight:800;color:var(--g900);}
-#mvg-root .howitworks{background:var(--lime0);padding:80px 0;}
-#mvg-root .howitworks h2{font-size:clamp(28px,4vw,38px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:6px;}
-#mvg-root .howitworks .subtitle{font-size:17px;color:var(--ink-s);font-weight:500;margin-bottom:28px;}
-#mvg-root .path-toggle{display:inline-flex;border-radius:999px;border:2px solid var(--line);overflow:hidden;margin-bottom:40px;background:var(--paper);}
-#mvg-root .path-toggle button{padding:11px 22px;font-size:14px;font-weight:700;color:var(--ink-s);background:none;border:none;cursor:pointer;font-family:inherit;transition:all 0.2s;}
-#mvg-root .path-toggle button.active{background:var(--g900);color:#fff;}
-#mvg-root .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
-@media(max-width:640px){#mvg-root .steps{grid-template-columns:1fr;}}
-#mvg-root .step{text-align:center;}
-#mvg-root .step .wonky{margin:0 auto 16px;}
-#mvg-root .step-num{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:var(--ink-f);margin-bottom:6px;}
-#mvg-root .step h4{font-size:18px;font-weight:800;color:var(--g900);margin-bottom:6px;}
-#mvg-root .step p{font-size:14px;color:var(--ink-s);font-weight:500;line-height:1.5;}
+
 #mvg-root .mvg-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,35,0.5);z-index:9999;align-items:center;justify-content:center;padding:16px;}
 #mvg-root .mvg-overlay.show{display:flex;}
 #mvg-root .mvg-modal{background:var(--paper);border-radius:var(--rl);padding:32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
@@ -260,21 +234,17 @@
     <div class="build-head"><h2>Here's what you can get.</h2><p>Mix and match whatever suits your situation. Your estimate builds as you go.</p></div>
     <div class="categories">
       <div class="category category--membership" data-category="membership">
-        <button class="category-head" data-toggle="membership" aria-expanded="true">
+      <div class="category-head">
           <div class="wonky wonky--md wonky--lime"><span class="emoji">🔧</span></div>
           <div class="category-title-wrap"><div class="category-title">Membership</div><div class="category-sub">Look after the car you've got, or the one you're financing. Spread across your regular payment.</div></div>
-          <div class="category-chevron">▾</div>
-        </button>
-        <div class="category-summary"><ul class="pill-list" id="membershipPills"></ul></div>
+        </div>
         <div class="category-body" id="membershipBody"><div class="cards-col" id="membershipGrid"></div></div>
       </div>
       <div class="category category--finance" data-category="finance">
-        <button class="category-head" data-toggle="finance" aria-expanded="true">
+      <div class="category-head">
           <div class="wonky wonky--md wonky--coral3 wonky--alt"><span class="emoji">🔑</span></div>
           <div class="category-title-wrap"><div class="category-title">Finance</div><div class="category-sub">Borrow for a car, refinance, or fund repairs. Plus optional loan cover.</div></div>
-          <div class="category-chevron">▾</div>
-        </button>
-        <div class="category-summary"><ul class="pill-list" id="financePills"></ul></div>
+        </div>
         <div class="category-body" id="financeBody">
           <div class="cards-col" id="financeGrid"></div>
           <div class="category-sub-heading">Optional loan cover</div>
@@ -344,26 +314,6 @@
   </div>
 </section>
 
-<section class="howitworks">
-  <div class="mvg-wrap">
-    <h2>How it works.</h2>
-    <p class="subtitle">Two paths, depending on what you need.</p>
-    <div class="path-toggle" id="pathToggle">
-      <button class="active" data-path="finance">If you need finance for a car</button>
-      <button data-path="membership">If you just want the membership</button>
-    </div>
-    <div class="steps" id="steps-finance">
-      <div class="step"><div class="wonky wonky--md wonky--coral wonky--alt"><span class="emoji">📝</span></div><div class="step-num">Step 1</div><h4>Apply online or give us a call.</h4><p>Tell us about your situation. It takes about ten minutes.</p></div>
-      <div class="step"><div class="wonky wonky--md wonky--lime wonky--alt2"><span class="emoji">📞</span></div><div class="step-num">Step 2</div><h4>We talk it through with you.</h4><p>Our team checks the details, answers your questions, and confirms what you're approved for.</p></div>
-      <div class="step"><div class="wonky wonky--md wonky--blue wonky--alt3"><span class="emoji">🔑</span></div><div class="step-num">Step 3</div><h4>Get approved and drive away.</h4><p>We handle the paperwork and get you on the road.</p></div>
-    </div>
-    <div class="steps" id="steps-membership" style="display:none">
-      <div class="step"><div class="wonky wonky--md wonky--lime wonky--alt"><span class="emoji">✅</span></div><div class="step-num">Step 1</div><h4>Choose the products you need.</h4><p>Pick from rego, WOFs, servicing, insurance, and more. Build your estimate above.</p></div>
-      <div class="step"><div class="wonky wonky--md wonky--coral wonky--alt2"><span class="emoji">🚘</span></div><div class="step-num">Step 2</div><h4>Tell us about your car.</h4><p>A few details about your vehicle so we can set up reminders and book things in.</p></div>
-      <div class="step"><div class="wonky wonky--md wonky--blue wonky--alt3"><span class="emoji">🧰</span></div><div class="step-num">Step 3</div><h4>We take care of the admin.</h4><p>From your first regular payment, we organise the services your car needs, on time, every time.</p></div>
-    </div>
-  </div>
-</section>
 `;
 
   /* ── Helpers ── */
@@ -408,15 +358,7 @@
     el('addonNotice').classList.toggle('active',loan);
     el('addonText').textContent = loan ? "Great — you've got a loan. You can now add these optional covers." : "These need a Movogo loan. Pick a finance product above to add them.";
     el('addonIcon').textContent = loan ? '✨' : '🔒';
-    attachCardHandlers(); renderPills();
-  }
-
-  function renderPills() {
-    const loan = hasLoan();
-    const ph = (p, dis) => `<li class="${[S.selected.has(p.id)?'selected':'',dis?'disabled':''].filter(Boolean).join(' ')}" data-id="${p.id}" data-disabled="${dis}">${p.pill}</li>`;
-    el('membershipPills').innerHTML = MEMBERSHIP.map(p=>ph(p,false)).join('');
-    el('financePills').innerHTML = [...FINANCE_LOANS.map(p=>ph(p,false)),...FINANCE_ADDONS.map(p=>ph(p,!loan))].join('');
-    document.querySelectorAll('#mvg-root .pill-list li').forEach(li => li.addEventListener('click',()=>{ if(li.dataset.disabled==='true')return; toggleSelect(li.dataset.id); }));
+    attachCardHandlers();
   }
 
   function attachCardHandlers() {
@@ -510,17 +452,9 @@
   el('borrowSlider').addEventListener('input',function(){ S.borrow=parseInt(this.value); el('borrowVal').textContent=fmt(S.borrow); renderEstimate(); });
   el('termSlider').addEventListener('input',function(){ S.term=parseInt(this.value); el('termVal').textContent=S.term; renderEstimate(); });
   el('rateSlider').addEventListener('input',function(){ S.rate=parseFloat(this.value); el('rateVal').textContent=S.rate.toFixed(2); renderEstimate(); });
-  el('pathToggle').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b)return; document.querySelectorAll('#pathToggle button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); S.path=b.dataset.path; el('steps-finance').style.display=S.path==='finance'?'grid':'none'; el('steps-membership').style.display=S.path==='membership'?'grid':'none'; });
 
-  function applyExpanded(key) {
-    const cat=document.querySelector(`#mvg-root .category[data-category="${key}"]`); if(!cat)return;
-    cat.classList.toggle('expanded',S.expanded[key]);
-    const body=el(key+'Body'); if(body)body.classList.toggle('collapsed',!S.expanded[key]);
-    const btn=cat.querySelector('.category-head'); if(btn)btn.setAttribute('aria-expanded',String(S.expanded[key]));
-  }
-  document.querySelectorAll('#mvg-root [data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{ S.expanded[btn.dataset.toggle]=!S.expanded[btn.dataset.toggle]; applyExpanded(btn.dataset.toggle); }));
-  applyExpanded('membership'); applyExpanded('finance');
-  document.querySelectorAll('#mvg-root .category').forEach(c=>c.classList.add('expanded'));
+
+
 
   el('ctaConfigureLoan').addEventListener('click',()=>{ S.financeCalcOpen=true; S.expanded.finance=true; applyExpanded('finance'); renderEstimate(); setTimeout(()=>el('financeCalc').scrollIntoView({behavior:'smooth',block:'start'}),50); });
   el('addCarShortcut').addEventListener('click',()=>{ if(!S.selected.has('buy')){S.selected.add('buy');renderGrids();renderEstimate();} });
