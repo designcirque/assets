@@ -466,13 +466,9 @@
 
 
   el('ctaConfigureLoan').addEventListener('click',()=>{
-    const finCat = document.querySelector('#mvg-root .category--finance');
-    if (finCat) {
-      finCat.scrollIntoView({behavior:'smooth', block:'start'});
-      finCat.style.outline = '3px solid var(--coral)';
-      finCat.style.outlineOffset = '4px';
-      setTimeout(()=>{ finCat.style.outline=''; finCat.style.outlineOffset=''; }, 1800);
-    }
+    S.financeCalcOpen = true;
+    renderEstimate();
+    setTimeout(()=>el('financeCalc').scrollIntoView({behavior:'smooth', block:'start'}), 50);
   });
   el('addCarShortcut').addEventListener('click',()=>{ if(!S.selected.has('buy')){S.selected.add('buy');renderGrids();renderEstimate();} });
   el('clearAllBtn').addEventListener('click',()=>{ if(!S.selected.size)return; if(!confirm('Clear your current selection? This will reset your estimate.'))return; S.selected.clear(); S.financeCalcOpen=false; renderGrids(); renderEstimate(); });
