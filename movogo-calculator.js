@@ -78,7 +78,7 @@
 #mvg-root .card-learn{font-size:12px;font-weight:700;color:var(--g900);display:inline-block;margin-bottom:10px;opacity:1;text-decoration:underline;text-underline-offset:2px;}
 #mvg-root .card-foot{margin-top:auto;padding-top:12px;border-top:1px dashed rgba(1,75,67,0.15);display:flex;align-items:center;justify-content:space-between;gap:8px;}
 #mvg-root .card-price{font-weight:800;color:var(--g900);font-size:14px;}
-#mvg-root .card-price small{font-weight:600;color:#333;font-size:11px;display:block;margin-top:-2px;}
+#mvg-root .card-price small{font-weight:600;color:#333;font-size:11px;}
 #mvg-root .price-prefix{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;display:block;}
 #mvg-root .pricing-note{font-size:11px;color:var(--ink-f);font-weight:700;font-style:italic;}
 #mvg-root .select-btn{width:32px;height:32px;border-radius:999px;flex-shrink:0;border:2.5px solid var(--g900);background:transparent;cursor:pointer;transition:all 0.15s;position:relative;}
