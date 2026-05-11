@@ -226,7 +226,7 @@
     <div class="mvg-field"><label class="mvg-lbl" for="mvgEmail">Email</label><input class="mvg-input" type="email" id="mvgEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgEmailErr">Please enter a valid email.</div></div>
     <div class="mvg-success" id="mvgSuccess">✓ Thanks! We'll be in touch shortly.</div>
     <div class="modal-btns">
-      <button class="btn btn-lime" id="mvgModalSubmit" onclick="mvgSubmitModal()" style="padding:12px 28px;font-size:15px;">Send enquiry</button>
+      <button class="btn btn-lime" id="mvgModalSubmit" onclick="mvgSubmitModal()" style="padding-top:17px;padding-bottom:19px;padding-left:28px;padding-right:28px;font-size:15px;">Send enquiry</button>
       <button class="modal-cancel" onclick="mvgCloseModal()">Cancel</button>
     </div>
   </div>
@@ -313,6 +313,10 @@
       <div class="disclaimer">Membership estimates are indicative only. Actual prices will vary depending on your vehicle (make, model, age, fuel type), your address, your distance driven, and provider pricing. This is not a quote or an offer to provide services.</div>
     </div>
 
+    <div id="bottomCta" style="display:none;text-align:center;margin-top:32px;">
+      <button class="btn btn-primary" onclick="mvgHandleApply()" style="padding:14px 40px;font-size:16px;">Get started</button>
+    </div>
+
   </div>
 </section>
 
@@ -393,6 +397,7 @@
     }
     el('financeCalc').classList.toggle('hidden', !loan && !S.financeCalcOpen);
     el('membershipCalc').classList.toggle('hidden', !mem);
+    el('bottomCta').style.display = any ? 'block' : 'none';
     const liveW = calcFinanceWeekly();
     el('calcSummaryAmount').textContent = fmtAmt(liveW*m);
     el('calcSummaryFreq').textContent = fl;
