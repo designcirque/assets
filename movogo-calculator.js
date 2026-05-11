@@ -121,13 +121,17 @@
 #mvg-root .btn-outline{background:#fff;color:var(--g900);border:2px solid var(--g900);padding:11px 26px;}
 #mvg-root .btn-outline:hover{background:var(--g900);color:#fff;}
 #mvg-root .btn-sm{padding:9px 18px;font-size:13px;}
-#mvg-root .calc{background:#fff;border-radius:var(--rl);padding:28px 32px;margin-top:20px;}
+#mvg-root .calc{background:#fff;border-radius:var(--rl);padding:28px 32px;margin-top:20px;border:1.5px solid var(--line);}
 #mvg-root .calc.hidden{display:none;}
 #mvg-root .calc-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
 #mvg-root .calc-head h3{font-size:20px;font-weight:800;color:var(--g900);}
 #mvg-root .calc-helper{font-size:14px;color:#333;font-weight:600;line-height:1.5;margin-bottom:20px;}
-#mvg-root .calc-summary{background:var(--cream);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;border:2px solid transparent;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
-#mvg-root .calc-summary.in-plan{background:var(--lime1);border-color:var(--g900);}
+#mvg-root .calc-summary{background:var(--cream);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+#mvg-root .calc-summary.in-plan{background:var(--g900);}
+#mvg-root .calc-summary.in-plan .calc-summary-label{color:rgba(255,255,255,0.6);}
+#mvg-root .calc-summary.in-plan .calc-summary-amount{color:#fff;}
+#mvg-root .calc-summary.in-plan .calc-summary-freq{color:rgba(255,255,255,0.7);}
+#mvg-root .calc-summary.in-plan .calc-summary-cta-text{color:rgba(255,255,255,0.8);}
 #mvg-root .calc-summary-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-f);font-weight:700;margin-bottom:3px;}
 #mvg-root .calc-summary-amount{font-size:28px;font-weight:800;color:var(--g900);line-height:1;}
 #mvg-root .calc-summary-freq{font-size:13px;font-weight:600;color:#333;margin-left:5px;}
@@ -144,7 +148,7 @@
 #mvg-root input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--g900);cursor:pointer;border:3px solid #fff;box-shadow:0 2px 6px rgba(1,75,67,0.25);transition:transform 0.15s;}
 #mvg-root input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
 #mvg-root .disclaimer{font-size:11px;color:var(--ink-f);line-height:1.6;font-weight:600;padding-top:16px;border-top:1px solid var(--line);}
-#mvg-root .guide-note{background:var(--lime1);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--g900);font-weight:600;margin-bottom:16px;border:1px solid var(--lime);}
+#mvg-root .guide-note{background:var(--lime);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--g900);font-weight:600;margin-bottom:16px;}
 #mvg-root .itemised{margin-bottom:16px;}
 #mvg-root .itemised-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed rgba(1,75,67,0.12);font-size:14px;font-weight:600;}
 #mvg-root .itemised-row .item{color:#333;font-weight:600;}
@@ -278,7 +282,7 @@
           <div class="estimate-breakdown" id="breakdown"></div>
           <div class="estimate-guide">This is a rough guide. Your actual cost depends on your car, how far you drive, and your credit assessment for any finance.</div>
           <div class="estimate-actions">
-            <button class="btn btn-lime" onclick="mvgHandleApply()">Get started →</button>
+            <button class="btn btn-lime" onclick="mvgHandleApply()">Get started</button>
             <button class="estimate-clear" id="clearAllBtn">Clear selection</button>
           </div>
         </div>
@@ -300,7 +304,7 @@
       <div class="disclaimer">This is an estimate, not an offer of credit. Lending is provided by Movogo Finance Limited (NZCN 9357507, NZBN 9429052988677, FSP1011510). Any loan is subject to credit approval, responsible lending assessment, and standard terms and conditions. Under the CCCFA 2003, you have a statutory right to cancel your loan within 7 working days of receiving the disclosure. Movogo Finance Limited is a member of Financial Services Complaints Limited (FSCL) for dispute resolution.</div>
     </div>
 
-    <div class="calc hidden" id="membershipCalc">
+    <div class="calc hidden" id="membershipCalc" style="background:var(--cream);border:1.5px solid var(--line);">
       <div class="calc-head"><div class="wonky wonky--sm wonky--lime"><span class="emoji" style="font-size:18px">★</span></div><h3>Your membership details</h3></div>
       <p class="calc-helper">Here's what you've selected. Prices are estimates only, spread evenly across your regular payment.</p>
       <div class="guide-note">This is a rough guide based on an average vehicle and typical driving patterns. Your actual price depends on your car, where you live, how far you drive, and provider pricing. We'll confirm your exact costs before you sign up.</div>
