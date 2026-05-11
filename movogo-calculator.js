@@ -126,17 +126,17 @@
 #mvg-root .calc-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
 #mvg-root .calc-head h3{font-size:20px;font-weight:800;color:var(--g900);}
 #mvg-root .calc-helper{font-size:14px;color:#333;font-weight:600;line-height:1.5;margin-bottom:20px;}
-#mvg-root .calc-summary{background:var(--cream);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+#mvg-root .calc-summary{background:var(--g900);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
 #mvg-root .calc-summary.in-plan{background:var(--g900);}
 #mvg-root .calc-summary.in-plan .calc-summary-label{color:rgba(255,255,255,0.6);}
 #mvg-root .calc-summary.in-plan .calc-summary-amount{color:#fff;}
 #mvg-root .calc-summary.in-plan .calc-summary-freq{color:rgba(255,255,255,0.7);}
 #mvg-root .calc-summary.in-plan .calc-summary-cta-text{color:rgba(255,255,255,0.8);}
-#mvg-root .calc-summary-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-f);font-weight:700;margin-bottom:3px;}
-#mvg-root .calc-summary-amount{font-size:28px;font-weight:800;color:var(--g900);line-height:1;}
-#mvg-root .calc-summary-freq{font-size:13px;font-weight:600;color:#333;margin-left:5px;}
+#mvg-root .calc-summary-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:3px;}
+#mvg-root .calc-summary-amount{font-size:28px;font-weight:800;color:#fff;line-height:1;}
+#mvg-root .calc-summary-freq{font-size:13px;font-weight:600;color:rgba(255,255,255,0.7);margin-left:5px;}
 #mvg-root .calc-summary-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-#mvg-root .calc-summary-cta-text{font-size:13px;font-weight:600;color:#333;}
+#mvg-root .calc-summary-cta-text{font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);}
 #mvg-root .sliders{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-bottom:20px;}
 @media(max-width:640px){#mvg-root .sliders{grid-template-columns:1fr;}}
 #mvg-root .slider-group label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--g900);font-weight:700;margin-bottom:4px;}
@@ -304,7 +304,7 @@
       <div class="disclaimer">This is an estimate, not an offer of credit. Lending is provided by Movogo Finance Limited (NZCN 9357507, NZBN 9429052988677, FSP1011510). Any loan is subject to credit approval, responsible lending assessment, and standard terms and conditions. Under the CCCFA 2003, you have a statutory right to cancel your loan within 7 working days of receiving the disclosure. Movogo Finance Limited is a member of Financial Services Complaints Limited (FSCL) for dispute resolution.</div>
     </div>
 
-    <div class="calc hidden" id="membershipCalc" style="background:var(--cream);border:1.5px solid var(--line);">
+    <div class="calc hidden" id="membershipCalc" style="background:#fff;border:1.5px solid var(--cream);">
       <div class="calc-head"><div class="wonky wonky--sm wonky--lime"><span class="emoji" style="font-size:18px">★</span></div><h3>Your membership details</h3></div>
       <p class="calc-helper">Here's what you've selected. Prices are estimates only, spread evenly across your regular payment.</p>
       <div class="guide-note">This is a rough guide based on an average vehicle and typical driving patterns. Your actual price depends on your car, where you live, how far you drive, and provider pricing. We'll confirm your exact costs before you sign up.</div>
@@ -322,7 +322,7 @@
   const fmt = n => n.toLocaleString('en-NZ');
   const fmtAmt = n => '$' + (Math.round(n*100)/100).toFixed(2);
   const hasLoan = () => FINANCE_LOANS.some(p => S.selected.has(p.id));
-  const hasAnyMem = () => MEMBERSHIP.some(p => S.selected.has(p.id) && !p.soon && p.price !== null);
+  const hasAnyMem = () => MEMBERSHIP.some(p => S.selected.has(p.id));
 
   function calcFinanceWeekly() {
     const r = S.rate/100/12, n = S.term;
