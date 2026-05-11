@@ -27,7 +27,7 @@
 #mvg-root .build{padding:72px 0;background:transparent;}
 #mvg-root .build-head{text-align:left;margin-bottom:48px;}
 #mvg-root .build-head h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
-#mvg-root .build-head p{font-size:17px;color:#333;font-weight:600;}
+#mvg-root .build-head p{font-size:18px;color:#333;font-weight:600;}
 #mvg-root .categories{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
 @media(max-width:860px){#mvg-root .categories{grid-template-columns:1fr;}}
 #mvg-root .category{border-radius:var(--rxl);padding:0;overflow:hidden;}
@@ -43,7 +43,7 @@
 
 #mvg-root .category-sub-heading{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--g900);font-weight:800;margin:24px 0 14px;padding-left:2px;}
 #mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:#333;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);}
-#mvg-root .addon-notice.active{background:var(--lime1);border-color:var(--lime);color:var(--g900);}
+#mvg-root .addon-notice.active{background:var(--lime);border-color:var(--lime);color:var(--g900);}
 #mvg-root .cards-col{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;}
 @media(max-width:480px){#mvg-root .cards-col{grid-template-columns:1fr;}}
 #mvg-root .card{background:var(--paper);border-radius:var(--rm);padding:22px 18px 18px;position:relative;transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column;margin-top:30px;box-shadow:0 2px 0 rgba(1,75,67,0.04);min-height:220px;cursor:pointer;border:2px solid transparent;}
@@ -75,19 +75,18 @@
 #mvg-root .card h3{font-size:16px;font-weight:800;color:var(--g900);margin-bottom:4px;letter-spacing:-0.005em;line-height:1.2;}
 #mvg-root .card-subtitle{font-size:11px;color:var(--coral);font-weight:700;margin-bottom:6px;}
 #mvg-root .card p{color:#333;font-size:13px;font-weight:600;flex:1;line-height:1.5;margin-bottom:10px;}
-#mvg-root .card-learn{font-size:12px;font-weight:700;color:var(--g900);text-decoration:none;display:inline-block;margin-bottom:10px;opacity:0.65;transition:opacity 0.15s;}
-#mvg-root .card-learn:hover{opacity:1;}
+#mvg-root .card-learn{font-size:12px;font-weight:700;color:var(--g900);display:inline-block;margin-bottom:10px;opacity:1;text-decoration:underline;text-underline-offset:2px;}
 #mvg-root .card-foot{margin-top:auto;padding-top:12px;border-top:1px dashed rgba(1,75,67,0.15);display:flex;align-items:center;justify-content:space-between;gap:8px;}
 #mvg-root .card-price{font-weight:800;color:var(--g900);font-size:14px;}
 #mvg-root .card-price small{font-weight:600;color:#333;font-size:11px;display:block;margin-top:-2px;}
-#mvg-root .price-prefix{font-size:10px;font-weight:600;color:var(--ink-f);text-transform:uppercase;letter-spacing:0.05em;display:block;}
-#mvg-root .pricing-note{font-size:11px;color:var(--ink-f);font-weight:600;font-style:italic;}
+#mvg-root .price-prefix{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;display:block;}
+#mvg-root .pricing-note{font-size:11px;color:var(--ink-f);font-weight:700;font-style:italic;}
 #mvg-root .select-btn{width:32px;height:32px;border-radius:999px;flex-shrink:0;border:2.5px solid var(--g900);background:transparent;cursor:pointer;transition:all 0.15s;position:relative;}
 #mvg-root .select-btn::before{content:'+';position:absolute;top:-7.5px;left:5.5px;font-size:31px;font-weight:700;color:var(--g900);line-height:1;}
 #mvg-root .card.selected .select-btn{background:var(--g900);border-color:var(--g900);}
 #mvg-root .category--membership .card.selected .select-btn{background:var(--lime);border-color:var(--lime);}
-#mvg-root .card.selected .select-btn::before{content:'✓';font-size:14px;font-weight:900;color:#fff;}
-#mvg-root .category--membership .card.selected .select-btn::before{color:var(--g900);}
+#mvg-root .card.selected .select-btn::before{top:7px;left:6px;width:17px;height:8px;border-left:3px solid #ffffff;border-bottom:3px solid #ffffff;transform:rotate(-45deg);content:'';}
+#mvg-root .category--membership .card.selected .select-btn::before{border-color:var(--g900);}
 #mvg-root .estimate-wrap{margin-top:48px;}
 #mvg-root .estimate{background:var(--g900);border-radius:var(--rl);padding:28px 32px;color:#fff;}
 #mvg-root .empty-estimate{text-align:center;}
@@ -249,7 +248,7 @@
         <div class="category-body" id="financeBody">
           <div class="cards-col" id="financeGrid"></div>
           <div class="category-sub-heading">Optional loan cover</div>
-          <div class="addon-notice" id="addonNotice"><span id="addonIcon">🔒</span><span id="addonText">These need a Movogo loan. Pick a finance product above to add them.</span></div>
+          <div class="addon-notice" id="addonNotice"><span id="addonText">These need a Movogo loan. Pick a finance product above to add them.</span></div>
           <div class="cards-col" id="addonsGrid"></div>
         </div>
       </div>
@@ -346,7 +345,7 @@
         <h3>${p.title}</h3>
         ${p.subtitle?`<div class="card-subtitle">${p.subtitle}</div>`:''}
         <p>${p.desc}</p>
-        <a class="card-learn" href="${productUrl(p.id)}" onclick="event.stopPropagation()">Learn more →</a>
+        <a class="card-learn" href="${productUrl(p.id)}" onclick="event.stopPropagation()">Learn more</a>
         <div class="card-foot">${priceHTML}<button class="select-btn" ${disabled?'disabled':''} aria-label="${sel?'Deselect':'Select'} ${p.title}"></button></div>
       </div></div>`;
   }
@@ -358,7 +357,6 @@
     el('addonsGrid').innerHTML = FINANCE_ADDONS.map(p => cardHTML(p,!loan)).join('');
     el('addonNotice').classList.toggle('active',loan);
     el('addonText').textContent = loan ? "Great — you've got a loan. You can now add these optional covers." : "These need a Movogo loan. Pick a finance product above to add them.";
-    el('addonIcon').textContent = loan ? '✨' : '🔒';
     attachCardHandlers();
   }
 
