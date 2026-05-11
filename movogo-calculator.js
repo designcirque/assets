@@ -1,756 +1,539 @@
-/* MOVOGO Plan Builder — movogo-calculator.js
-   Host this file externally (GitHub Pages, Cloudflare Pages, etc.)
-   then load it via the snippet in movogo-embed.html
-   ------------------------------------------------------------ */
+/* ============================================================
+   MOVOGO Plan Builder — movogo-calculator.js
+   Host at: https://cdn.jsdelivr.net/gh/designcirque/assets@main/movogo-calculator.js
+   Webflow embed: <div id="mvg-root"></div><script src="..." defer></script>
+   ============================================================ */
 
 (function () {
 
-  /* ── Inject styles ── */
-  const css = `
-@import url("https://use.typekit.net/qri8fuu.css");
+  /* ── Google Font ── */
+  if (!document.querySelector('link[href*="fonts.googleapis.com/css2?family=Nunito"]')) {
+    const l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap';
+    document.head.appendChild(l);
+  }
 
-#mvg-root{--ink:#1a1a1a;--ink-soft:#4a5568;--ink-muted:#94a3b8;--cream:#f2ece9;--white:#fff;--accent:#014b43;--accent-light:#026b5f;--accent-pale:#e0eeec;--coral:#e47250;--coral-pale:#fdf0eb;--lime:#b8d87c;--gold:#c9973a;--gold-pale:#fdf6e8;--border:#ddd6d1;--warn:#e47250;--radius:14px;--radius-sm:9px;--shadow:0 1px 3px rgba(15,25,35,.07),0 4px 16px rgba(15,25,35,.05);--shadow-lg:0 8px 40px rgba(15,25,35,.14);font-family:area-normal,sans-serif;font-weight:600;color:var(--ink);background:var(--cream);padding:2rem 1rem 4rem;box-sizing:border-box}#mvg-root *,#mvg-root *::before,#mvg-root *::after{box-sizing:border-box;font-family:area-normal,sans-serif!important;font-weight:600!important}#mvg-root .mvg-wrap{max-width:960px;margin:0 auto}#mvg-root .mvg-zone-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-muted);margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}#mvg-root .mvg-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}#mvg-root .mvg-filter-btn{padding:.45rem 1rem;border:1.5px solid var(--border);border-radius:20px;background:var(--white);font-size:.8rem;color:var(--ink-soft);cursor:pointer;transition:all .2s;line-height:1}#mvg-root .mvg-filter-btn:hover{border-color:var(--accent);color:var(--accent)}#mvg-root .mvg-filter-btn.active{background:var(--accent);border-color:var(--accent);color:var(--white)}#mvg-root .mvg-filter-btn.active.sub{background:var(--coral);border-color:var(--coral)}#mvg-root .mvg-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:2.5rem}#mvg-root .mvg-prod-card{background:var(--white);border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:all .2s;box-shadow:var(--shadow)}#mvg-root .mvg-prod-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(1,75,67,.12)}#mvg-root .mvg-prod-card.sub-card:hover{border-color:var(--coral)}#mvg-root .mvg-prod-card.selected{border-color:var(--accent);box-shadow:0 4px 20px rgba(1,75,67,.15)}#mvg-root .mvg-prod-card.sub-card.selected{border-color:var(--coral)}#mvg-root .mvg-prod-card.locked{opacity:.5;pointer-events:none}#mvg-root .mvg-prod-card.hidden{display:none}#mvg-root .mvg-prod-tag{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;padding:.3rem .75rem;font-weight:700!important}#mvg-root .mvg-prod-tag.finance{background:var(--accent-pale);color:var(--accent)}#mvg-root .mvg-prod-tag.sub{background:var(--coral-pale);color:var(--coral)}#mvg-root .mvg-prod-tag.protection{background:var(--gold-pale);color:var(--gold)}#mvg-root .mvg-prod-body{padding:.9rem 1rem;flex:1;display:flex;flex-direction:column;gap:.5rem}#mvg-root .mvg-prod-name{font-size:.95rem;color:var(--ink);line-height:1.2}#mvg-root .mvg-prod-preview{font-size:.76rem;color:var(--ink-soft);line-height:1.45;flex:1}#mvg-root .mvg-prod-more-btn{background:none;border:none;cursor:pointer;font-size:.72rem;color:var(--ink-muted);text-decoration:underline;padding:0;text-align:left;line-height:1;transition:color .15s}#mvg-root .mvg-prod-more-btn:hover{color:var(--accent)}#mvg-root .mvg-prod-more-body{display:none;font-size:.76rem;color:var(--ink-soft);line-height:1.5;padding:.6rem 1rem;border-top:1px solid var(--border);background:var(--cream)}#mvg-root .mvg-prod-more-body.show{display:block}#mvg-root .mvg-prod-footer{padding:.75rem 1rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.5rem}#mvg-root .mvg-prod-amt{font-size:.82rem;color:var(--accent);font-variant-numeric:tabular-nums}#mvg-root .mvg-prod-card.sub-card .mvg-prod-amt{color:var(--coral)}#mvg-root .mvg-prod-card:not(.selected) .mvg-prod-amt{color:var(--ink-muted)}#mvg-root .mvg-select-btn{display:flex;align-items:center;gap:.4rem;padding:.4rem .85rem;border:1.5px solid var(--border);border-radius:20px;background:var(--white);font-size:.75rem;color:var(--ink-soft);cursor:pointer;transition:all .2s;line-height:1;flex-shrink:0}#mvg-root .mvg-select-btn:hover{border-color:var(--accent);color:var(--accent)}#mvg-root .mvg-prod-card.sub-card .mvg-select-btn:hover{border-color:var(--coral);color:var(--coral)}#mvg-root .mvg-prod-card.selected .mvg-select-btn{background:var(--accent);border-color:var(--accent);color:var(--white)}#mvg-root .mvg-prod-card.sub-card.selected .mvg-select-btn{background:var(--coral);border-color:var(--coral);color:var(--white)}.mvg-header{text-align:center;}#mvg-root .mvg-lock-note{font-size:.7rem;color:var(--ink-muted);text-align:center;margin:-0.5rem 0 1.5rem;font-style:italic}#mvg-root .mvg-divider{border:none;border-top:2px solid var(--border);margin:0 0 2rem}#mvg-root .mvg-sticky{position:sticky;top:132px;z-index:100;background:var(--accent);border-radius:var(--radius);padding:.9rem 1.5rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;box-shadow:var(--shadow-lg)}#mvg-root .mvg-sticky-grp{display:flex;gap:1.5rem;flex-wrap:wrap}#mvg-root .mvg-sticky-lbl{font-size:.68rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.15rem}#mvg-root .mvg-sticky-amt{font-size:1.5rem;color:var(--white);line-height:1}#mvg-root .mvg-sticky-freq{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:.15rem}#mvg-root .mvg-sticky-div{width:1px;height:36px;background:rgba(255,255,255,.15);flex-shrink:0;align-self:center}#mvg-root .mvg-freq{display:flex;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:var(--radius-sm);padding:3px;gap:3px}#mvg-root .mvg-freq-btn{flex:1;padding:.45rem .7rem;border:none;border-radius:6px;font-size:.78rem;cursor:pointer;background:transparent;color:rgba(255,255,255,.7);transition:all .2s;white-space:nowrap;line-height:1}#mvg-root .mvg-freq-btn.active{background:var(--white);color:var(--accent)}#mvg-root .mvg-collapse-btn{display:none;width:100%;padding:.7rem 1rem;background:var(--accent);color:var(--white);border:none;border-radius:var(--radius-sm);font-size:.85rem;cursor:pointer;text-align:left;margin-bottom:1rem;line-height:1}@media(max-width:600px){#mvg-root .mvg-sticky{flex-direction:column;align-items:flex-start}#mvg-root .mvg-sticky-div{display:none}#mvg-root .mvg-collapse-btn{display:block}#mvg-root .mvg-calc-body{display:none}#mvg-root .mvg-calc-body.open{display:block}}#mvg-root .mvg-calc-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;margin-bottom:1.25rem}#mvg-root .mvg-calc-header{display:flex;align-items:center;gap:.85rem;padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--cream)}#mvg-root .mvg-calc-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;color:var(--white)}#mvg-root .mvg-calc-icon.finance{background:var(--accent);padding-bottom:3px;}#mvg-root .mvg-calc-icon.sub{background:var(--coral);padding-bottom:4px;}#mvg-root .mvg-calc-title{font-size:1.05rem;color:var(--ink);margin:0}#mvg-root .mvg-calc-body-inner{padding:1.4rem 1.5rem}#mvg-root .mvg-field{margin-bottom:1.2rem}#mvg-root .mvg-field:last-child{margin-bottom:0}#mvg-root .mvg-lbl{display:block;font-size:.76rem;color:var(--ink-soft);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}#mvg-root .mvg-dollar{position:relative}#mvg-root .mvg-dsign{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--ink-soft);pointer-events:none}#mvg-root .mvg-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.75rem 1rem;font-size:1rem;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none}#mvg-root .mvg-input:focus{border-color:var(--accent)}#mvg-root .mvg-input.invalid{border-color:var(--warn)!important}#mvg-root .mvg-input-num{padding-left:2.1rem;font-size:1.05rem;-moz-appearance:textfield}#mvg-root .mvg-input-num::-webkit-inner-spin-button,#mvg-root .mvg-input-num::-webkit-outer-spin-button{-webkit-appearance:none}#mvg-root .mvg-range{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--border);outline:none;margin-top:.7rem;cursor:pointer}#mvg-root .mvg-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid var(--white);box-shadow:0 1px 4px rgba(0,0,0,.2);transition:transform .15s}#mvg-root .mvg-range::-webkit-slider-thumb:hover{transform:scale(1.15)}#mvg-root .mvg-range-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--ink-muted);margin-top:.3rem}#mvg-root .mvg-range-labels span{margin:0}#mvg-root .mvg-range-val{font-size:1.5rem;color:var(--ink);line-height:1}#mvg-root .mvg-three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem}#mvg-root .mvg-two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}@media(max-width:600px){#mvg-root .mvg-three-col,#mvg-root .mvg-two-col{grid-template-columns:1fr}}#mvg-root .mvg-error{font-size:.74rem;color:var(--warn);margin-top:.3rem;display:none}#mvg-root .mvg-error.show{display:block}#mvg-root .mvg-hint{font-size:.74rem;color:var(--ink-muted);margin-top:.25rem;line-height:1.4}#mvg-root .mvg-finance-out{margin-top:1.1rem;padding:.9rem 1rem;background:var(--accent-pale);border-radius:var(--radius-sm);border:1px solid var(--accent)}#mvg-root .mvg-out-lbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.3rem}#mvg-root .mvg-out-amt{font-size:1.75rem;color:var(--accent);line-height:1}#mvg-root .mvg-out-freq{font-size:.75rem;color:var(--accent-light);margin-top:.2rem}#mvg-root .mvg-disclaimer{font-size:.7rem;color:var(--ink-muted);line-height:1.5;margin-top:.65rem;padding-top:.65rem;border-top:1px dashed var(--border)}#mvg-root .mvg-sub-total{display:flex;justify-content:space-between;align-items:center;padding:.85rem 1rem 0;border-top:1.5px dashed var(--border);margin-top:.5rem}#mvg-root .mvg-sub-total-lbl{font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft)}#mvg-root .mvg-sub-total-amt{font-size:1.35rem;color:var(--ink)}#mvg-root .mvg-save-bar{background:var(--cream);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.85rem 1.1rem;margin-bottom:1.1rem}#mvg-root .mvg-save-title{font-size:.72rem;color:var(--ink-soft);margin-bottom:.55rem;text-transform:uppercase;letter-spacing:.04em}#mvg-root .mvg-save-opts{display:flex;gap:.55rem;flex-wrap:wrap}#mvg-root .mvg-save-btn{display:flex;align-items:center;gap:.4rem;padding:.5rem .85rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--white);font-size:.78rem;color:var(--ink-soft);cursor:pointer;transition:all .18s;line-height:1}#mvg-root .mvg-save-btn:hover{border-color:var(--accent);color:var(--accent)}#mvg-root .mvg-toast{display:none;font-size:.73rem;color:var(--accent);margin-top:.45rem}#mvg-root .mvg-toast.show{display:block}#mvg-root .mvg-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,35,.5);z-index:9999;align-items:center;justify-content:center;padding:1rem}#mvg-root .mvg-overlay.show{display:flex}#mvg-root .mvg-modal{background:var(--white);border-radius:var(--radius);padding:1.75rem;max-width:400px;width:100%;box-shadow:var(--shadow-lg)}#mvg-root .mvg-modal h3{font-size:1.2rem;margin:0 0 .4rem}#mvg-root .mvg-modal p{font-size:.84rem;color:var(--ink-soft);margin:0 0 1rem;line-height:1.5}#mvg-root .mvg-modal-btns{display:flex;gap:.65rem;margin-top:1rem}#mvg-root .mvg-btn-sec{flex:1;padding:.65rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--white);font-size:.86rem;color:var(--ink-soft);cursor:pointer;transition:all .2s;line-height:1}#mvg-root .mvg-btn-sec:hover{border-color:var(--ink);color:var(--ink)}#mvg-root .mvg-btn-pri{flex:1;padding:.65rem;border:none;border-radius:var(--radius-sm);background:var(--accent);color:var(--white);font-size:.86rem;cursor:pointer;transition:opacity .2s;line-height:1}#mvg-root .mvg-btn-pri:hover{opacity:.88}#mvg-root .mvg-rtable{width:100%;border-collapse:collapse}#mvg-root .mvg-rtable td{padding:.55rem 0;font-size:.86rem;border-bottom:1px solid var(--border);color:var(--ink);vertical-align:top}#mvg-root .mvg-rtable td:first-child{color:var(--ink-soft);width:55%}#mvg-root .mvg-rtable td:last-child{text-align:right;font-variant-numeric:tabular-nums}#mvg-root .mvg-rtable tr:last-child td{border-bottom:none}#mvg-root .mvg-rtable tr.mvg-tot td{padding-top:.8rem;border-bottom:none}#mvg-root .mvg-slbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);padding:.85rem 0 .3rem;display:block}#mvg-root .mvg-slbl.sub{color:var(--coral)}#mvg-root .mvg-cgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:540px){#mvg-root .mvg-cgrid{grid-template-columns:1fr}}#mvg-root .mvg-legal{font-size:.7rem;color:var(--ink-muted);line-height:1.6;margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--border)}#mvg-root .mvg-actions{display:flex;gap:1rem;margin-top:1.4rem;flex-wrap:wrap}#mvg-root .mvg-btn-review{flex:1;padding:.95rem 2rem;background:var(--accent);color:var(--white);border:none;border-radius:var(--radius-sm);font-size:.95rem;cursor:pointer;transition:all .2s;box-shadow:0 3px 12px rgba(1,75,67,.2);line-height:1}#mvg-root .mvg-btn-review:hover{background:var(--accent-light)}#mvg-root .mvg-btn-back{padding:.95rem 1.4rem;background:transparent;color:var(--ink-soft);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;cursor:pointer;transition:all .2s;line-height:1}#mvg-root .mvg-btn-back:hover{border-color:var(--ink);color:var(--ink)}#mvg-root .mvg-btn-apply{flex:1;min-width:180px;padding:.95rem 2rem;background:var(--accent);color:var(--white);border:none;border-radius:var(--radius-sm);font-size:.95rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.55rem;box-shadow:0 4px 16px rgba(1,75,67,.25);line-height:1}#mvg-root .mvg-btn-apply:hover{background:var(--accent-light);transform:translateY(-1px)}#mvg-root .mvg-btn-apply:active{transform:none}#mvg-root .mvg-btn-apply:disabled{opacity:.7;cursor:not-allowed;transform:none}#mvg-root .mvg-builder.hide{display:none}#mvg-root .mvg-review-view{display:none}#mvg-root .mvg-review-view.show{display:block}#mvg-root .mvg-section{display:none}#mvg-root .mvg-section.show{display:block}#mvg-root .mvg-intro{font-size:.82rem;color:var(--ink-soft);margin-bottom:.9rem;line-height:1.5}#mvg-root .mvg-review-view .mvg-calc-icon.finance.contactd{padding-bottom:8px;font-size:1.4rem;}
+  /* ── CSS ── */
+  const CSS = `
+#mvg-root {
+  --g900:#014b43;--g700:#0A665A;--g500:#18806F;
+  --lime:#b8d87c;--lime3:#D4E8A6;--lime1:#EDF5D5;--lime0:#F7FBEB;
+  --cream:#f2ece9;--cream3:#F8F4F0;--cream1:#FBF9F5;
+  --coral:#e47250;--coral3:#EE9D85;--coral1:#FBE3DA;
+  --blue:#4E89BF;--blue3:#89B3D5;--blue1:#DCE8F2;
+  --ink:#1A2824;--ink-s:#4F605C;--ink-f:#8A958F;
+  --paper:#ffffff;--line:#E5E0D8;
+  --rs:14px;--rm:20px;--rl:28px;--rxl:36px;
+  font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--ink);background:var(--paper);box-sizing:border-box;
+  -webkit-font-smoothing:antialiased;
+}
+#mvg-root *,#mvg-root *::before,#mvg-root *::after{box-sizing:border-box;}
+#mvg-root h2,#mvg-root h3,#mvg-root h4,#mvg-root p{margin:0;}
+#mvg-root .mvg-wrap{max-width:1100px;margin:0 auto;padding:0 24px;}
+#mvg-root .build{padding:72px 0;background:var(--paper);}
+#mvg-root .build-head{text-align:center;margin-bottom:48px;}
+#mvg-root .build-head h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
+#mvg-root .build-head p{font-size:17px;color:var(--ink-s);font-weight:500;}
+#mvg-root .categories{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
+@media(max-width:860px){#mvg-root .categories{grid-template-columns:1fr;}}
+#mvg-root .category{border-radius:var(--rxl);padding:0;overflow:hidden;}
+#mvg-root .category--membership{background:var(--lime0);}
+#mvg-root .category--finance{background:var(--cream3);}
+#mvg-root .category-head{width:100%;display:flex;align-items:center;gap:16px;padding:24px 28px;background:none;border:none;cursor:pointer;text-align:left;}
+#mvg-root .category-title-wrap{flex:1;}
+#mvg-root .category-title{font-size:22px;font-weight:800;color:var(--g900);letter-spacing:-0.01em;margin-bottom:4px;}
+#mvg-root .category-sub{font-size:13px;color:var(--ink-s);font-weight:500;line-height:1.4;}
+#mvg-root .category-chevron{font-size:18px;color:var(--ink-f);transition:transform 0.25s;flex-shrink:0;}
+#mvg-root .category.expanded .category-chevron{transform:rotate(180deg);}
+#mvg-root .category-summary{padding:0 28px 12px;}
+#mvg-root .pill-list{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0;}
+#mvg-root .pill-list li{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink-s);cursor:pointer;transition:all 0.15s;user-select:none;}
+#mvg-root .pill-list li.selected{background:var(--g900);border-color:var(--g900);color:#fff;}
+#mvg-root .category--membership .pill-list li.selected{background:var(--lime);border-color:var(--lime);color:var(--g900);}
+#mvg-root .pill-list li.disabled{opacity:0.4;cursor:not-allowed;}
+#mvg-root .category-body{padding:0 28px 28px;}
+#mvg-root .category-body.collapsed{display:none;}
+#mvg-root .category-sub-heading{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--g900);font-weight:800;margin:24px 0 14px;padding-left:2px;}
+#mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--ink-s);font-weight:500;margin-bottom:14px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);}
+#mvg-root .addon-notice.active{background:var(--lime1);border-color:var(--lime);color:var(--g900);}
+#mvg-root .cards-col{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;}
+@media(max-width:480px){#mvg-root .cards-col{grid-template-columns:1fr;}}
+#mvg-root .card{background:var(--paper);border-radius:var(--rm);padding:22px 18px 18px;position:relative;transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column;margin-top:30px;box-shadow:0 2px 0 rgba(1,75,67,0.04);min-height:220px;cursor:pointer;border:2px solid transparent;}
+#mvg-root .card:hover:not(.disabled){transform:translateY(-3px) rotate(-0.5deg);box-shadow:0 12px 28px rgba(1,75,67,0.12);}
+#mvg-root .card.selected{border-color:var(--g900);}
+#mvg-root .category--membership .card.selected{border-color:var(--lime);}
+#mvg-root .card.disabled{opacity:0.5;cursor:not-allowed;}
+#mvg-root .card-wonky{position:absolute;top:-30px;left:16px;z-index:2;transform:rotate(-6deg);transition:transform 0.25s;}
+#mvg-root .card:hover:not(.disabled) .card-wonky{transform:rotate(4deg) scale(1.05);}
+#mvg-root .wonky{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+#mvg-root .wonky::before{content:"";position:absolute;inset:0;border-radius:62% 38% 54% 46% / 58% 42% 58% 42%;z-index:0;}
+#mvg-root .wonky--alt::before{border-radius:44% 56% 62% 38% / 52% 40% 60% 48%;}
+#mvg-root .wonky--alt2::before{border-radius:56% 44% 38% 62% / 42% 58% 42% 58%;}
+#mvg-root .wonky--alt3::before{border-radius:48% 52% 58% 42% / 62% 42% 58% 38%;}
+#mvg-root .wonky--alt4::before{border-radius:58% 42% 48% 52% / 38% 62% 38% 62%;}
+#mvg-root .wonky--lime::before{background:var(--lime);}
+#mvg-root .wonky--lime3::before{background:var(--lime3);}
+#mvg-root .wonky--coral::before{background:var(--coral);}
+#mvg-root .wonky--coral3::before{background:var(--coral3);}
+#mvg-root .wonky--blue::before{background:var(--blue3);}
+#mvg-root .wonky--green::before{background:var(--g500);}
+#mvg-root .wonky--md{width:72px;height:72px;}
+#mvg-root .wonky--sm{width:44px;height:44px;}
+#mvg-root .wonky .emoji{position:relative;z-index:1;font-size:28px;line-height:1;}
+#mvg-root .wonky--sm .emoji{font-size:20px;}
+#mvg-root .card-sticker{position:absolute;top:-10px;right:14px;z-index:3;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;padding:5px 10px;border-radius:999px;transform:rotate(2deg);}
+#mvg-root .card-sticker--soon{background:var(--coral);color:#fff;}
+#mvg-root .card-sticker--requires{background:var(--blue);color:#fff;font-size:9px;}
+#mvg-root .card-body{margin-top:52px;flex:1;display:flex;flex-direction:column;}
+#mvg-root .card h3{font-size:16px;font-weight:800;color:var(--g900);margin-bottom:4px;letter-spacing:-0.005em;line-height:1.2;}
+#mvg-root .card-subtitle{font-size:11px;color:var(--coral);font-weight:700;margin-bottom:6px;}
+#mvg-root .card p{color:var(--ink-s);font-size:13px;font-weight:500;flex:1;line-height:1.5;margin-bottom:10px;}
+#mvg-root .card-learn{font-size:12px;font-weight:700;color:var(--g900);text-decoration:none;display:inline-block;margin-bottom:10px;opacity:0.65;transition:opacity 0.15s;}
+#mvg-root .card-learn:hover{opacity:1;}
+#mvg-root .card-foot{margin-top:auto;padding-top:12px;border-top:1px dashed rgba(1,75,67,0.15);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+#mvg-root .card-price{font-weight:800;color:var(--g900);font-size:14px;}
+#mvg-root .card-price small{font-weight:500;color:var(--ink-s);font-size:11px;display:block;margin-top:-2px;}
+#mvg-root .price-prefix{font-size:10px;font-weight:600;color:var(--ink-f);text-transform:uppercase;letter-spacing:0.05em;display:block;}
+#mvg-root .pricing-note{font-size:11px;color:var(--ink-f);font-weight:600;font-style:italic;}
+#mvg-root .select-btn{width:28px;height:28px;border-radius:999px;flex-shrink:0;border:2px solid var(--line);background:var(--paper);cursor:pointer;transition:all 0.15s;position:relative;}
+#mvg-root .card.selected .select-btn{background:var(--g900);border-color:var(--g900);}
+#mvg-root .category--membership .card.selected .select-btn{background:var(--lime);border-color:var(--lime);}
+#mvg-root .card.selected .select-btn::before{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);font-size:13px;font-weight:900;color:#fff;line-height:1;}
+#mvg-root .category--membership .card.selected .select-btn::before{color:var(--g900);}
+#mvg-root .estimate-wrap{margin-top:48px;}
+#mvg-root .estimate{background:var(--g900);border-radius:var(--rl);padding:28px 32px;color:#fff;}
+#mvg-root .empty-estimate{text-align:center;}
+#mvg-root .empty-estimate-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);margin-bottom:6px;font-weight:700;}
+#mvg-root .empty-estimate-amount{font-size:40px;font-weight:800;color:rgba(255,255,255,0.25);letter-spacing:-0.02em;line-height:1;margin-bottom:12px;}
+#mvg-root .empty-estimate-amount .estimate-total-freq{font-size:15px;font-weight:500;color:rgba(255,255,255,0.3);margin-left:6px;}
+#mvg-root .empty-estimate-prompt{font-size:14px;color:rgba(255,255,255,0.5);font-weight:500;margin-bottom:20px;}
+#mvg-root .empty-estimate-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+#mvg-root .btn-ghost-light{font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);text-decoration:none;border:none;background:none;cursor:pointer;padding:13px 0;transition:color 0.15s;font-family:inherit;}
+#mvg-root .btn-ghost-light:hover{color:#fff;}
+#mvg-root .estimate-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;margin-bottom:20px;}
+#mvg-root .estimate-total-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:4px;}
+#mvg-root .estimate-total-amount{font-size:40px;font-weight:800;letter-spacing:-0.02em;line-height:1;}
+#mvg-root .estimate-total-freq{font-size:15px;font-weight:500;color:rgba(255,255,255,0.6);margin-left:6px;}
+#mvg-root .estimate-payday{font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;margin-top:6px;}
+#mvg-root .freq-toggle{display:flex;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:var(--rs);padding:3px;gap:3px;}
+#mvg-root .freq-toggle button{padding:8px 14px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6);transition:all 0.2s;font-family:inherit;}
+#mvg-root .freq-toggle button.active{background:#fff;color:var(--g900);}
+#mvg-root .estimate-breakdown{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.12);}
+#mvg-root .estimate-breakdown > div{display:flex;flex-direction:column;gap:2px;}
+#mvg-root .estimate-breakdown .label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.45);font-weight:700;}
+#mvg-root .estimate-breakdown .amount{font-size:20px;font-weight:800;}
+#mvg-root .estimate-guide{font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;line-height:1.5;margin-bottom:16px;}
+#mvg-root .estimate-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+#mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:rgba(255,255,255,0.45);background:none;border:none;cursor:pointer;font-family:inherit;padding:8px 0;transition:color 0.15s;}
+#mvg-root .estimate-clear:hover{color:rgba(255,255,255,0.8);}
+#mvg-root .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;border:none;text-decoration:none;font-family:inherit;transition:transform 0.15s,box-shadow 0.15s,background 0.15s;line-height:1;}
+#mvg-root .btn:active{transform:translateY(1px);}
+#mvg-root .btn-primary{background:var(--g900);color:#fff;}
+#mvg-root .btn-primary:hover{background:var(--g700);}
+#mvg-root .btn-lime{background:var(--lime);color:var(--g900);}
+#mvg-root .btn-lime:hover{background:#A6C76A;}
+#mvg-root .btn-coral{background:var(--coral);color:#fff;}
+#mvg-root .btn-outline{background:#fff;color:var(--g900);border:2px solid var(--g900);padding:11px 26px;}
+#mvg-root .btn-outline:hover{background:var(--g900);color:#fff;}
+#mvg-root .btn-sm{padding:9px 18px;font-size:13px;}
+#mvg-root .calc{background:var(--cream);border-radius:var(--rl);padding:28px 32px;margin-top:20px;border:1.5px solid var(--line);}
+#mvg-root .calc.hidden{display:none;}
+#mvg-root .calc-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+#mvg-root .calc-head h3{font-size:20px;font-weight:800;color:var(--g900);}
+#mvg-root .calc-helper{font-size:14px;color:var(--ink-s);font-weight:500;line-height:1.5;margin-bottom:20px;}
+#mvg-root .calc-summary{background:var(--paper);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+#mvg-root .calc-summary.in-plan{border-color:var(--g900);}
+#mvg-root .calc-summary-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-f);font-weight:700;margin-bottom:3px;}
+#mvg-root .calc-summary-amount{font-size:28px;font-weight:800;color:var(--g900);line-height:1;}
+#mvg-root .calc-summary-freq{font-size:13px;font-weight:500;color:var(--ink-s);margin-left:5px;}
+#mvg-root .calc-summary-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+#mvg-root .calc-summary-cta-text{font-size:13px;font-weight:500;color:var(--ink-s);}
+#mvg-root .sliders{display:grid;gap:20px;margin-bottom:20px;}
+#mvg-root .slider-group label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-s);font-weight:700;margin-bottom:4px;}
+#mvg-root .slider-value{font-size:24px;font-weight:800;color:var(--g900);line-height:1;margin-bottom:8px;}
+#mvg-root .slider-value small{font-size:14px;font-weight:500;color:var(--ink-s);}
+#mvg-root .slider-range{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-f);font-weight:600;margin-top:4px;}
+#mvg-root .slider-note{font-size:11px;color:var(--ink-f);font-weight:500;margin-top:6px;font-style:italic;}
+#mvg-root input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--line);outline:none;cursor:pointer;}
+#mvg-root input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--g900);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);transition:transform 0.15s;}
+#mvg-root input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
+#mvg-root .disclaimer{font-size:11px;color:var(--ink-f);line-height:1.6;font-weight:500;padding-top:16px;border-top:1px solid var(--line);}
+#mvg-root .guide-note{background:var(--lime1);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--g900);font-weight:500;margin-bottom:16px;border:1px solid var(--lime);}
+#mvg-root .itemised{margin-bottom:16px;}
+#mvg-root .itemised-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed rgba(1,75,67,0.12);font-size:14px;font-weight:600;}
+#mvg-root .itemised-row .item{color:var(--ink-s);font-weight:500;}
+#mvg-root .itemised-row .amt{color:var(--g900);font-weight:700;}
+#mvg-root .itemised-total{display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;font-size:16px;font-weight:800;color:var(--g900);}
+#mvg-root .howitworks{background:var(--lime0);padding:80px 0;}
+#mvg-root .howitworks h2{font-size:clamp(28px,4vw,38px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:6px;}
+#mvg-root .howitworks .subtitle{font-size:17px;color:var(--ink-s);font-weight:500;margin-bottom:28px;}
+#mvg-root .path-toggle{display:inline-flex;border-radius:999px;border:2px solid var(--line);overflow:hidden;margin-bottom:40px;background:var(--paper);}
+#mvg-root .path-toggle button{padding:11px 22px;font-size:14px;font-weight:700;color:var(--ink-s);background:none;border:none;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+#mvg-root .path-toggle button.active{background:var(--g900);color:#fff;}
+#mvg-root .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+@media(max-width:640px){#mvg-root .steps{grid-template-columns:1fr;}}
+#mvg-root .step{text-align:center;}
+#mvg-root .step .wonky{margin:0 auto 16px;}
+#mvg-root .step-num{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;color:var(--ink-f);margin-bottom:6px;}
+#mvg-root .step h4{font-size:18px;font-weight:800;color:var(--g900);margin-bottom:6px;}
+#mvg-root .step p{font-size:14px;color:var(--ink-s);font-weight:500;line-height:1.5;}
+#mvg-root .mvg-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,35,0.5);z-index:9999;align-items:center;justify-content:center;padding:16px;}
+#mvg-root .mvg-overlay.show{display:flex;}
+#mvg-root .mvg-modal{background:var(--paper);border-radius:var(--rl);padding:32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+#mvg-root .mvg-modal h3{font-size:22px;font-weight:800;color:var(--g900);margin-bottom:6px;}
+#mvg-root .mvg-modal .modal-sub{font-size:14px;color:var(--ink-s);font-weight:500;margin-bottom:22px;line-height:1.4;}
+#mvg-root .mvg-field{margin-bottom:14px;}
+#mvg-root .mvg-lbl{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-s);margin-bottom:5px;}
+#mvg-root .mvg-input{width:100%;padding:12px 18px;border-radius:999px;border:2px solid var(--line);font-size:15px;font-family:inherit;color:var(--ink);background:#fff;outline:none;transition:border-color 0.15s;font-weight:600;}
+#mvg-root .mvg-input:focus{border-color:var(--g900);}
+#mvg-root .mvg-input.error{border-color:var(--coral);}
+#mvg-root .mvg-error{font-size:12px;color:var(--coral);font-weight:600;margin-top:4px;display:none;padding-left:18px;}
+#mvg-root .mvg-error.show{display:block;}
+#mvg-root .modal-btns{display:flex;gap:10px;margin-top:20px;}
+#mvg-root .modal-btns .btn{flex:1;justify-content:center;}
+#mvg-root .mvg-success{display:none;background:var(--lime1);border:2px solid var(--lime);border-radius:var(--rm);padding:16px 20px;margin-top:14px;color:var(--g900);font-size:14px;font-weight:600;}
+#mvg-root .mvg-success.show{display:block;}
 `;
-
   const styleEl = document.createElement('style');
-  styleEl.textContent = css;
+  styleEl.textContent = CSS;
   document.head.appendChild(styleEl);
 
-  /* ── Inject HTML into #mvg-root ── */
+  /* ── Product data ── */
+  const MEMBERSHIP = [
+    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WOF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
+    { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral3 wonky--alt2' },
+    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue wonky--alt3' },
+    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime3 wonky--alt4' },
+    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--coral wonky--alt' },
+    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--blue wonky--alt2' },
+    { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--lime wonky--alt3' },
+  ];
+  const FINANCE_LOANS = [
+    { id:'buy',     title:'Buy my next car',         pill:'Buy a car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--coral wonky--alt' },
+    { id:'refi',    title:'Refinance existing loan', pill:'Refinance',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--lime wonky--alt2' },
+    { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue wonky--alt3' },
+  ];
+  const FINANCE_ADDONS = [
+    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--coral wonky--alt4' },
+    { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--blue wonky--alt' },
+    { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--lime wonky--alt2' },
+    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--coral3 wonky--alt3' },
+    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Pause your repayments for an approved period when life gets tough.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--lime3 wonky--alt4' },
+  ];
+  const ALL_PRODUCTS = [...MEMBERSHIP, ...FINANCE_LOANS, ...FINANCE_ADDONS];
+
+  const productUrl = id => '/products/' + (id || 'overview');
+  const FREQ_MULT   = { weekly:1, fortnightly:2, monthly:52/12 };
+  const FREQ_LABEL  = { weekly:'per week', fortnightly:'per fortnight', monthly:'per month' };
+  const FREQ_SUFFIX = { weekly:'/week', fortnightly:'/fortnight', monthly:'/month' };
+
+  const S = {
+    selected: new Set(), freq:'weekly',
+    borrow:20000, term:60, rate:14.95, path:'finance',
+    financeCalcOpen:false, expanded:{ membership:true, finance:true }
+  };
+
+  /* ── Inject HTML ── */
   const root = document.getElementById('mvg-root');
-  if (!root) { console.error('MOVOGO: No #mvg-root element found on page.'); return; }
+  if (!root) { console.error('MOVOGO: #mvg-root not found'); return; }
 
   root.innerHTML = `
 <div class="mvg-overlay" id="mvgModal">
-<div class="mvg-modal">
-<h3>Email yourself this link</h3>
-<p>We'll send a link so you can return to your plan where you left off.</p>
-<div class="mvg-field">
-<label class="mvg-lbl" for="mvgSaveEmail">Your email</label>
-<input class="mvg-input" type="email" id="mvgSaveEmail" placeholder="you@example.com">
-</div>
-<div class="mvg-modal-btns">
-<button class="mvg-btn-sec" onclick="mvgCloseModal()">Cancel</button>
-<button class="mvg-btn-pri" onclick="mvgSendEmail()">Send link</button>
-</div>
-<div class="mvg-toast" id="mvgEmailToast">✓ Sent! Check your inbox.</div>
-</div>
-</div>
-<div class="mvg-wrap">
-<div class="mvg-header">
-<h3>Build Your Plan</h3>
-<p>Choose what you need and we'll put together an estimated cost.</p>
-</div>
-<div class="mvg-builder" id="mvgBuilder">
-<div class="mvg-zone-label">Our Products</div>
-<div class="mvg-filter">
-<button class="mvg-filter-btn active" data-filter="all" onclick="mvgFilter(this)">All</button>
-<button class="mvg-filter-btn active sub" data-filter="sub" onclick="mvgFilter(this)">Membership</button>
-<button class="mvg-filter-btn" data-filter="finance" onclick="mvgFilter(this)">Finance</button>
-<button class="mvg-filter-btn" data-filter="protection" onclick="mvgFilter(this)">Protection</button>
-</div>
-<div class="mvg-gallery" id="mvgGallery">
-<div class="mvg-prod-card sub-card" data-type="sub" data-key="wof" data-annual="90">
-<div class="mvg-prod-tag sub">Membership</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">WoF / CoF</div>
-<div class="mvg-prod-preview">Keep your vehicle road-legal with your warrant or certificate of fitness covered.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgWofMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgWofMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" data-sub-amt="wof">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card sub-card" data-type="sub" data-key="rego" data-annual="172.97">
-<div class="mvg-prod-tag sub">Membership</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Registration</div>
-<div class="mvg-prod-preview">We handle your annual vehicle registration so you never miss the due date.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgRegoMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgRegoMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" data-sub-amt="rego">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card sub-card" data-type="sub" data-key="ruc" data-annual="760">
-<div class="mvg-prod-tag sub">Membership</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Road User Charges</div>
-<div class="mvg-prod-preview">Spread the cost of RUC across your regular payments — no surprise top-ups.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgRucMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgRucMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" data-sub-amt="ruc">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card sub-card" data-type="sub" data-key="service" data-annual="300">
-<div class="mvg-prod-tag sub">Membership</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Servicing &amp; Repairs</div>
-<div class="mvg-prod-preview">Regular servicing keeps your car reliable — we help budget for it in advance.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgServiceMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgServiceMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" data-sub-amt="service">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card sub-card" data-type="sub" data-key="tyres" data-annual="0">
-<div class="mvg-prod-tag sub">Membership</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Tyres &amp; Repairs</div>
-<div class="mvg-prod-preview">Budget for tyre replacements and unexpected repairs without the stress.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgTyresMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgTyresMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt">Pricing TBC</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card sub-card" data-type="sub" data-key="roadside" data-annual="65">
-<div class="mvg-prod-tag sub">Membership</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Roadside Assistance</div>
-<div class="mvg-prod-preview">Help when you need it most — breakdowns, flat tyres, lockouts and more.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgRoadsideMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgRoadsideMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" data-sub-amt="roadside">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card sub-card" data-type="sub" data-key="insurance" data-annual="0">
-<div class="mvg-prod-tag sub">Membership</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Insurance</div>
-<div class="mvg-prod-preview">Comprehensive vehicle insurance bundled into your plan.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgInsMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgInsMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt">Pricing TBC</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card" data-type="finance" data-key="buy">
-<div class="mvg-prod-tag finance">Finance</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Buy my next car</div>
-<div class="mvg-prod-preview">Get the finance you need to purchase your next vehicle.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgBuyMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgBuyMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" id="mvgBuyAmt">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card" data-type="finance" data-key="refinance">
-<div class="mvg-prod-tag finance">Finance</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Refinance existing loan</div>
-<div class="mvg-prod-preview">Replace your current car loan and potentially reduce your repayments.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgRefiMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgRefiMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" id="mvgRefiAmt">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card" data-type="finance" data-key="repairs">
-<div class="mvg-prod-tag finance">Finance</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Fund repairs</div>
-<div class="mvg-prod-preview">Finance unexpected or planned vehicle repairs and spread the cost.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgRepMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgRepMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt" id="mvgRepAmt">—</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card locked" data-type="protection" data-key="mbi">
-<div class="mvg-prod-tag protection">Protection</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">MBI <span style="font-size:.65rem;background:var(--gold-pale);color:var(--gold);padding:.1rem .4rem;border-radius:20px;border:1px solid #e8d5a3;vertical-align:middle">Quote required</span></div>
-<div class="mvg-prod-preview">Mechanical Breakdown Insurance covers unexpected mechanical failures.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgMbiMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgMbiMore">[Read more copy to be provided.] Pricing depends on vehicle make, model, age and mileage and will be confirmed separately.</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt">Requires finance</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card locked" data-type="protection" data-key="work">
-<div class="mvg-prod-tag protection">Protection</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Work Waiver</div>
-<div class="mvg-prod-preview">Waives your loan repayments if you lose your job involuntarily.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgWorkMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgWorkMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt">Requires finance</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card locked" data-type="protection" data-key="health">
-<div class="mvg-prod-tag protection">Protection</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Health Waiver</div>
-<div class="mvg-prod-preview">Waives repayments if you're unable to work due to illness or injury.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgHealthMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgHealthMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt">Requires finance</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card locked" data-type="protection" data-key="restart">
-<div class="mvg-prod-tag protection">Protection</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Restart Waiver</div>
-<div class="mvg-prod-preview">Waives your remaining balance in qualifying life events to help you start fresh.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgRestartMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgRestartMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt">Requires finance</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-<div class="mvg-prod-card locked" data-type="protection" data-key="holiday">
-<div class="mvg-prod-tag protection">Protection</div>
-<div class="mvg-prod-body">
-<div class="mvg-prod-name">Repayment Holiday</div>
-<div class="mvg-prod-preview">Pause your loan repayments for an approved period when life gets tough.</div>
-<button class="mvg-prod-more-btn" onclick="mvgMore(event,'mvgHolMore')">Read more</button>
-</div>
-<div class="mvg-prod-more-body" id="mvgHolMore">[Read more copy to be provided.]</div>
-<div class="mvg-prod-footer">
-<span class="mvg-prod-amt">Requires finance</span>
-<button class="mvg-select-btn" onclick="mvgSelectProd(this.closest('.mvg-prod-card'))">Select</button>
-</div>
-</div>
-</div>
-<div class="mvg-lock-note" id="mvgLockNote">Select a finance product above to unlock Protection options</div>
-<hr class="mvg-divider">
-<div class="mvg-zone-label">Your Estimate</div>
-<div class="mvg-sticky">
-<div class="mvg-sticky-grp">
-<div id="mvgStickyFinWrap" style="display:none">
-<div class="mvg-sticky-lbl">Finance Estimate</div>
-<div class="mvg-sticky-amt" id="mvgStickyFin">—</div>
-<div class="mvg-sticky-freq" id="mvgStickyFinFreq">per week</div>
-</div>
-<div class="mvg-sticky-div" id="mvgStickyDiv" style="display:none"></div>
-<div>
-<div class="mvg-sticky-lbl">Membership Estimate</div>
-<div class="mvg-sticky-amt" id="mvgStickySub">—</div>
-<div class="mvg-sticky-freq" id="mvgStickySubFreq">per week</div>
-</div>
-</div>
-<div>
-<div class="mvg-freq" id="mvgFreq">
-<button class="mvg-freq-btn active" data-freq="weekly">Weekly</button>
-<button class="mvg-freq-btn" data-freq="fortnightly">Fortnightly</button>
-<button class="mvg-freq-btn" data-freq="monthly">Monthly</button>
-</div>
-</div>
-</div>
-<button class="mvg-collapse-btn" id="mvgCollapseBtn" onclick="mvgToggleCalc()">▼ Show estimate details</button>
-<div class="mvg-calc-body" id="mvgCalcBody">
-<div class="mvg-save-bar">
-<div class="mvg-save-title">Save &amp; Return Later</div>
-<div class="mvg-save-opts">
-<button class="mvg-save-btn" onclick="mvgCopyLink()">
-<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-Copy link
-</button>
-<button class="mvg-save-btn" onclick="mvgOpenModal()">
-<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
-Email me this link
-</button>
-</div>
-<div class="mvg-toast" id="mvgCopyToast">✓ Link copied!</div>
-</div>
-<div class="mvg-section" id="mvgFinCalc">
-<div class="mvg-calc-card">
-<div class="mvg-calc-header">
-<div class="mvg-calc-icon finance">$</div>
-<div class="mvg-calc-title">Finance Calculator</div>
-</div>
-<div class="mvg-calc-body-inner">
-<div class="mvg-three-col">
-<div class="mvg-field">
-<label class="mvg-lbl">Total to borrow</label>
-<div class="mvg-dollar">
-<span class="mvg-dsign">$</span>
-<input class="mvg-input mvg-input-num" type="number" id="mvgLoanAmt" value="20000" min="5000" max="70000" step="500">
-</div>
-<input class="mvg-range" type="range" id="mvgLoanSlider" min="5000" max="70000" step="500" value="20000">
-<div class="mvg-range-labels"><span>$5,000</span><span>$70,000</span></div>
-<div class="mvg-error" id="mvgLoanErr">Enter an amount between $5,000 and $70,000.</div>
-</div>
-<div class="mvg-field">
-<label class="mvg-lbl">Loan term</label>
-<div style="display:flex;align-items:center;gap:.4rem">
-<span class="mvg-range-val" id="mvgTermDisp">66</span>
-<span style="color:var(--ink-soft);font-size:.85rem;margin-top:2px">months</span>
-</div>
-<input class="mvg-range" type="range" id="mvgTermSlider" min="36" max="66" step="1" value="66">
-<div class="mvg-range-labels"><span>36 mo</span><span>66 mo</span></div>
-</div>
-<div class="mvg-field">
-<label class="mvg-lbl">Interest rate</label>
-<div style="display:flex;align-items:center;gap:.4rem">
-<span class="mvg-range-val" id="mvgRateDisp">9.95</span>
-<span style="color:var(--ink-soft);font-size:.85rem;margin-top:2px">% p.a.</span>
-</div>
-<input class="mvg-range" type="range" id="mvgRateSlider" min="7.95" max="29.95" step="0.5" value="9.95">
-<div class="mvg-range-labels"><span>7.95%</span><span>29.95%</span></div>
-<div class="mvg-hint">Your actual rate is determined by your credit assessment.</div>
-</div>
-</div>
-<div class="mvg-finance-out">
-<div class="mvg-out-lbl">Finance Estimate</div>
-<div class="mvg-out-amt" id="mvgFinAmt">—</div>
-<div class="mvg-out-freq" id="mvgFinFreq">per week</div>
-<div class="mvg-disclaimer">Disclaimer text: [Finance disclaimer to be provided.]</div>
-</div>
-</div>
-</div>
-</div>
-<div class="mvg-calc-card">
-<div class="mvg-calc-header">
-<div class="mvg-calc-icon sub">★</div>
-<div class="mvg-calc-title">Membership Calculator</div>
-</div>
-<div class="mvg-calc-body-inner">
-<p class="mvg-intro" id="mvgSubIntro">Your selected membership items are shown below. Costs are spread across your payments.</p>
-<div id="mvgSubEmptyNote" style="display:none;font-size:.82rem;color:var(--ink-muted);padding:.75rem;background:var(--cream);border-radius:var(--radius-sm);text-align:center">No membership items selected yet — choose from the product cards above.</div>
-<div id="mvgSubSelectedList"></div>
-<div class="mvg-sub-total">
-<div class="mvg-sub-total-lbl">Membership Estimate</div>
-<div class="mvg-sub-total-amt" id="mvgSubTotal">—</div>
-</div>
-<div class="mvg-disclaimer">Disclaimer text: [Membership disclaimer to be provided.]</div>
-</div>
-</div>
-<div class="mvg-actions">
-<button class="mvg-btn-review" onclick="mvgGoReview()">Review my plan →</button>
-</div>
-</div>
-</div>
-<div class="mvg-review-view" id="mvgReview">
-<div class="mvg-calc-card">
-<div class="mvg-calc-header">
-<div class="mvg-calc-icon finance">✓</div>
-<div class="mvg-calc-title">Your Plan Summary</div>
-</div>
-<div class="mvg-calc-body-inner">
-<div id="mvgRevFinBlock">
-<span class="mvg-slbl">Finance</span>
-<table class="mvg-rtable" id="mvgRevFin"></table>
-</div>
-<div id="mvgRevProtBlock">
-<span class="mvg-slbl">Protection</span>
-<table class="mvg-rtable" id="mvgRevProt"></table>
-</div>
-<span class="mvg-slbl sub">Membership</span>
-<table class="mvg-rtable" id="mvgRevSub"></table>
-<span class="mvg-slbl">Estimated Costs</span>
-<table class="mvg-rtable" id="mvgRevTotals"></table>
-<div class="mvg-disclaimer" style="margin-top:.9rem">Disclaimer text: [Summary disclaimer to be provided.]</div>
-</div>
-</div>
-<div class="mvg-calc-card">
-<div class="mvg-calc-header">
-<div class="mvg-calc-icon finance contactd">✉</div>
-<div class="mvg-calc-title">Your Contact Details</div>
-</div>
-<div class="mvg-calc-body-inner">
-<p class="mvg-intro">To submit your application, we just need a few details so we can be in touch.</p>
-<div class="mvg-cgrid">
-<div class="mvg-field">
-<label class="mvg-lbl" for="mvgFirst">First Name</label>
-<input class="mvg-input" type="text" id="mvgFirst" placeholder="Jane">
-<div class="mvg-error" id="mvgFirstErr">Please enter your first name.</div>
-</div>
-<div class="mvg-field">
-<label class="mvg-lbl" for="mvgLast">Last Name</label>
-<input class="mvg-input" type="text" id="mvgLast" placeholder="Smith">
-<div class="mvg-error" id="mvgLastErr">Please enter your last name.</div>
-</div>
-<div class="mvg-field">
-<label class="mvg-lbl" for="mvgEmail">Email Address</label>
-<input class="mvg-input" type="email" id="mvgEmail" placeholder="jane@example.com">
-<div class="mvg-error" id="mvgEmailErr">Please enter a valid email address.</div>
-</div>
-<div class="mvg-field">
-<label class="mvg-lbl" for="mvgPhone">Contact Number</label>
-<input class="mvg-input" type="tel" id="mvgPhone" placeholder="021 123 4567">
-<div class="mvg-error" id="mvgPhoneErr">Please enter your contact number.</div>
-</div>
-</div>
-<div class="mvg-legal">By submitting this form you consent to being contacted regarding your enquiry. All estimates are indicative only and do not constitute an offer of finance or membership. Final terms are subject to assessment and approval.</div>
-</div>
-</div>
-<div class="mvg-actions">
-<button class="mvg-btn-back" onclick="mvgGoBack()">← Edit my plan</button>
-<button class="mvg-btn-apply" id="mvgApplyBtn" onclick="mvgSubmit()">
-<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
-Submit Application
-</button>
-</div>
-</div>
-</div>
+  <div class="mvg-modal">
+    <h3>Almost there 👋</h3>
+    <p class="modal-sub">Give us a few details and we'll be in touch to set up your membership.</p>
+    <div class="mvg-field"><label class="mvg-lbl" for="mvgName">Name</label><input class="mvg-input" type="text" id="mvgName" placeholder="Jane Smith"><div class="mvg-error" id="mvgNameErr">Please enter your name.</div></div>
+    <div class="mvg-field"><label class="mvg-lbl" for="mvgPhone">Phone</label><input class="mvg-input" type="tel" id="mvgPhone" placeholder="021 123 4567"><div class="mvg-error" id="mvgPhoneErr">Please enter your phone number.</div></div>
+    <div class="mvg-field"><label class="mvg-lbl" for="mvgEmail">Email</label><input class="mvg-input" type="email" id="mvgEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgEmailErr">Please enter a valid email.</div></div>
+    <div class="mvg-success" id="mvgSuccess">✓ Thanks! We'll be in touch shortly.</div>
+    <div class="modal-btns">
+      <button class="btn btn-outline btn-sm" onclick="mvgCloseModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" id="mvgModalSubmit" onclick="mvgSubmitModal()">Send enquiry</button>
+    </div>
+  </div>
+</div>
+
+<section class="build">
+  <div class="mvg-wrap">
+    <div class="build-head"><h2>Here's what you can get.</h2><p>Mix and match whatever suits your situation. Your estimate builds as you go.</p></div>
+    <div class="categories">
+      <div class="category category--membership" data-category="membership">
+        <button class="category-head" data-toggle="membership" aria-expanded="true">
+          <div class="wonky wonky--md wonky--lime"><span class="emoji">🔧</span></div>
+          <div class="category-title-wrap"><div class="category-title">Membership</div><div class="category-sub">Look after the car you've got, or the one you're financing. Spread across your regular payment.</div></div>
+          <div class="category-chevron">▾</div>
+        </button>
+        <div class="category-summary"><ul class="pill-list" id="membershipPills"></ul></div>
+        <div class="category-body" id="membershipBody"><div class="cards-col" id="membershipGrid"></div></div>
+      </div>
+      <div class="category category--finance" data-category="finance">
+        <button class="category-head" data-toggle="finance" aria-expanded="true">
+          <div class="wonky wonky--md wonky--coral3 wonky--alt"><span class="emoji">🔑</span></div>
+          <div class="category-title-wrap"><div class="category-title">Finance</div><div class="category-sub">Borrow for a car, refinance, or fund repairs. Plus optional loan cover.</div></div>
+          <div class="category-chevron">▾</div>
+        </button>
+        <div class="category-summary"><ul class="pill-list" id="financePills"></ul></div>
+        <div class="category-body" id="financeBody">
+          <div class="cards-col" id="financeGrid"></div>
+          <div class="category-sub-heading">Optional loan cover</div>
+          <div class="addon-notice" id="addonNotice"><span id="addonIcon">🔒</span><span id="addonText">These need a Movogo loan. Pick a finance product above to add them.</span></div>
+          <div class="cards-col" id="addonsGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="estimate-wrap">
+      <div class="estimate">
+        <div class="empty-estimate" id="emptyEstimate">
+          <div class="empty-estimate-label">Your estimate</div>
+          <div class="empty-estimate-amount">$0<span class="estimate-total-freq">per week</span></div>
+          <div class="empty-estimate-prompt">Pick products above to build your estimate, or jump in here:</div>
+          <div class="empty-estimate-cta">
+            <button type="button" class="btn btn-lime" id="ctaConfigureLoan">Configure your loan</button>
+            <button type="button" class="btn-ghost-light" onclick="mvgHandleApply()">Apply now →</button>
+          </div>
+        </div>
+        <div id="filledEstimate" style="display:none">
+          <div class="estimate-top">
+            <div>
+              <div class="estimate-total-label">Your estimate so far</div>
+              <div><span class="estimate-total-amount" id="totalAmount">$0</span><span class="estimate-total-freq" id="totalFreq">per week</span></div>
+              <div class="estimate-payday">Shown by payday. Pick the cadence that matches yours.</div>
+            </div>
+            <div class="freq-toggle" id="freqToggle">
+              <button class="active" data-freq="weekly">Weekly</button>
+              <button data-freq="fortnightly">Fortnightly</button>
+              <button data-freq="monthly">Monthly</button>
+            </div>
+          </div>
+          <div class="estimate-breakdown" id="breakdown"></div>
+          <div class="estimate-guide">This is a rough guide. Your actual cost depends on your car, how far you drive, and your credit assessment for any finance.</div>
+          <div class="estimate-actions">
+            <button class="btn btn-lime" onclick="mvgHandleApply()">Get started →</button>
+            <button class="estimate-clear" id="clearAllBtn">Clear selection</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc hidden" id="financeCalc">
+      <div class="calc-head"><div class="wonky wonky--sm wonky--coral"><span class="emoji" style="font-size:18px">$</span></div><h3>Your finance details</h3></div>
+      <p class="calc-helper">Adjust the values below to see how your regular repayment changes. These are indicative only — your actual offer depends on a credit assessment and the loan documents you agree to.</p>
+      <div class="calc-summary" id="calcSummary">
+        <div><div class="calc-summary-label">Estimated repayment</div><div><span class="calc-summary-amount" id="calcSummaryAmount">$0</span><span class="calc-summary-freq" id="calcSummaryFreq">per week</span></div></div>
+        <div class="calc-summary-cta" id="calcSummaryCta"><span class="calc-summary-cta-text">Not added to your plan yet.</span><button type="button" class="btn btn-lime btn-sm" id="addCarShortcut">Add a car to my plan</button></div>
+      </div>
+      <div class="sliders">
+        <div class="slider-group"><label>Total to borrow</label><div class="slider-value">$<span id="borrowVal">20,000</span></div><input type="range" id="borrowSlider" min="5000" max="70000" step="1000" value="20000"><div class="slider-range"><span>$5,000</span><span>$70,000</span></div></div>
+        <div class="slider-group"><label>Loan term</label><div class="slider-value"><span id="termVal">60</span> <small>months</small></div><input type="range" id="termSlider" min="36" max="72" step="6" value="60"><div class="slider-range"><span>36 mo</span><span>72 mo</span></div></div>
+        <div class="slider-group"><label>Interest rate</label><div class="slider-value"><span id="rateVal">14.95</span><small>% p.a.</small></div><input type="range" id="rateSlider" min="7.95" max="24.95" step="0.5" value="14.95"><div class="slider-range"><span>7.95%</span><span>24.95%</span></div><div class="slider-note">Your actual rate is determined by your credit assessment.</div></div>
+      </div>
+      <div class="disclaimer">This is an estimate, not an offer of credit. Lending is provided by Movogo Finance Limited (NZCN 9357507, NZBN 9429052988677, FSP1011510). Any loan is subject to credit approval, responsible lending assessment, and standard terms and conditions. Under the CCCFA 2003, you have a statutory right to cancel your loan within 7 working days of receiving the disclosure. Movogo Finance Limited is a member of Financial Services Complaints Limited (FSCL) for dispute resolution.</div>
+    </div>
+
+    <div class="calc hidden" id="membershipCalc">
+      <div class="calc-head"><div class="wonky wonky--sm wonky--lime"><span class="emoji" style="font-size:18px">★</span></div><h3>Your membership details</h3></div>
+      <p class="calc-helper">Here's what you've selected. Prices are estimates only, spread evenly across your regular payment.</p>
+      <div class="guide-note">This is a rough guide based on an average vehicle and typical driving patterns. Your actual price depends on your car, where you live, how far you drive, and provider pricing. We'll confirm your exact costs before you sign up.</div>
+      <div class="itemised" id="itemised"></div>
+      <div class="disclaimer">Membership estimates are indicative only. Actual prices will vary depending on your vehicle (make, model, age, fuel type), your address, your distance driven, and provider pricing. This is not a quote or an offer to provide services.</div>
+    </div>
+
+  </div>
+</section>
+
+<section class="howitworks">
+  <div class="mvg-wrap">
+    <h2>How it works.</h2>
+    <p class="subtitle">Two paths, depending on what you need.</p>
+    <div class="path-toggle" id="pathToggle">
+      <button class="active" data-path="finance">If you need finance for a car</button>
+      <button data-path="membership">If you just want the membership</button>
+    </div>
+    <div class="steps" id="steps-finance">
+      <div class="step"><div class="wonky wonky--md wonky--coral wonky--alt"><span class="emoji">📝</span></div><div class="step-num">Step 1</div><h4>Apply online or give us a call.</h4><p>Tell us about your situation. It takes about ten minutes.</p></div>
+      <div class="step"><div class="wonky wonky--md wonky--lime wonky--alt2"><span class="emoji">📞</span></div><div class="step-num">Step 2</div><h4>We talk it through with you.</h4><p>Our team checks the details, answers your questions, and confirms what you're approved for.</p></div>
+      <div class="step"><div class="wonky wonky--md wonky--blue wonky--alt3"><span class="emoji">🔑</span></div><div class="step-num">Step 3</div><h4>Get approved and drive away.</h4><p>We handle the paperwork and get you on the road.</p></div>
+    </div>
+    <div class="steps" id="steps-membership" style="display:none">
+      <div class="step"><div class="wonky wonky--md wonky--lime wonky--alt"><span class="emoji">✅</span></div><div class="step-num">Step 1</div><h4>Choose the products you need.</h4><p>Pick from rego, WOFs, servicing, insurance, and more. Build your estimate above.</p></div>
+      <div class="step"><div class="wonky wonky--md wonky--coral wonky--alt2"><span class="emoji">🚘</span></div><div class="step-num">Step 2</div><h4>Tell us about your car.</h4><p>A few details about your vehicle so we can set up reminders and book things in.</p></div>
+      <div class="step"><div class="wonky wonky--md wonky--blue wonky--alt3"><span class="emoji">🧰</span></div><div class="step-num">Step 3</div><h4>We take care of the admin.</h4><p>From your first regular payment, we organise the services your car needs, on time, every time.</p></div>
+    </div>
+  </div>
+</section>
 `;
 
-  /* ── Logic ── */
-  const FREQS={weekly:52,fortnightly:26,monthly:12};
-  const FL={weekly:'per week',fortnightly:'per fortnight',monthly:'per month'};
-  const SUB_NAMES={wof:'WoF / CoF',rego:'Registration',ruc:'Road User Charges',service:'Servicing & Repairs',tyres:'Tyres & Repairs',roadside:'Roadside Assistance',insurance:'Insurance'};
-  const PROT_NAMES={mbi:'MBI',work:'Work Waiver',health:'Health Waiver',restart:'Restart Waiver',holiday:'Repayment Holiday'};
-  const EST=200,MGMT=6,HW_P=.095,HW_F=50,WW_P=.145,WW_F=50,RW_P=.0005,RW_F=385;
+  /* ── Helpers ── */
+  const el = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString('en-NZ');
+  const fmtAmt = n => '$' + (Math.round(n*100)/100).toFixed(2);
+  const hasLoan = () => FINANCE_LOANS.some(p => S.selected.has(p.id));
+  const hasAnyMem = () => MEMBERSHIP.some(p => S.selected.has(p.id) && !p.soon && p.price !== null);
 
-  let S={
-    loan:20000,term:66,rate:9.95,freq:'weekly',
-    finance:{buy:false,refinance:false,repairs:false},
-    protection:{mbi:false,work:false,health:false,restart:false,holiday:false},
-    subs:{wof:false,rego:false,ruc:false,service:false,tyres:false,roadside:false,insurance:false}
-  };
-
-  const fmt=n=>'$'+n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');
-  const fmtI=n=>'$'+Math.round(n).toLocaleString();
-  const el=id=>document.getElementById(id);
-
-  function pmt(r,n,pv){return r===0?pv/n:(r*pv)/(1-Math.pow(1+r,-n));}
-  function hasFinance(){return Object.values(S.finance).some(v=>v);}
-
-  function calcFinance(){
-    if(!hasFinance()||S.loan<5000||S.loan>70000)return null;
-    const r=Math.pow(1+S.rate/100/365,365/12)-1;
-    const ppy=FREQS[S.freq];
-    const baseMo=pmt(r,S.term,S.loan+EST);
-    const baseWk=baseMo*12/52;
-    const hC=S.protection.health?S.term*baseWk*HW_P+HW_F:0;
-    const wC=S.protection.work?S.term*baseWk*WW_P+WW_F:0;
-    const rC=S.protection.restart?S.term*S.loan*RW_P+RW_F:0;
-    const tw=hC+wC+rC;
-    const ff=S.loan+EST+tw;
-    const fm=pmt(r,S.term,ff)+MGMT;
-    return{periodic:fm*12/ppy,hC,wC,rC,tw,ff,totalRep:fm*S.term};
+  function calcFinanceWeekly() {
+    const r = S.rate/100/12, n = S.term;
+    return ((S.borrow * r) / (1 - Math.pow(1+r,-n))) * 12/52;
   }
 
-  function calcSub(){
-    const ppy=FREQS[S.freq];
-    let annual=0;
-    document.querySelectorAll('#mvgGallery .mvg-prod-card.sub-card.selected').forEach(c=>{
-      annual+=parseFloat(c.dataset.annual)||0;
-    });
-    return{annual,periodic:annual/ppy};
+  function cardHTML(p, disabled) {
+    const sel = S.selected.has(p.id);
+    let sticker = '';
+    if (p.soon) sticker = '<div class="card-sticker card-sticker--soon">Coming soon</div>';
+    else if (p.requiresFinance && disabled) sticker = '<div class="card-sticker card-sticker--requires">Needs a loan</div>';
+    const m = FREQ_MULT[S.freq], suf = FREQ_SUFFIX[S.freq];
+    let priceHTML = p.soon ? '<div class="pricing-note">Pricing TBC</div>'
+      : p.price != null ? `<div class="card-price"><span class="price-prefix">Around</span>$${(p.price*m).toFixed(2)}<small>${suf}</small></div>`
+      : p.requiresFinance ? '<div class="pricing-note">Included with loan</div>'
+      : '<div class="pricing-note">Calculated at quote</div>';
+    return `<div class="${['card',sel?'selected':'',disabled?'disabled':''].filter(Boolean).join(' ')}" data-id="${p.id}">
+      <div class="card-wonky"><div class="wonky wonky--md ${p.wonky}"><span class="emoji">${p.emoji}</span></div></div>
+      ${sticker}
+      <div class="card-body">
+        <h3>${p.title}</h3>
+        ${p.subtitle?`<div class="card-subtitle">${p.subtitle}</div>`:''}
+        <p>${p.desc}</p>
+        <a class="card-learn" href="${productUrl(p.id)}" onclick="event.stopPropagation()">Learn more →</a>
+        <div class="card-foot">${priceHTML}<button class="select-btn" ${disabled?'disabled':''} aria-label="${sel?'Deselect':'Select'} ${p.title}"></button></div>
+      </div></div>`;
   }
 
-  function update(){
-    const hf=hasFinance();
-    const F=calcFinance();
-    const Sub=calcSub();
-    const fl=FL[S.freq];
-    const ppy=FREQS[S.freq];
-
-    if(hf&&F){
-      el('mvgStickyFinWrap').style.display='';
-      el('mvgStickyDiv').style.display='';
-      el('mvgStickyFin').textContent=fmt(F.periodic);
-      el('mvgStickyFinFreq').textContent=fl;
-    } else {
-      el('mvgStickyFinWrap').style.display='none';
-      el('mvgStickyDiv').style.display='none';
-    }
-    el('mvgStickySub').textContent=fmt(Sub.periodic);
-    el('mvgStickySubFreq').textContent=fl;
-    el('mvgFinCalc').classList.toggle('show',hf);
-
-    if(hf&&F){
-      el('mvgFinAmt').textContent=fmt(F.periodic);
-      el('mvgFinFreq').textContent=fl;
-    }
-
-    const finPeriodic=hf&&F?F.periodic:null;
-    ['buy','refinance','repairs'].forEach(k=>{
-      const amEl=el('mvg'+k.charAt(0).toUpperCase()+k.slice(1)+'Amt');
-      if(amEl) amEl.textContent=finPeriodic?fmt(finPeriodic)+' est. '+fl:'—';
-    });
-
-    document.querySelectorAll('#mvgGallery .mvg-prod-card.sub-card').forEach(c=>{
-      const annual=parseFloat(c.dataset.annual)||0;
-      const amEl=c.querySelector('[data-sub-amt]');
-      if(amEl&&annual>0) amEl.textContent=fmt(annual/ppy)+' est. '+fl;
-    });
-
-    const selSubs=[];
-    document.querySelectorAll('#mvgGallery .mvg-prod-card.sub-card.selected').forEach(c=>{
-      const key=c.dataset.key;
-      const annual=parseFloat(c.dataset.annual)||0;
-      const amtStr=annual>0?fmt(annual/ppy)+' '+fl:'TBC';
-      selSubs.push(`<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.86rem"><span style="color:var(--ink-soft)">${SUB_NAMES[key]||key}</span><span style="color:var(--coral);font-variant-numeric:tabular-nums">${amtStr}</span></div>`);
-    });
-
-    const listEl=el('mvgSubSelectedList');
-    const emptyEl=el('mvgSubEmptyNote');
-    if(selSubs.length){
-      listEl.innerHTML=selSubs.join('');
-      listEl.style.display='';
-      emptyEl.style.display='none';
-    } else {
-      listEl.innerHTML='';
-      listEl.style.display='none';
-      emptyEl.style.display='';
-    }
-    el('mvgSubTotal').textContent=fmt(Sub.periodic)+' '+fl;
+  function renderGrids() {
+    const loan = hasLoan();
+    el('membershipGrid').innerHTML = MEMBERSHIP.map(p => cardHTML(p,false)).join('');
+    el('financeGrid').innerHTML = FINANCE_LOANS.map(p => cardHTML(p,false)).join('');
+    el('addonsGrid').innerHTML = FINANCE_ADDONS.map(p => cardHTML(p,!loan)).join('');
+    el('addonNotice').classList.toggle('active',loan);
+    el('addonText').textContent = loan ? "Great — you've got a loan. You can now add these optional covers." : "These need a Movogo loan. Pick a finance product above to add them.";
+    el('addonIcon').textContent = loan ? '✨' : '🔒';
+    attachCardHandlers(); renderPills();
   }
 
-  /* ── Global functions (called from inline onclick) ── */
-  window.mvgFilter=function(btn){
-    const f=btn.dataset.filter;
-    document.querySelectorAll('.mvg-filter-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('#mvgGallery .mvg-prod-card').forEach(c=>{
-      if(f==='all') c.classList.remove('hidden');
-      else c.classList.toggle('hidden',c.dataset.type!==f);
+  function renderPills() {
+    const loan = hasLoan();
+    const ph = (p, dis) => `<li class="${[S.selected.has(p.id)?'selected':'',dis?'disabled':''].filter(Boolean).join(' ')}" data-id="${p.id}" data-disabled="${dis}">${p.pill}</li>`;
+    el('membershipPills').innerHTML = MEMBERSHIP.map(p=>ph(p,false)).join('');
+    el('financePills').innerHTML = [...FINANCE_LOANS.map(p=>ph(p,false)),...FINANCE_ADDONS.map(p=>ph(p,!loan))].join('');
+    document.querySelectorAll('#mvg-root .pill-list li').forEach(li => li.addEventListener('click',()=>{ if(li.dataset.disabled==='true')return; toggleSelect(li.dataset.id); }));
+  }
+
+  function attachCardHandlers() {
+    document.querySelectorAll('#mvg-root .card').forEach(card => {
+      if (card.classList.contains('disabled')) return;
+      card.addEventListener('click', e => { if(e.target.classList.contains('card-learn'))return; toggleSelect(card.dataset.id); });
     });
-  };
+  }
 
-  window.mvgSelectProd=function(card){
-    if(card.classList.contains('locked'))return;
-    card.classList.toggle('selected');
-    const key=card.dataset.key;
-    const type=card.dataset.type;
-    const sel=card.classList.contains('selected');
-    const btn=card.querySelector('.mvg-select-btn');
-    if(btn) btn.textContent=sel?'Selected':'Select';
+  function toggleSelect(id) {
+    if (S.selected.has(id)) { S.selected.delete(id); if(!hasLoan()) FINANCE_ADDONS.forEach(p=>S.selected.delete(p.id)); }
+    else S.selected.add(id);
+    renderGrids(); renderEstimate();
+  }
 
-    if(type==='finance'){
-      S.finance[key]=sel;
-      const hf=hasFinance();
-      document.querySelectorAll('#mvgGallery .mvg-prod-card[data-type="protection"]').forEach(c=>{
-        c.classList.toggle('locked',!hf);
-        const fb=c.querySelector('.mvg-prod-footer .mvg-prod-amt');
-        if(fb&&!c.dataset.annual) fb.textContent=hf?'Selected product':'Requires finance';
+  function renderEstimate() {
+    const loan = hasLoan(), mem = hasAnyMem();
+    const m = FREQ_MULT[S.freq], fl = FREQ_LABEL[S.freq];
+    const finW = loan ? calcFinanceWeekly() : 0;
+    const memW = MEMBERSHIP.filter(p=>S.selected.has(p.id)&&!p.soon&&p.price!==null).reduce((a,p)=>a+p.price,0);
+    const any = S.selected.size > 0;
+    el('emptyEstimate').style.display = any ? 'none' : 'block';
+    el('filledEstimate').style.display = any ? 'block' : 'none';
+    if (any) {
+      el('totalAmount').textContent = fmtAmt((finW+memW)*m);
+      el('totalFreq').textContent = fl;
+      const parts = [];
+      if (loan) parts.push(`<div><span class="label">Finance</span><span class="amount">${fmtAmt(finW*m)}</span></div>`);
+      if (mem) parts.push(`<div><span class="label">Membership</span><span class="amount">${fmtAmt(memW*m)}</span></div>`);
+      el('breakdown').innerHTML = parts.join('');
+    }
+    el('financeCalc').classList.toggle('hidden', !loan && !S.financeCalcOpen);
+    el('membershipCalc').classList.toggle('hidden', !mem);
+    const liveW = calcFinanceWeekly();
+    el('calcSummaryAmount').textContent = fmtAmt(liveW*m);
+    el('calcSummaryFreq').textContent = fl;
+    el('calcSummary').classList.toggle('in-plan',loan);
+    el('calcSummaryCta').querySelector('.calc-summary-cta-text').textContent = loan ? 'Added to your plan.' : 'Not added to your plan yet.';
+    el('addCarShortcut').style.display = loan ? 'none' : 'inline-flex';
+    if (mem) {
+      const items = MEMBERSHIP.filter(p=>S.selected.has(p.id)&&!p.soon&&p.price!==null);
+      const tbc = MEMBERSHIP.filter(p=>S.selected.has(p.id)&&(p.soon||p.price===null));
+      el('itemised').innerHTML = items.map(p=>`<div class="itemised-row"><span class="item">${p.title}</span><span class="amt">${fmtAmt(p.price*m)} ${fl}</span></div>`).join('')
+        + tbc.map(p=>`<div class="itemised-row"><span class="item">${p.title}</span><span class="amt" style="color:var(--ink-f)">TBC</span></div>`).join('')
+        + `<div class="itemised-total"><span>Membership estimate</span><span>${fmtAmt(memW*m)} ${fl}</span></div>`;
+    }
+  }
+
+  /* ── Apply routing ── */
+  window.mvgHandleApply = function() {
+    if (hasLoan()) {
+      const p = new URLSearchParams({
+        finance: FINANCE_LOANS.filter(p=>S.selected.has(p.id)).map(p=>p.id).join(','),
+        addons:  FINANCE_ADDONS.filter(p=>S.selected.has(p.id)).map(p=>p.id).join(','),
+        membership: MEMBERSHIP.filter(p=>S.selected.has(p.id)).map(p=>p.id).join(','),
+        borrow: S.borrow, term: S.term, rate: S.rate, freq: S.freq
       });
-      el('mvgLockNote').style.display=hf?'none':'block';
-      if(!hf){
-        document.querySelectorAll('#mvgGallery .mvg-prod-card[data-type="protection"].selected').forEach(c=>{
-          c.classList.remove('selected');
-          const b=c.querySelector('.mvg-select-btn');
-          if(b) b.textContent='Select';
-          S.protection[c.dataset.key]=false;
-        });
-      }
-    } else if(type==='protection'){
-      S.protection[key]=sel;
-    } else if(type==='sub'){
-      S.subs[key]=sel;
+      window.location.href = 'https://apply.movogo.co.nz/?' + p.toString();
+    } else if (S.selected.size > 0) {
+      mvgOpenModal();
+    } else {
+      document.querySelector('#mvg-root .build-head').scrollIntoView({behavior:'smooth'});
     }
-    pushHash(); update();
   };
 
-  window.mvgMore=function(e,id){
-    e.stopPropagation();
-    const body=el(id);
-    body.classList.toggle('show');
-    e.target.textContent=body.classList.contains('show')?'Close':'Read more';
-  };
+  /* ── Modal ── */
+  window.mvgOpenModal = function() { el('mvgModal').classList.add('show'); el('mvgSuccess').classList.remove('show'); const b=el('mvgModalSubmit'); b.disabled=false; b.textContent='Send enquiry'; };
+  window.mvgCloseModal = function() { el('mvgModal').classList.remove('show'); };
+  el('mvgModal').addEventListener('click', e => { if(e.target===el('mvgModal'))mvgCloseModal(); });
 
-  window.mvgToggleCalc=function(){
-    const body=el('mvgCalcBody');
-    const btn=el('mvgCollapseBtn');
-    body.classList.toggle('open');
-    btn.textContent=body.classList.contains('open')?'▲ Hide estimate details':'▼ Show estimate details';
-  };
-
-  window.mvgGoReview=function(){
-    const hf=hasFinance();
-    if(hf&&(S.loan<5000||S.loan>70000)){
-      el('mvgLoanErr').classList.add('show');
-      el('mvgLoanAmt').scrollIntoView({behavior:'smooth'});
-      return;
-    }
-    pushHash(); buildReview();
-    el('mvgBuilder').classList.add('hide');
-    el('mvgReview').classList.add('show');
-    el('mvg-root').scrollIntoView({behavior:'smooth'});
-  };
-
-  window.mvgGoBack=function(){
-    el('mvgBuilder').classList.remove('hide');
-    el('mvgReview').classList.remove('show');
-    el('mvg-root').scrollIntoView({behavior:'smooth'});
-  };
-
-  function buildReview(){
-    const hf=hasFinance();
-    const F=hf?calcFinance():null;
-    const Sub=calcSub();
-    const fl=FL[S.freq];
-    const ppy=FREQS[S.freq];
-
-    el('mvgRevFinBlock').style.display=hf?'':'none';
-    if(hf&&F){
-      const selFin=Object.entries(S.finance).filter(([,v])=>v).map(([k])=>k==='buy'?'Buy next car':k==='refinance'?'Refinance existing loan':'Fund repairs').join(', ');
-      el('mvgRevFin').innerHTML=`<tr><td>Finance products</td><td>${selFin}</td></tr>
-<tr><td>Total to borrow</td><td>${fmtI(S.loan)}</td></tr>
-<tr><td>Term</td><td>${S.term} months</td></tr>
-<tr><td>Indicative rate</td><td>${S.rate}% p.a.</td></tr>
-<tr class="mvg-tot"><td><strong>Finance Estimate</strong></td><td><strong>${fmt(F.periodic)} ${fl}</strong></td></tr>`;
-    }
-
-    el('mvgRevProtBlock').style.display=hf?'':'none';
-    if(hf){
-      const sp=Object.entries(S.protection).filter(([,v])=>v);
-      el('mvgRevProt').innerHTML=sp.length
-        ?sp.map(([k])=>`<tr><td>${PROT_NAMES[k]}</td><td>${k==='mbi'?'<em style="color:var(--gold)">Quote required</em>':'Selected'}</td></tr>`).join('')
-        :`<tr><td colspan="2" style="color:var(--ink-muted)">No protection selected</td></tr>`;
-    }
-
-    const selSubCards=[];
-    document.querySelectorAll('#mvgGallery .mvg-prod-card.sub-card.selected').forEach(c=>{
-      const annual=parseFloat(c.dataset.annual)||0;
-      selSubCards.push(`<tr><td>${SUB_NAMES[c.dataset.key]||c.dataset.key}</td><td>${annual>0?fmt(annual/ppy)+' '+fl:'TBC'}</td></tr>`);
-    });
-    el('mvgRevSub').innerHTML=selSubCards.length
-      ?selSubCards.join('')+`<tr class="mvg-tot"><td><strong>Membership Estimate</strong></td><td><strong>${fmt(Sub.periodic)} ${fl}</strong></td></tr>`
-      :`<tr><td colspan="2" style="color:var(--ink-muted)">No membership items selected</td></tr>`;
-
-    let tots='';
-    if(hf&&F) tots+=`<tr><td>Finance estimate</td><td>${fmt(F.periodic)} ${fl}</td></tr>`;
-    tots+=`<tr><td>Membership estimate</td><td>${fmt(Sub.periodic)} ${fl}</td></tr>`;
-    if(hf&&F){
-      tots+=`<tr class="mvg-tot"><td><strong>Combined estimate</strong></td><td><strong>${fmt(F.periodic+Sub.periodic)} ${fl}</strong></td></tr>`;
-      tots+=`<tr><td style="font-size:.74rem;color:var(--ink-muted)">Est. total repayable (finance)</td><td style="font-size:.74rem;color:var(--ink-muted)">${fmt(F.totalRep)}</td></tr>`;
-    }
-    el('mvgRevTotals').innerHTML=tots;
-  }
-
-  window.mvgSubmit=async function(){
-    const first=el('mvgFirst').value.trim(),last=el('mvgLast').value.trim();
-    const email=el('mvgEmail').value.trim(),phone=el('mvgPhone').value.trim();
+  window.mvgSubmitModal = async function() {
+    const name=el('mvgName').value.trim(), phone=el('mvgPhone').value.trim(), email=el('mvgEmail').value.trim();
     let ok=true;
-    const tog=(id,s)=>el(id).classList.toggle('show',s);
-    if(!first){tog('mvgFirstErr',true);ok=false;}else tog('mvgFirstErr',false);
-    if(!last){tog('mvgLastErr',true);ok=false;}else tog('mvgLastErr',false);
-    if(!email||!email.includes('@')){tog('mvgEmailErr',true);ok=false;}else tog('mvgEmailErr',false);
-    if(!phone){tog('mvgPhoneErr',true);ok=false;}else tog('mvgPhoneErr',false);
+    [[name,'mvgNameErr','mvgName'],[phone,'mvgPhoneErr','mvgPhone'],[email&&email.includes('@')?email:'',' mvgEmailErr','mvgEmail']].forEach(([v,errId,inId])=>{
+      if(!v){el(errId.trim()).classList.add('show');el(inId).classList.add('error');ok=false;}
+      else{el(errId.trim()).classList.remove('show');el(inId).classList.remove('error');}
+    });
     if(!ok)return;
-
-    const hf=hasFinance();
-    const F=hf?calcFinance():null;
-    const Sub=calcSub();
-    const fl=FL[S.freq];
-    const selFin=Object.entries(S.finance).filter(([,v])=>v).map(([k])=>k).join(', ')||'None';
-    const selProt=Object.entries(S.protection).filter(([,v])=>v).map(([k])=>PROT_NAMES[k]).join(', ')||'None';
-    const selSubs=[];
-    document.querySelectorAll('#mvgGallery .mvg-prod-card.sub-card.selected').forEach(c=>selSubs.push(SUB_NAMES[c.dataset.key]||c.dataset.key));
-
-    const btn=el('mvgApplyBtn');
-    btn.textContent='Sending…'; btn.disabled=true;
-
-    const payload={name:`${first} ${last}`,email,phone,frequency:S.freq,
-      finance_products:selFin,protection_selected:selProt,
-      membership_items:selSubs.join(', ')||'None',
-      membership_estimate:fmt(Sub.periodic)+' '+fl};
-    if(hf&&F){
-      payload.loan_amount=fmtI(S.loan);
-      payload.loan_term=S.term+' months';
-      payload.indicative_rate=S.rate+'% p.a.';
-      payload.finance_estimate=fmt(F.periodic)+' '+fl;
-      payload.total_repayable=fmt(F.totalRep);
-      if(Sub.periodic>0) payload.combined_estimate=fmt(F.periodic+Sub.periodic)+' '+fl;
-    }
-
-    try{
-      const res=await fetch('https://formspree.io/f/xeeryage',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
-      if(res.ok){btn.innerHTML='✓ Application Submitted';btn.style.background='var(--lime)';btn.style.color='var(--ink)';}
+    const btn=el('mvgModalSubmit'); btn.textContent='Sending…'; btn.disabled=true;
+    const memKeys=MEMBERSHIP.filter(p=>S.selected.has(p.id)).map(p=>p.title);
+    const memW=MEMBERSHIP.filter(p=>S.selected.has(p.id)&&!p.soon&&p.price!==null).reduce((a,p)=>a+p.price,0);
+    try {
+      const res=await fetch('https://formspree.io/f/xeeryage',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name,phone,email,frequency:S.freq,membership_items:memKeys.join(', ')||'None',membership_estimate:fmtAmt(memW*FREQ_MULT[S.freq])+' '+FREQ_LABEL[S.freq]})});
+      if(res.ok){el('mvgSuccess').classList.add('show');btn.textContent='✓ Sent';}
       else throw new Error();
-    }catch{btn.textContent='Submit Application';btn.disabled=false;alert('Something went wrong. Please try again.');}
+    } catch { btn.textContent='Send enquiry'; btn.disabled=false; alert('Something went wrong. Please try again or email join@movogo.co.nz'); }
   };
 
-  /* ── Hash save/restore ── */
-  function toHash(){
-    const fk=Object.entries(S.finance).map(([,v])=>v?1:0).join('');
-    const pk=Object.entries(S.protection).map(([,v])=>v?1:0).join('');
-    const sk=Object.entries(S.subs).map(([,v])=>v?1:0).join('');
-    return`mvg3-l=${S.loan}&t=${S.term}&r=${S.rate}&f=${S.freq}&fi=${fk}&pr=${pk}&s=${sk}`;
+  /* ── Controls ── */
+  el('freqToggle').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b)return; document.querySelectorAll('#freqToggle button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); S.freq=b.dataset.freq; renderGrids(); renderEstimate(); });
+  el('borrowSlider').addEventListener('input',function(){ S.borrow=parseInt(this.value); el('borrowVal').textContent=fmt(S.borrow); renderEstimate(); });
+  el('termSlider').addEventListener('input',function(){ S.term=parseInt(this.value); el('termVal').textContent=S.term; renderEstimate(); });
+  el('rateSlider').addEventListener('input',function(){ S.rate=parseFloat(this.value); el('rateVal').textContent=S.rate.toFixed(2); renderEstimate(); });
+  el('pathToggle').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b)return; document.querySelectorAll('#pathToggle button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); S.path=b.dataset.path; el('steps-finance').style.display=S.path==='finance'?'grid':'none'; el('steps-membership').style.display=S.path==='membership'?'grid':'none'; });
+
+  function applyExpanded(key) {
+    const cat=document.querySelector(`#mvg-root .category[data-category="${key}"]`); if(!cat)return;
+    cat.classList.toggle('expanded',S.expanded[key]);
+    const body=el(key+'Body'); if(body)body.classList.toggle('collapsed',!S.expanded[key]);
+    const btn=cat.querySelector('.category-head'); if(btn)btn.setAttribute('aria-expanded',String(S.expanded[key]));
   }
+  document.querySelectorAll('#mvg-root [data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{ S.expanded[btn.dataset.toggle]=!S.expanded[btn.dataset.toggle]; applyExpanded(btn.dataset.toggle); }));
+  applyExpanded('membership'); applyExpanded('finance');
+  document.querySelectorAll('#mvg-root .category').forEach(c=>c.classList.add('expanded'));
 
-  function pushHash(){
-    history.replaceState(null,'',window.location.href.split('#')[0]+'#'+toHash());
-  }
+  el('ctaConfigureLoan').addEventListener('click',()=>{ S.financeCalcOpen=true; S.expanded.finance=true; applyExpanded('finance'); renderEstimate(); setTimeout(()=>el('financeCalc').scrollIntoView({behavior:'smooth',block:'start'}),50); });
+  el('addCarShortcut').addEventListener('click',()=>{ if(!S.selected.has('buy')){S.selected.add('buy');renderGrids();renderEstimate();} });
+  el('clearAllBtn').addEventListener('click',()=>{ if(!S.selected.size)return; if(!confirm('Clear your current selection? This will reset your estimate.'))return; S.selected.clear(); S.financeCalcOpen=false; renderGrids(); renderEstimate(); });
 
-  function fromHash(){
-    const h=window.location.hash;
-    if(!h||!h.includes('mvg3-l='))return;
-    const p={};
-    h.slice(1).split('&').forEach(pair=>{const[k,v]=pair.split('=');p[k]=v;});
-    if(p['mvg3-l']){S.loan=parseInt(p['mvg3-l']);el('mvgLoanAmt').value=S.loan;el('mvgLoanSlider').value=S.loan;}
-    if(p.t){S.term=parseInt(p.t);el('mvgTermSlider').value=S.term;el('mvgTermDisp').textContent=S.term;}
-    if(p.r){S.rate=parseFloat(p.r);el('mvgRateSlider').value=S.rate;el('mvgRateDisp').textContent=S.rate;}
-    if(p.f&&FREQS[p.f]){
-      S.freq=p.f;
-      document.querySelectorAll('.mvg-freq-btn').forEach(b=>b.classList.toggle('active',b.dataset.freq===p.f));
-    }
-    const finKeys=['buy','refinance','repairs'];
-    const protKeys=['mbi','work','health','restart','holiday'];
-    const subKeys=['wof','rego','ruc','service','tyres','roadside','insurance'];
-    if(p.fi&&p.fi.length>=3){
-      finKeys.forEach((k,i)=>{if(p.fi[i]==='1'){S.finance[k]=true;const c=document.querySelector(`[data-key="${k}"]`);if(c){c.classList.add('selected');const b=c.querySelector('.mvg-select-btn');if(b)b.textContent='Selected';}}});
-    }
-    if(p.pr&&p.pr.length>=5){
-      protKeys.forEach((k,i)=>{if(p.pr[i]==='1'){S.protection[k]=true;const c=document.querySelector(`[data-type="protection"][data-key="${k}"]`);if(c){c.classList.remove('locked');c.classList.add('selected');const b=c.querySelector('.mvg-select-btn');if(b)b.textContent='Selected';}}});
-    }
-    if(p.s&&p.s.length>=7){
-      subKeys.forEach((k,i)=>{if(p.s[i]==='1'){S.subs[k]=true;const c=document.querySelector(`[data-type="sub"][data-key="${k}"]`);if(c){c.classList.add('selected');const b=c.querySelector('.mvg-select-btn');if(b)b.textContent='Selected';}}});
-    }
-    if(hasFinance()){
-      document.querySelectorAll('[data-type="protection"]').forEach(c=>c.classList.remove('locked'));
-      el('mvgLockNote').style.display='none';
-    }
-  }
+  (function applyUrlParams(){
+    const p=new URLSearchParams(window.location.search);
+    const add=p.get('add'), rem=p.get('remove');
+    const ids=ALL_PRODUCTS.map(x=>x.id);
+    if(add&&ids.includes(add)) S.selected.add(add);
+    if(rem&&ids.includes(rem)) S.selected.delete(rem);
+  })();
 
-  /* ── Event listeners ── */
-  el('mvgLoanAmt').addEventListener('input',function(){S.loan=parseFloat(this.value)||0;el('mvgLoanSlider').value=Math.min(70000,Math.max(5000,S.loan));el('mvgLoanErr').classList.remove('show');pushHash();update();});
-  el('mvgLoanSlider').addEventListener('input',function(){S.loan=parseInt(this.value);el('mvgLoanAmt').value=S.loan;pushHash();update();});
-  el('mvgTermSlider').addEventListener('input',function(){S.term=parseInt(this.value);el('mvgTermDisp').textContent=S.term;pushHash();update();});
-  el('mvgRateSlider').addEventListener('input',function(){S.rate=parseFloat(this.value);el('mvgRateDisp').textContent=S.rate;pushHash();update();});
-  el('mvgFreq').addEventListener('click',function(e){const b=e.target.closest('.mvg-freq-btn');if(!b)return;document.querySelectorAll('.mvg-freq-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');S.freq=b.dataset.freq;pushHash();update();});
-  el('mvgModal').addEventListener('click',function(e){if(e.target===this)mvgCloseModal();});
-
-  window.mvgCopyLink=function(){pushHash();navigator.clipboard.writeText(window.location.href).then(()=>{const t=el('mvgCopyToast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}).catch(()=>prompt('Copy this link:',window.location.href));};
-  window.mvgOpenModal=function(){pushHash();el('mvgModal').classList.add('show');el('mvgEmailToast').classList.remove('show');};
-  window.mvgCloseModal=function(){el('mvgModal').classList.remove('show');};
-  window.mvgSendEmail=function(){
-    const email=el('mvgSaveEmail').value.trim();
-    if(!email||!email.includes('@')){alert('Please enter a valid email address.');return;}
-    window.location.href=`mailto:${email}?subject=${encodeURIComponent('Your MOVOGO Plan')}&body=${encodeURIComponent('Here\'s a link to your MOVOGO plan:\n\n'+window.location.href)}`;
-    el('mvgEmailToast').classList.add('show');
-    setTimeout(mvgCloseModal,2500);
-  };
-
-  fromHash();
-  update();
+  renderGrids(); renderEstimate();
 
 })();
