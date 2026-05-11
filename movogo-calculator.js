@@ -159,16 +159,17 @@
 #mvg-root .mvg-overlay.show{display:flex;}
 #mvg-root .mvg-modal{background:var(--paper);border-radius:var(--rl);padding:32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
 #mvg-root .mvg-modal h3{font-size:22px;font-weight:800;color:var(--g900);margin-bottom:6px;}
+#mvg-root .modal-cancel{background:none;border:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--g900);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;}
 #mvg-root .mvg-modal .modal-sub{font-size:14px;color:#333;font-weight:600;margin-bottom:22px;line-height:1.4;}
 #mvg-root .mvg-field{margin-bottom:14px;}
 #mvg-root .mvg-lbl{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#333;margin-bottom:5px;}
-#mvg-root .mvg-input{width:100%;padding:12px 18px;border-radius:999px;border:2px solid var(--line);font-size:15px;font-family:inherit;color:var(--ink);background:#fff;outline:none;transition:border-color 0.15s;font-weight:600;}
-#mvg-root .mvg-input:focus{border-color:var(--g900);}
+#mvg-root .mvg-input{width:100%;padding:12px 18px;border-radius:999px;border:2px solid var(--g900);font-size:15px;font-family:inherit;color:var(--ink);background:#fff;outline:none;transition:border-color 0.15s;font-weight:600;}
+#mvg-root .mvg-input:focus{border-color:var(--lime);outline:none;}
 #mvg-root .mvg-input.error{border-color:var(--coral);}
 #mvg-root .mvg-error{font-size:12px;color:var(--coral);font-weight:600;margin-top:4px;display:none;padding-left:18px;}
 #mvg-root .mvg-error.show{display:block;}
-#mvg-root .modal-btns{display:flex;gap:10px;margin-top:20px;}
-#mvg-root .modal-btns .btn{flex:1;justify-content:center;}
+#mvg-root .modal-btns{display:flex;align-items:center;gap:16px;margin-top:20px;}
+#mvg-root .modal-btns .btn{justify-content:center;}
 #mvg-root .mvg-success{display:none;background:var(--lime1);border:2px solid var(--lime);border-radius:var(--rm);padding:16px 20px;margin-top:14px;color:var(--g900);font-size:14px;font-weight:600;}
 #mvg-root .mvg-success.show{display:block;}
 `;
@@ -218,15 +219,15 @@
   root.innerHTML = `
 <div class="mvg-overlay" id="mvgModal">
   <div class="mvg-modal">
-    <h3>Almost there 👋</h3>
+    <h3>Almost there</h3>
     <p class="modal-sub">Give us a few details and we'll be in touch to set up your membership.</p>
     <div class="mvg-field"><label class="mvg-lbl" for="mvgName">Name</label><input class="mvg-input" type="text" id="mvgName" placeholder="Jane Smith"><div class="mvg-error" id="mvgNameErr">Please enter your name.</div></div>
     <div class="mvg-field"><label class="mvg-lbl" for="mvgPhone">Phone</label><input class="mvg-input" type="tel" id="mvgPhone" placeholder="021 123 4567"><div class="mvg-error" id="mvgPhoneErr">Please enter your phone number.</div></div>
     <div class="mvg-field"><label class="mvg-lbl" for="mvgEmail">Email</label><input class="mvg-input" type="email" id="mvgEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgEmailErr">Please enter a valid email.</div></div>
     <div class="mvg-success" id="mvgSuccess">✓ Thanks! We'll be in touch shortly.</div>
     <div class="modal-btns">
-      <button class="btn btn-outline btn-sm" onclick="mvgCloseModal()">Cancel</button>
-      <button class="btn btn-primary btn-sm" id="mvgModalSubmit" onclick="mvgSubmitModal()">Send enquiry</button>
+      <button class="btn btn-lime" id="mvgModalSubmit" onclick="mvgSubmitModal()" style="padding:12px 28px;font-size:15px;">Send enquiry</button>
+      <button class="modal-cancel" onclick="mvgCloseModal()">Cancel</button>
     </div>
   </div>
 </div>
