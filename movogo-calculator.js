@@ -62,7 +62,6 @@
 #mvg-root .wonky--green::before{background:var(--g900);}
 #mvg-root .wonky--lime::before{background:var(--lime);}
 #mvg-root .wonky--coral::before{background:var(--coral);}
-#mvg-root .wonky--cream::before{background:var(--cream);}
 #mvg-root .wonky--blue::before{background:var(--blue);}
 #mvg-root .wonky--md{width:72px;height:72px;}
 #mvg-root .wonky--sm{width:44px;height:44px;}
@@ -101,18 +100,18 @@
 #mvg-root .estimate-total-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:4px;}
 #mvg-root .estimate-total-amount{font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1;}
 #mvg-root .estimate-total-freq{font-size:15px;font-weight:600;color:rgba(255,255,255,0.6);margin-left:6px;}
-#mvg-root .estimate-payday{font-size:12px;color:rgba(255,255,255,0.4);font-weight:600;margin-top:6px;}
-#mvg-root .freq-toggle{display:flex;background:rgba(255,255,255,0.1);border:1.5px solid rgba(255,255,255,0.2);border-radius:var(--rs);padding:3px;gap:3px;}
-#mvg-root .freq-toggle button{padding:8px 14px;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6);transition:all 0.2s;font-family:inherit;}
-#mvg-root .freq-toggle button.active{background:#fff;color:var(--g900);}
+#mvg-root .estimate-payday{font-size:12px;color:rgba(255,255,255,0.9);font-weight:600;margin-top:6px;}
+#mvg-root .freq-toggle{display:flex;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:999px;padding:4px;gap:4px;}
+#mvg-root .freq-toggle button{padding:8px 18px;border:none;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,0.7);transition:all 0.2s;font-family:inherit;}
+#mvg-root .freq-toggle button.active{background:var(--lime);color:var(--g900);}
 #mvg-root .estimate-breakdown{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.12);}
 #mvg-root .estimate-breakdown > div{display:flex;flex-direction:column;gap:2px;}
 #mvg-root .estimate-breakdown .label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.45);font-weight:700;}
 #mvg-root .estimate-breakdown .amount{font-size:20px;font-weight:800;}
-#mvg-root .estimate-guide{font-size:12px;color:rgba(255,255,255,0.4);font-weight:600;line-height:1.5;margin-bottom:16px;}
+#mvg-root .estimate-guide{font-size:12px;color:rgba(255,255,255,0.9);font-weight:600;line-height:1.5;margin-bottom:16px;}
 #mvg-root .estimate-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-#mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:rgba(255,255,255,0.45);background:none;border:none;cursor:pointer;font-family:inherit;padding:8px 0;transition:color 0.15s;}
-#mvg-root .estimate-clear:hover{color:rgba(255,255,255,0.8);}
+#mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:var(--g900);background:rgba(255,255,255,0.85);border:none;cursor:pointer;font-family:inherit;padding:8px 18px;border-radius:999px;transition:background 0.15s;}
+#mvg-root .estimate-clear:hover{background:#fff;}
 #mvg-root .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;border:none;text-decoration:none;font-family:inherit;transition:transform 0.15s,box-shadow 0.15s,background 0.15s;line-height:1;}
 #mvg-root .btn:active{transform:translateY(1px);}
 #mvg-root .btn-primary{background:var(--g900);color:#fff;}
@@ -178,8 +177,8 @@
   const MEMBERSHIP = [
     { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WOF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
     { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral wonky--alt2' },
-    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--cream wonky--alt3' },
-    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--blue wonky--alt4' },
+    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue wonky--alt3' },
+    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime wonky--alt4' },
     { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime wonky--alt' },
     { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral wonky--alt2' },
     { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--green wonky--alt3' },
@@ -190,7 +189,7 @@
     { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue wonky--alt3' },
   ];
   const FINANCE_ADDONS = [
-    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--cream wonky--alt4' },
+    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime wonky--alt4' },
     { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime wonky--alt' },
     { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral wonky--alt2' },
     { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue wonky--alt3' },
