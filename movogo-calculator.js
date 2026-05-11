@@ -26,7 +26,7 @@
 #mvg-root .mvg-wrap{}
 #mvg-root .build{padding:72px 0;background:transparent;}
 #mvg-root .build-head{text-align:left;margin-bottom:48px;}
-#mvg-root .build-head h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
+#mvg-root .build-head h2{font-size:clamp(24px,3vw,32px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
 #mvg-root .build-head p{font-size:18px;color:#333;font-weight:600;}
 #mvg-root .categories{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
 @media(max-width:860px){#mvg-root .categories{grid-template-columns:1fr;}}
@@ -42,8 +42,8 @@
 #mvg-root .category-body{padding:0 28px 28px;}
 
 #mvg-root .category-sub-heading{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--g900);font-weight:800;margin:24px 0 14px;padding-left:2px;}
-#mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:#333;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);}
-#mvg-root .addon-notice.active{background:var(--lime);border-color:var(--lime);color:var(--g900);}
+#mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:#333;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+#mvg-root .addon-notice.active{background:var(--lime);color:var(--g900);}
 #mvg-root .cards-col{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;}
 @media(max-width:480px){#mvg-root .cards-col{grid-template-columns:1fr;}}
 #mvg-root .card{background:var(--paper);border-radius:var(--rm);padding:22px 18px 18px;position:relative;transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column;margin-top:30px;box-shadow:0 2px 0 rgba(1,75,67,0.04);min-height:220px;cursor:pointer;border:2px solid transparent;}
@@ -94,15 +94,14 @@
 #mvg-root .empty-estimate-amount .estimate-total-freq{font-size:15px;font-weight:600;color:rgba(255,255,255,0.3);margin-left:6px;}
 #mvg-root .empty-estimate-prompt{font-size:14px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:20px;}
 #mvg-root .empty-estimate-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-#mvg-root .btn-ghost-light{font-size:14px;font-weight:700;color:rgba(255,255,255,0.7);text-decoration:none;border:none;background:none;cursor:pointer;padding:13px 0;transition:color 0.15s;font-family:inherit;}
-#mvg-root .btn-ghost-light:hover{color:#fff;}
+
 #mvg-root .estimate-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;margin-bottom:20px;}
 #mvg-root .estimate-total-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:4px;}
 #mvg-root .estimate-total-amount{font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1;}
 #mvg-root .estimate-total-freq{font-size:15px;font-weight:600;color:rgba(255,255,255,0.6);margin-left:6px;}
 #mvg-root .estimate-payday{font-size:12px;color:rgba(255,255,255,0.9);font-weight:600;margin-top:6px;}
-#mvg-root .freq-toggle{display:flex;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:999px;padding:4px;gap:4px;}
-#mvg-root .freq-toggle button{padding:8px 18px;border:none;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,0.7);transition:all 0.2s;font-family:inherit;}
+#mvg-root .freq-toggle{display:flex;background:rgba(255,255,255,0.12);border-radius:999px;padding:4px;gap:4px;}
+#mvg-root .freq-toggle button{padding:8px 18px;border:none;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,1);transition:all 0.2s;font-family:inherit;}
 #mvg-root .freq-toggle button.active{background:var(--lime);color:var(--g900);}
 #mvg-root .estimate-breakdown{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,0.12);}
 #mvg-root .estimate-breakdown > div{display:flex;flex-direction:column;gap:2px;}
@@ -110,8 +109,8 @@
 #mvg-root .estimate-breakdown .amount{font-size:20px;font-weight:800;}
 #mvg-root .estimate-guide{font-size:12px;color:rgba(255,255,255,0.9);font-weight:600;line-height:1.5;margin-bottom:16px;}
 #mvg-root .estimate-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-#mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:var(--g900);background:rgba(255,255,255,0.85);border:none;cursor:pointer;font-family:inherit;padding:8px 18px;border-radius:999px;transition:background 0.15s;}
-#mvg-root .estimate-clear:hover{background:#fff;}
+#mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:var(--g900);background:#fff;border:none;cursor:pointer;font-family:inherit;padding:8px 18px;border-radius:999px;transition:opacity 0.15s;}
+#mvg-root .estimate-clear:hover{opacity:0.75;}
 #mvg-root .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;border:none;text-decoration:none;font-family:inherit;transition:transform 0.15s,box-shadow 0.15s,background 0.15s;line-height:1;}
 #mvg-root .btn:active{transform:translateY(1px);}
 #mvg-root .btn-primary{background:var(--g900);color:#fff;}
@@ -122,13 +121,13 @@
 #mvg-root .btn-outline{background:#fff;color:var(--g900);border:2px solid var(--g900);padding:11px 26px;}
 #mvg-root .btn-outline:hover{background:var(--g900);color:#fff;}
 #mvg-root .btn-sm{padding:9px 18px;font-size:13px;}
-#mvg-root .calc{background:var(--cream);border-radius:var(--rl);padding:28px 32px;margin-top:20px;border:1.5px solid var(--line);}
+#mvg-root .calc{background:#fff;border-radius:var(--rl);padding:28px 32px;margin-top:20px;}
 #mvg-root .calc.hidden{display:none;}
 #mvg-root .calc-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
 #mvg-root .calc-head h3{font-size:20px;font-weight:800;color:var(--g900);}
 #mvg-root .calc-helper{font-size:14px;color:#333;font-weight:600;line-height:1.5;margin-bottom:20px;}
-#mvg-root .calc-summary{background:var(--paper);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
-#mvg-root .calc-summary.in-plan{border-color:var(--g900);}
+#mvg-root .calc-summary{background:var(--cream);border-radius:var(--rm);padding:18px 22px;margin-bottom:22px;border:2px solid transparent;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+#mvg-root .calc-summary.in-plan{background:var(--lime1);border-color:var(--g900);}
 #mvg-root .calc-summary-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-f);font-weight:700;margin-bottom:3px;}
 #mvg-root .calc-summary-amount{font-size:28px;font-weight:800;color:var(--g900);line-height:1;}
 #mvg-root .calc-summary-freq{font-size:13px;font-weight:600;color:#333;margin-left:5px;}
@@ -136,13 +135,13 @@
 #mvg-root .calc-summary-cta-text{font-size:13px;font-weight:600;color:#333;}
 #mvg-root .sliders{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-bottom:20px;}
 @media(max-width:640px){#mvg-root .sliders{grid-template-columns:1fr;}}
-#mvg-root .slider-group label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#333;font-weight:700;margin-bottom:4px;}
+#mvg-root .slider-group label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--g900);font-weight:700;margin-bottom:4px;}
 #mvg-root .slider-value{font-size:24px;font-weight:800;color:var(--g900);line-height:1;margin-bottom:8px;}
 #mvg-root .slider-value small{font-size:14px;font-weight:600;color:#333;}
 #mvg-root .slider-range{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-f);font-weight:600;margin-top:4px;}
 #mvg-root .slider-note{font-size:11px;color:var(--ink-f);font-weight:600;margin-top:6px;font-style:italic;}
-#mvg-root input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--line);outline:none;cursor:pointer;}
-#mvg-root input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--g900);cursor:pointer;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.2);transition:transform 0.15s;}
+#mvg-root input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--line);outline:none;cursor:pointer;accent-color:var(--g900);}
+#mvg-root input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--g900);cursor:pointer;border:3px solid #fff;box-shadow:0 2px 6px rgba(1,75,67,0.25);transition:transform 0.15s;}
 #mvg-root input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
 #mvg-root .disclaimer{font-size:11px;color:var(--ink-f);line-height:1.6;font-weight:600;padding-top:16px;border-top:1px solid var(--line);}
 #mvg-root .guide-note{background:var(--lime1);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--g900);font-weight:600;margin-bottom:16px;border:1px solid var(--lime);}
@@ -261,7 +260,6 @@
           <div class="empty-estimate-prompt">Pick products above to build your estimate, or jump in here:</div>
           <div class="empty-estimate-cta">
             <button type="button" class="btn btn-lime" id="ctaConfigureLoan">Configure your loan</button>
-            <button type="button" class="btn-ghost-light" onclick="mvgHandleApply()">Apply now →</button>
           </div>
         </div>
         <div id="filledEstimate" style="display:none">
@@ -447,14 +445,31 @@
 
   /* ── Controls ── */
   el('freqToggle').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b)return; document.querySelectorAll('#freqToggle button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); S.freq=b.dataset.freq; renderGrids(); renderEstimate(); });
-  el('borrowSlider').addEventListener('input',function(){ S.borrow=parseInt(this.value); el('borrowVal').textContent=fmt(S.borrow); renderEstimate(); });
-  el('termSlider').addEventListener('input',function(){ S.term=parseInt(this.value); el('termVal').textContent=S.term; renderEstimate(); });
-  el('rateSlider').addEventListener('input',function(){ S.rate=parseFloat(this.value); el('rateVal').textContent=S.rate.toFixed(2); renderEstimate(); });
+  el('borrowSlider').addEventListener('input',function(){ S.borrow=parseInt(this.value); el('borrowVal').textContent=fmt(S.borrow); updateSliderFill(this,5000,70000); renderEstimate(); });
+  el('termSlider').addEventListener('input',function(){ S.term=parseInt(this.value); el('termVal').textContent=S.term; updateSliderFill(this,36,72); renderEstimate(); });
+  el('rateSlider').addEventListener('input',function(){ S.rate=parseFloat(this.value); el('rateVal').textContent=S.rate.toFixed(2); updateSliderFill(this,7.95,24.95); renderEstimate(); });
+
+  function updateSliderFill(input, min, max) {
+    const pct = ((input.value - min) / (max - min)) * 100;
+    input.style.background = `linear-gradient(to right, var(--g900) ${pct}%, var(--line) ${pct}%)`;
+  }
+  // Init fills
+  updateSliderFill(el('borrowSlider'), 5000, 70000);
+  updateSliderFill(el('termSlider'), 36, 72);
+  updateSliderFill(el('rateSlider'), 7.95, 24.95);
 
 
 
 
-  el('ctaConfigureLoan').addEventListener('click',()=>{ S.financeCalcOpen=true; S.expanded.finance=true; applyExpanded('finance'); renderEstimate(); setTimeout(()=>el('financeCalc').scrollIntoView({behavior:'smooth',block:'start'}),50); });
+  el('ctaConfigureLoan').addEventListener('click',()=>{
+    const finCat = document.querySelector('#mvg-root .category--finance');
+    if (finCat) {
+      finCat.scrollIntoView({behavior:'smooth', block:'start'});
+      finCat.style.outline = '3px solid var(--coral)';
+      finCat.style.outlineOffset = '4px';
+      setTimeout(()=>{ finCat.style.outline=''; finCat.style.outlineOffset=''; }, 1800);
+    }
+  });
   el('addCarShortcut').addEventListener('click',()=>{ if(!S.selected.has('buy')){S.selected.add('buy');renderGrids();renderEstimate();} });
   el('clearAllBtn').addEventListener('click',()=>{ if(!S.selected.size)return; if(!confirm('Clear your current selection? This will reset your estimate.'))return; S.selected.clear(); S.financeCalcOpen=false; renderGrids(); renderEstimate(); });
 
