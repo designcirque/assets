@@ -27,8 +27,8 @@
 #mvg-contact .cf-wrap{max-width:640px;}
 
 /* Field */
-#mvg-contact .cf-field{margin-bottom:20px;}
-#mvg-contact .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+#mvg-contact .cf-field{margin-bottom:32px;}
+#mvg-contact .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
 @media(max-width:540px){#mvg-contact .cf-row{grid-template-columns:1fr;}}
 
 /* Label */
