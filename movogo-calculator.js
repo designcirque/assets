@@ -68,7 +68,7 @@
 #mvg-root .wonky--sm{width:44px;height:44px;}
 #mvg-root .wonky .emoji{position:relative;z-index:1;font-size:28px;line-height:1;}
 #mvg-root .wonky--sm .emoji{font-size:20px;}
-#mvg-root .card-sticker{position:absolute;top:14px;right:-4px;z-index:3;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;padding:5px 10px;border-radius:999px;transform:rotate(3deg);}
+#mvg-root .card-sticker{position:absolute;top:-10px;right:14px;z-index:3;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;padding:5px 10px;border-radius:999px;transform:rotate(2deg);}
 #mvg-root .card-sticker--soon{background:var(--coral);color:#fff;}
 #mvg-root .card-sticker--requires{background:var(--blue);color:#fff;font-size:9px;}
 #mvg-root .tooltip-wrap{position:relative;display:inline-block;}
