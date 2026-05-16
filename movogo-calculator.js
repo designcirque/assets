@@ -33,12 +33,15 @@
 #mvg-root .category{border-radius:var(--rxl);padding:0;overflow:hidden;}
 #mvg-root .category--membership{background:var(--lime0);}
 #mvg-root .category--finance{background:var(--cream3);}
-#mvg-root .category-head{width:100%;display:flex;align-items:center;gap:16px;padding:24px 28px;}
+#mvg-root .category-head{width:100%;display:flex;align-items:center;gap:16px;padding:24px 28px;background:none;border:none;cursor:pointer;text-align:left;}
 #mvg-root .category-title-wrap{flex:1;}
 #mvg-root .category-title{font-size:22px;font-weight:800;color:var(--g900);letter-spacing:-0.01em;margin-bottom:4px;}
 #mvg-root .category-sub{font-size:13px;color:#333;font-weight:600;line-height:1.4;}
 
 
+#mvg-root .category-chevron{font-size:18px;color:rgba(255,255,255,0.7);transition:transform 0.25s;flex-shrink:0;}
+#mvg-root .category.open .category-chevron{transform:rotate(180deg);}
+#mvg-root .category-body.collapsed{display:none;}
 #mvg-root .category-body{padding:0 28px 28px;}
 
 #mvg-root .category-sub-heading{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--g900);font-weight:800;margin:24px 0 14px;padding-left:2px;}
@@ -55,11 +58,7 @@
 #mvg-root .card-wonky{position:absolute;top:-30px;left:16px;z-index:2;transform:rotate(-6deg);transition:transform 0.25s;}
 #mvg-root .card:hover:not(.disabled) .card-wonky{transform:rotate(4deg) scale(1.05);}
 #mvg-root .wonky{position:relative;display:inline-flex;align-items:center;justify-content:center;}
-#mvg-root .wonky::before{content:"";position:absolute;inset:0;border-radius:62% 38% 54% 46% / 58% 42% 58% 42%;z-index:0;}
-#mvg-root .wonky--alt::before{border-radius:44% 56% 62% 38% / 52% 40% 60% 48%;}
-#mvg-root .wonky--alt2::before{border-radius:56% 44% 38% 62% / 42% 58% 42% 58%;}
-#mvg-root .wonky--alt3::before{border-radius:48% 52% 58% 42% / 62% 42% 58% 38%;}
-#mvg-root .wonky--alt4::before{border-radius:58% 42% 48% 52% / 38% 62% 38% 62%;}
+#mvg-root .wonky::before{content:"";position:absolute;inset:0;border-radius:62% 38% 46% 54% / 60% 44% 56% 40%;z-index:0;}
 #mvg-root .wonky--green::before{background:var(--g900);}
 #mvg-root .wonky--lime::before{background:var(--lime);}
 #mvg-root .wonky--coral::before{background:var(--coral);}
@@ -185,25 +184,25 @@
 
   /* ── Product data ── */
   const MEMBERSHIP = [
-    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WoF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
-    { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral wonky--alt2' },
-    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue wonky--alt3' },
-    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime wonky--alt4' },
-    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime wonky--alt' },
-    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral wonky--alt2' },
-    { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--green wonky--alt3' },
+    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WoF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime' },
+    { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral' },
+    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue' },
+    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime' },
+    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime' },
+    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral' },
+    { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--green' },
   ];
   const FINANCE_LOANS = [
-    { id:'buy',     title:'Buy my next car',         pill:'Buy a car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--lime wonky--alt' },
-    { id:'refi',    title:'Refinance existing loan', pill:'Refinance',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--coral wonky--alt2' },
-    { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue wonky--alt3' },
+    { id:'buy',     title:'Buy my next car',         pill:'Buy a car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--lime' },
+    { id:'refi',    title:'Refinance existing loan', pill:'Refinance',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--coral' },
+    { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue' },
   ];
   const FINANCE_ADDONS = [
-    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime wonky--alt4' },
-    { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime wonky--alt' },
-    { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral wonky--alt2' },
-    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue wonky--alt3' },
-    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Press pause on repayments for an approved period. A scheduling feature that puts you in control of timing.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green wonky--alt4' },
+    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime' },
+    { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime' },
+    { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral' },
+    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue' },
+    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Press pause on repayments for an approved period. A scheduling feature that puts you in control of timing.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green' },
   ];
   const ALL_PRODUCTS = [...MEMBERSHIP, ...FINANCE_LOANS, ...FINANCE_ADDONS];
 
@@ -257,17 +256,19 @@
     <div class="build-head"><h2>Here's what you can get.</h2><p>Mix and match whatever suits your situation. Your estimate builds as you go.</p></div>
     <div class="categories">
       <div class="category category--membership" data-category="membership">
-      <div class="category-head">
+      <button class="category-head" data-toggle="membership" aria-expanded="true">
           <div class="wonky wonky--md wonky--lime"><span class="emoji">🔧</span></div>
           <div class="category-title-wrap"><div class="category-title">Membership</div><div class="category-sub">Look after the car you've got, or the one you're financing. Spread across your regular payment.</div></div>
-        </div>
+          <div class="category-chevron">▾</div>
+        </button>
         <div class="category-body" id="membershipBody"><div class="cards-col" id="membershipGrid"></div></div>
       </div>
       <div class="category category--finance" data-category="finance">
-      <div class="category-head">
-          <div class="wonky wonky--md wonky--coral wonky--alt"><span class="emoji">🔑</span></div>
+      <button class="category-head" data-toggle="finance" aria-expanded="true">
+          <div class="wonky wonky--md wonky--coral"><span class="emoji">🔑</span></div>
           <div class="category-title-wrap"><div class="category-title">Finance</div><div class="category-sub">Borrow for a car, refinance, or fund repairs. Plus optional loan cover.</div></div>
-        </div>
+          <div class="category-chevron">▾</div>
+        </button>
         <div class="category-body" id="financeBody">
           <div class="cards-col" id="financeGrid"></div>
           <div class="category-sub-heading">Optional loan products</div>
@@ -572,6 +573,24 @@
     if(rem&&ids.includes(rem)) S.selected.delete(rem);
   })();
 
+  // Accordion
+  function applyExpanded(key, open) {
+    const cat = document.querySelector(`#mvg-root .category[data-category="${key}"]`);
+    if (!cat) return;
+    cat.classList.toggle('open', open);
+    const body = document.getElementById(key + 'Body');
+    if (body) body.classList.toggle('collapsed', !open);
+    const btn = cat.querySelector('.category-head');
+    if (btn) btn.setAttribute('aria-expanded', String(open));
+  }
+  const expanded = { membership: true, finance: true };
+  document.querySelectorAll('#mvg-root [data-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.toggle;
+      expanded[key] = !expanded[key];
+      applyExpanded(key, expanded[key]);
+    });
+  });
   renderGrids(); renderEstimate();
 
 })();
