@@ -185,7 +185,7 @@
 
   /* ── Product data ── */
   const MEMBERSHIP = [
-    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WOF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
+    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WoF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
     { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral wonky--alt2' },
     { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue wonky--alt3' },
     { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime wonky--alt4' },
