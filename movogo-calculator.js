@@ -45,7 +45,8 @@
 #mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:#333;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 #mvg-root .addon-notice.active{background:var(--lime);color:var(--g900);}
 #mvg-root .cards-col{display:grid;grid-template-columns:1fr 1fr;gap:28px 16px;}
-@media(max-width:480px){#mvg-root .cards-col{grid-template-columns:1fr;}}
+@media(max-width:480px){#mvg-root .cards-col{grid-template-columns:1fr;justify-items:center;}}
+@media(max-width:480px){#mvg-root .card{width:100%;max-width:320px;}}
 #mvg-root .card{background:var(--paper);border-radius:var(--rm);padding:22px 18px 18px;position:relative;transition:transform 0.2s,box-shadow 0.2s;display:flex;flex-direction:column;margin-top:30px;box-shadow:0 2px 0 rgba(1,75,67,0.04);min-height:220px;cursor:pointer;border:2px solid transparent;}
 #mvg-root .card:hover:not(.disabled){transform:translateY(-3px) rotate(-0.5deg);box-shadow:0 12px 28px rgba(1,75,67,0.12);}
 #mvg-root .card.selected{border-color:var(--g900);}
@@ -67,9 +68,14 @@
 #mvg-root .wonky--sm{width:44px;height:44px;}
 #mvg-root .wonky .emoji{position:relative;z-index:1;font-size:28px;line-height:1;}
 #mvg-root .wonky--sm .emoji{font-size:20px;}
-#mvg-root .card-sticker{position:absolute;top:-10px;right:14px;z-index:3;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;padding:5px 10px;border-radius:999px;}
+#mvg-root .card-sticker{position:absolute;top:14px;right:-4px;z-index:3;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;padding:5px 10px;border-radius:999px;transform:rotate(3deg);}
 #mvg-root .card-sticker--soon{background:var(--coral);color:#fff;}
 #mvg-root .card-sticker--requires{background:var(--blue);color:#fff;font-size:9px;}
+#mvg-root .tooltip-wrap{position:relative;display:inline-block;}
+#mvg-root .tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink-f);font-size:9px;font-weight:800;color:var(--ink-f);cursor:help;margin-left:4px;vertical-align:middle;line-height:1;}
+#mvg-root .tooltip-bubble{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:11px;font-weight:600;line-height:1.5;padding:8px 12px;border-radius:var(--rs);width:220px;z-index:99;pointer-events:none;}
+#mvg-root .tooltip-bubble::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--ink);}
+#mvg-root .tooltip-wrap:hover .tooltip-bubble{display:block;}
 #mvg-root .card-body{margin-top:52px;flex:1;display:flex;flex-direction:column;}
 #mvg-root .card h3{font-size:16px;font-weight:800;color:var(--g900);margin-bottom:4px;letter-spacing:-0.005em;line-height:1.2;}
 #mvg-root .card-subtitle{font-size:11px;color:var(--coral);font-weight:700;margin-bottom:6px;}
@@ -109,8 +115,8 @@
 #mvg-root .estimate-breakdown .amount{font-size:20px;font-weight:800;}
 #mvg-root .estimate-guide{font-size:12px;color:rgba(255,255,255,0.9);font-weight:600;line-height:1.5;margin-bottom:16px;}
 #mvg-root .estimate-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-#mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:var(--g900);background:#fff;border:none;cursor:pointer;font-family:inherit;padding:8px 18px;border-radius:999px;transition:opacity 0.15s;}
-#mvg-root .estimate-clear:hover{opacity:0.75;}
+#mvg-root .estimate-clear{margin-left:auto;font-size:12px;font-weight:700;color:rgba(255,255,255,0.8);background:none;border:none;cursor:pointer;font-family:inherit;padding:4px 0;text-decoration:underline;text-underline-offset:2px;transition:color 0.15s;}
+#mvg-root .estimate-clear:hover{color:#fff;}
 #mvg-root .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;border:none;text-decoration:none;font-family:inherit;transition:transform 0.15s,box-shadow 0.15s,background 0.15s;line-height:1;}
 #mvg-root .btn:active{transform:translateY(1px);}
 #mvg-root .btn-primary{background:var(--g900);color:#fff;}
@@ -179,7 +185,7 @@
 
   /* ── Product data ── */
   const MEMBERSHIP = [
-    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WoF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
+    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WOF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime wonky--alt' },
     { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral wonky--alt2' },
     { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue wonky--alt3' },
     { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime wonky--alt4' },
@@ -197,7 +203,7 @@
     { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime wonky--alt' },
     { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral wonky--alt2' },
     { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue wonky--alt3' },
-    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Pause your repayments for an approved period when life gets tough.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green wonky--alt4' },
+    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Press pause on repayments for an approved period. A scheduling feature that puts you in control of timing.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green wonky--alt4' },
   ];
   const ALL_PRODUCTS = [...MEMBERSHIP, ...FINANCE_LOANS, ...FINANCE_ADDONS];
 
@@ -241,7 +247,7 @@
     <div class="mvg-success" id="mvgSuccess">✓ Thanks! We'll be in touch shortly.</div>
     <div class="modal-btns">
       <button class="btn btn-lime" id="mvgModalSubmit" onclick="mvgSubmitModal()" style="padding-top:17px;padding-bottom:19px;padding-left:28px;padding-right:28px;font-size:15px;">Send enquiry</button>
-      <button class="modal-cancel" onclick="mvgCloseModal()">Cancel</button>
+      <button class="modal-cancel" id="mvgModalCancel" onclick="mvgCloseModal()">Cancel</button>
     </div>
   </div>
 </div>
@@ -264,7 +270,7 @@
         </div>
         <div class="category-body" id="financeBody">
           <div class="cards-col" id="financeGrid"></div>
-          <div class="category-sub-heading">Optional loan cover</div>
+          <div class="category-sub-heading">Optional loan products</div>
           <div class="addon-notice" id="addonNotice"><span id="addonText">These need a Movogo loan. Pick a finance product above to add them.</span></div>
           <div class="cards-col" id="addonsGrid"></div>
         </div>
@@ -313,8 +319,8 @@
       </div>
       <div class="sliders">
         <div class="slider-group"><label>Total to borrow</label><div class="slider-value">$<span id="borrowVal">20,000</span></div><input type="range" id="borrowSlider" min="5000" max="70000" step="1000" value="20000"><div class="slider-range"><span>$5,000</span><span>$70,000</span></div></div>
-        <div class="slider-group"><label>Loan term</label><div class="slider-value"><span id="termVal">60</span> <small>months</small></div><input type="range" id="termSlider" min="36" max="72" step="6" value="60"><div class="slider-range"><span>36 mo</span><span>72 mo</span></div></div>
-        <div class="slider-group"><label>Interest rate</label><div class="slider-value"><span id="rateVal">14.95</span><small>% p.a.</small></div><input type="range" id="rateSlider" min="7.95" max="24.95" step="0.5" value="14.95"><div class="slider-range"><span>7.95%</span><span>24.95%</span></div><div class="slider-note">Your actual rate is determined by your credit assessment.</div></div>
+        <div class="slider-group"><label>Loan term</label><div class="slider-value"><span id="termVal">60</span> <small>months</small></div><input type="range" id="termSlider" min="36" max="66" step="6" value="60"><div class="slider-range"><span>36 mo</span><span>66 mo</span></div></div>
+        <div class="slider-group"><label>Interest rate</label><div class="slider-value"><span id="rateVal">14.95</span><small>% p.a.</small></div><input type="range" id="rateSlider" min="7.95" max="29.95" step="0.5" value="14.95"><div class="slider-range"><span>7.95%</span><span>29.95%</span></div><div class="slider-note">Your actual rate is determined by your credit assessment.</div></div>
       </div>
       <div class="disclaimer">This is an estimate, not an offer of credit. Lending is provided by Movogo Finance Limited (NZCN 9357507, NZBN 9429052988677, FSP1011510). Any loan is subject to credit approval, responsible lending assessment, and standard terms and conditions. Under the CCCFA 2003, you have a statutory right to cancel your loan within 7 working days of receiving the disclosure. Movogo Finance Limited is a member of Financial Services Complaints Limited (FSCL) for dispute resolution.</div>
     </div>
@@ -350,15 +356,17 @@
 
   function cardHTML(p, disabled) {
     const sel = S.selected.has(p.id);
+    const isDisabled = disabled || p.soon;
     let sticker = '';
     if (p.soon) sticker = '<div class="card-sticker card-sticker--soon">Coming soon</div>';
     else if (p.requiresFinance && disabled) sticker = '<div class="card-sticker card-sticker--requires">Needs a loan</div>';
     const m = FREQ_MULT[S.freq], suf = FREQ_SUFFIX[S.freq];
+    const tooltipHTML = `<span class="tooltip-wrap"><span class="tooltip-icon">?</span><span class="tooltip-bubble">Your repayment depends on the amount you borrow, your loan term, and your interest rate. Use the calculator below for an estimate.</span></span>`;
     let priceHTML = p.soon ? '<div class="pricing-note">Pricing TBC</div>'
       : p.price != null ? `<div class="card-price"><span class="price-prefix">Around</span>$${(p.price*m).toFixed(2)}<small>${suf}</small></div>`
       : p.requiresFinance ? '<div class="pricing-note">Included with loan</div>'
-      : '<div class="pricing-note">Calculated at quote</div>';
-    return `<div class="${['card',sel?'selected':'',disabled?'disabled':''].filter(Boolean).join(' ')}" data-id="${p.id}">
+      : `<div class="pricing-note">Calculated at quote ${tooltipHTML}</div>`;
+    return `<div class="${['card',sel?'selected':'',isDisabled?'disabled':''].filter(Boolean).join(' ')}" data-id="${p.id}">
       <div class="card-wonky"><div class="wonky wonky--md ${p.wonky}"><span class="emoji">${p.emoji}</span></div></div>
       ${sticker}
       <div class="card-body">
@@ -366,7 +374,7 @@
         ${p.subtitle?`<div class="card-subtitle">${p.subtitle}</div>`:''}
         <p>${p.desc}</p>
         <a class="card-learn" href="${productUrl(p.id)}" onclick="event.stopPropagation()">Learn more</a>
-        <div class="card-foot">${priceHTML}<button class="select-btn" ${disabled?'disabled':''} aria-label="${sel?'Deselect':'Select'} ${p.title}"></button></div>
+        <div class="card-foot">${priceHTML}<button class="select-btn" ${isDisabled?'disabled':''} aria-label="${sel?'Deselect':'Select'} ${p.title}"></button></div>
       </div></div>`;
   }
 
@@ -376,7 +384,7 @@
     el('financeGrid').innerHTML = FINANCE_LOANS.map(p => cardHTML(p,false)).join('');
     el('addonsGrid').innerHTML = FINANCE_ADDONS.map(p => cardHTML(p,!loan)).join('');
     el('addonNotice').classList.toggle('active',loan);
-    el('addonText').textContent = loan ? "Great — you've got a loan. You can now add these optional covers." : "These need a Movogo loan. Pick a finance product above to add them.";
+    el('addonText').textContent = loan ? "You've got a loan. Add any of these optional products to your plan." : "These need a Movogo loan. Pick a finance product above to add them.";
     attachCardHandlers();
   }
 
@@ -442,13 +450,15 @@
   window.mvgOpenModal = function(mode) {
     S.modalMode = mode || 'membership';
     const isFinance = S.modalMode === 'finance';
-    el('mvgModalTitle').textContent = isFinance ? 'One quick step' : 'Almost there';
+    el('mvgModalTitle').textContent = isFinance ? 'Step one' : 'Almost there';
     el('mvgModalSub').textContent = isFinance
-      ? 'Give us a few details and we\'ll pre-fill your application.'
+      ? 'A few quick details so we can pick up where you left off.'
       : 'Give us a few details and we\'ll be in touch to set up your membership.';
     el('mvgFinanceFields').style.display = isFinance ? 'block' : 'none';
     el('mvgMembershipFields').style.display = isFinance ? 'none' : 'block';
     el('mvgModalSubmit').textContent = isFinance ? 'Continue to apply' : 'Send enquiry';
+    el('mvgModalSubmit').style.display = 'inline-flex';
+    el('mvgModalCancel').textContent = 'Cancel';
     el('mvgSuccess').classList.remove('show');
     el('mvgModal').classList.add('show');
     const b = el('mvgModalSubmit'); b.disabled = false;
@@ -518,7 +528,11 @@
           method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
           body: JSON.stringify({ name, phone, email, frequency: S.freq, membership_items: memKeys.join(', ')||'None', membership_estimate: fmtAmt(memW * FREQ_MULT[S.freq]) + ' ' + FREQ_LABEL[S.freq] })
         });
-        if (res.ok) { el('mvgSuccess').classList.add('show'); btn.textContent = '✓ Sent'; }
+        if (res.ok) {
+          el('mvgSuccess').classList.add('show');
+          el('mvgModalSubmit').style.display = 'none';
+          el('mvgModalCancel').textContent = 'Close';
+        }
         else throw new Error();
       } catch { btn.textContent = 'Send enquiry'; btn.disabled = false; alert('Something went wrong. Please try again or email join@movogo.co.nz'); }
     }
@@ -527,8 +541,8 @@
   /* ── Controls ── */
   el('freqToggle').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b)return; document.querySelectorAll('#freqToggle button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); S.freq=b.dataset.freq; renderGrids(); renderEstimate(); });
   el('borrowSlider').addEventListener('input',function(){ S.borrow=parseInt(this.value); el('borrowVal').textContent=fmt(S.borrow); updateSliderFill(this,5000,70000); renderEstimate(); });
-  el('termSlider').addEventListener('input',function(){ S.term=parseInt(this.value); el('termVal').textContent=S.term; updateSliderFill(this,36,72); renderEstimate(); });
-  el('rateSlider').addEventListener('input',function(){ S.rate=parseFloat(this.value); el('rateVal').textContent=S.rate.toFixed(2); updateSliderFill(this,7.95,24.95); renderEstimate(); });
+  el('termSlider').addEventListener('input',function(){ S.term=parseInt(this.value); el('termVal').textContent=S.term; updateSliderFill(this,36,66); renderEstimate(); });
+  el('rateSlider').addEventListener('input',function(){ S.rate=parseFloat(this.value); el('rateVal').textContent=S.rate.toFixed(2); updateSliderFill(this,7.95,29.95); renderEstimate(); });
 
   function updateSliderFill(input, min, max) {
     const pct = ((input.value - min) / (max - min)) * 100;
@@ -536,8 +550,8 @@
   }
   // Init fills
   updateSliderFill(el('borrowSlider'), 5000, 70000);
-  updateSliderFill(el('termSlider'), 36, 72);
-  updateSliderFill(el('rateSlider'), 7.95, 24.95);
+  updateSliderFill(el('termSlider'), 36, 66);
+  updateSliderFill(el('rateSlider'), 7.95, 29.95);
 
 
 
