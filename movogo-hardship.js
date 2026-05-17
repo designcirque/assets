@@ -71,20 +71,15 @@
 #mvg-hardship .hf-error{font-size:12px;color:var(--coral);font-weight:700;margin-top:5px;display:none;padding-left:20px;}
 #mvg-hardship .hf-error.show{display:block;}
 
-/* Radio toggle - Complete now / Do it later */
-#mvg-hardship .hf-toggle{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;}
-#mvg-hardship .hf-toggle-opt{flex:1;min-width:160px;}
-#mvg-hardship .hf-toggle-opt input[type=radio]{display:none;}
-#mvg-hardship .hf-toggle-btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:14px 20px;border-radius:999px;
-  border:2px solid var(--g900);background:#fff;
-  font-size:14px;font-weight:700;color:var(--g900);
-  cursor:pointer;transition:all 0.15s;text-align:center;
-  font-family:area-normal,sans-serif;
-}
-#mvg-hardship .hf-toggle-opt input[type=radio]:checked + .hf-toggle-btn{background:var(--g900);color:#fff;border-color:var(--g900);}
-#mvg-hardship .hf-toggle-opt:last-child input[type=radio]:checked + .hf-toggle-btn{background:var(--lime);color:var(--g900);border-color:var(--lime);}
+/* Radio buttons */
+#mvg-hardship .hf-radios{display:flex;flex-direction:column;gap:10px;margin-top:2px;}
+#mvg-hardship .hf-radio-opt{display:flex;align-items:center;gap:12px;cursor:pointer;}
+#mvg-hardship .hf-radio-opt input[type=radio]{display:none;}
+#mvg-hardship .hf-radio-custom{width:22px;height:22px;border-radius:50%;flex-shrink:0;border:2px solid var(--g900);background:#fff;position:relative;transition:all 0.15s;}
+#mvg-hardship .hf-radio-opt input[type=radio]:checked + .hf-radio-custom{border-color:var(--g900);background:var(--g900);}
+#mvg-hardship .hf-radio-opt input[type=radio]:checked + .hf-radio-custom::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#fff;}
+#mvg-hardship .hf-radio-label{font-size:15px;font-weight:600;color:#333;line-height:1.2;}
+#mvg-hardship .hf-radio-opt:hover .hf-radio-custom{border-color:var(--lime);}
 
 /* Statement section */
 #mvg-hardship .hf-statement{display:none;margin-top:32px;}
@@ -193,30 +188,23 @@
   <hr class="hf-divider">
 
   <!-- ── SECTION 2: Hardship details ── -->
-  <div class="hf-section">
-    <h3>About your situation</h3>
-    <p>Please answer as completely as you can. All information is kept confidential.</p>
-  </div>
-
   <div class="hf-field">
-    <label class="hf-lbl" for="hfReason">Reason for hardship application</label>
-    <div class="hf-hint" style="margin-bottom:8px;padding-left:0;">What circumstances have changed since the beginning of your loan?</div>
+    <label class="hf-lbl" for="hfReason">What is the reason for your hardship application? (What circumstances have changed since the beginning of your loan?)</label>
     <textarea class="hf-textarea" id="hfReason" placeholder="e.g. I was made redundant in March and am currently seeking new employment…"></textarea>
     <div class="hf-error" id="hfReasonErr">Please describe your circumstances.</div>
   </div>
 
   <div class="hf-row">
     <div>
-      <label class="hf-lbl" for="hfAfford">Amount you can afford to pay</label>
+      <label class="hf-lbl" for="hfAfford">How much can you afford to pay if your hardship application is approved?</label>
       <div class="hf-money">
         <span class="hf-money-sign">$</span>
         <input class="hf-input" type="number" id="hfAfford" placeholder="0.00" min="0" step="0.01">
       </div>
-      <div class="hf-hint">Per week, if hardship is approved</div>
       <div class="hf-error" id="hfAffordErr">Please enter an amount.</div>
     </div>
     <div>
-      <label class="hf-lbl" for="hfDuration">Length of assistance needed</label>
+      <label class="hf-lbl" for="hfDuration">How long do you need financial hardship assistance for?</label>
       <select class="hf-select" id="hfDuration">
         <option value="">Select a period…</option>
         <option>1 month</option>
@@ -234,8 +222,7 @@
   </div>
 
   <div class="hf-field">
-    <label class="hf-lbl" for="hfBackOnTrack">Plan to get back on track</label>
-    <div class="hf-hint" style="margin-bottom:8px;padding-left:0;">What actions are you taking to resume regular loan payments once your hardship period ends?</div>
+    <label class="hf-lbl" for="hfBackOnTrack">What actions are you taking in order to get back on track with your regular loan payments once your hardship period ends?</label>
     <textarea class="hf-textarea" id="hfBackOnTrack" placeholder="e.g. I have interviews lined up and expect to be employed again within 8 weeks…"></textarea>
     <div class="hf-error" id="hfBackOnTrackErr">Please describe your plan.</div>
   </div>
@@ -255,20 +242,19 @@
   <hr class="hf-divider">
 
   <!-- ── SECTION 3: Statement of Position toggle ── -->
-  <div class="hf-section">
-    <h3>Statement of Financial Position</h3>
-    <p>We'll need this to complete your application. You can fill it in now or we'll send it to you separately.</p>
-  </div>
 
   <div class="hf-field">
-    <div class="hf-toggle">
-      <label class="hf-toggle-opt">
+    <label class="hf-lbl">Statement of Position</label>
+    <div class="hf-radios" style="margin-top:6px;">
+      <label class="hf-radio-opt">
         <input type="radio" name="hfStatement" value="now" id="hfStatementNow" onchange="hfToggleStatement('now')">
-        <div class="hf-toggle-btn">Complete it now</div>
+        <span class="hf-radio-custom"></span>
+        <span class="hf-radio-label">Complete it now</span>
       </label>
-      <label class="hf-toggle-opt">
+      <label class="hf-radio-opt">
         <input type="radio" name="hfStatement" value="later" id="hfStatementLater" onchange="hfToggleStatement('later')" checked>
-        <div class="hf-toggle-btn">Do it later</div>
+        <span class="hf-radio-custom"></span>
+        <span class="hf-radio-label">Do it later</span>
       </label>
     </div>
     <div class="hf-error" id="hfStatementErr">Please select an option.</div>
@@ -317,9 +303,16 @@
         <label class="hf-lbl" for="hfChildSupport">Child support received</label>
         <div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" id="hfChildSupport" placeholder="0.00" min="0" step="0.01"></div>
       </div>
-      <div>
-        <label class="hf-lbl" for="hfOtherIncome">Other income</label>
-        <div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" id="hfOtherIncome" placeholder="0.00" min="0" step="0.01"></div>
+      <div style="grid-column:1/-1;">
+        <label class="hf-lbl">Do you have any other income to declare?</label>
+        <div id="hfOtherIncomeRows">
+          <div class="hf-debtor-row" style="grid-template-columns:1fr 1fr auto;">
+            <div><label class="hf-lbl">Income source</label><input class="hf-input" type="text" placeholder="e.g. Rental income"></div>
+            <div><label class="hf-lbl">Amount per week</label><div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" placeholder="0.00" min="0" step="0.01"></div></div>
+            <div style="padding-top:28px;"><button class="hf-debtor-remove" onclick="hfRemoveRow(this,'hfOtherIncomeRows')" title="Remove">×</button></div>
+          </div>
+        </div>
+        <button class="hf-add-row" onclick="hfAddOtherIncome()" style="margin-top:8px;">+ Add new</button>
       </div>
     </div>
 
@@ -360,9 +353,16 @@
         <label class="hf-lbl" for="hfChildcare">Childcare or school</label>
         <div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" id="hfChildcare" placeholder="0.00" min="0" step="0.01"></div>
       </div>
-      <div>
-        <label class="hf-lbl" for="hfOtherExp">Other essential expenses</label>
-        <div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" id="hfOtherExp" placeholder="0.00" min="0" step="0.01"></div>
+      <div style="grid-column:1/-1;">
+        <label class="hf-lbl">Other essential expenses</label>
+        <div id="hfOtherExpRows">
+          <div class="hf-debtor-row" style="grid-template-columns:1fr 1fr auto;">
+            <div><label class="hf-lbl">Expense type</label><input class="hf-input" type="text" placeholder="e.g. Pet insurance"></div>
+            <div><label class="hf-lbl">Amount per week</label><div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" placeholder="0.00" min="0" step="0.01"></div></div>
+            <div style="padding-top:28px;"><button class="hf-debtor-remove" onclick="hfRemoveRow(this,'hfOtherExpRows')" title="Remove">×</button></div>
+          </div>
+        </div>
+        <button class="hf-add-row" onclick="hfAddOtherExp()" style="margin-top:8px;">+ Add new</button>
       </div>
     </div>
 
@@ -444,25 +444,60 @@
     container.appendChild(row);
   };
 
-  window.hfRemoveDebtor = function(btn) {
+  window.hfRemoveRow = function(btn, containerId) {
     const row = btn.closest('.hf-debtor-row');
-    const container = el('hfDebtorRows');
+    const container = el(containerId);
     if (container.children.length > 1) row.remove();
   };
 
+  window.hfAddOtherIncome = function() {
+    const container = el('hfOtherIncomeRows');
+    const row = document.createElement('div');
+    row.className = 'hf-debtor-row';
+    row.style.gridTemplateColumns = '1fr 1fr auto';
+    row.innerHTML = `
+      <div><label class="hf-lbl">Income source</label><input class="hf-input" type="text" placeholder="e.g. Freelance work"></div>
+      <div><label class="hf-lbl">Amount per week</label><div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" placeholder="0.00" min="0" step="0.01"></div></div>
+      <div style="padding-top:28px;"><button class="hf-debtor-remove" onclick="hfRemoveRow(this,'hfOtherIncomeRows')" title="Remove">×</button></div>
+    `;
+    container.appendChild(row);
+  };
+
+  window.hfAddOtherExp = function() {
+    const container = el('hfOtherExpRows');
+    const row = document.createElement('div');
+    row.className = 'hf-debtor-row';
+    row.style.gridTemplateColumns = '1fr 1fr auto';
+    row.innerHTML = `
+      <div><label class="hf-lbl">Expense type</label><input class="hf-input" type="text" placeholder="e.g. Gym membership"></div>
+      <div><label class="hf-lbl">Amount per week</label><div class="hf-money"><span class="hf-money-sign">$</span><input class="hf-input" type="number" placeholder="0.00" min="0" step="0.01"></div></div>
+      <div style="padding-top:28px;"><button class="hf-debtor-remove" onclick="hfRemoveRow(this,'hfOtherExpRows')" title="Remove">×</button></div>
+    `;
+    container.appendChild(row);
+  };
+
+
+
   /* ── Collect debtor rows ── */
-  function collectDebtors() {
-    const rows = el('hfDebtorRows').querySelectorAll('.hf-debtor-row');
+  function collectRepeatable(containerId, col1Name, col2Name, col3Name) {
+    const rows = el(containerId).querySelectorAll('.hf-debtor-row');
     const result = [];
     rows.forEach(row => {
       const inputs = row.querySelectorAll('input');
-      const name = inputs[0].value.trim();
-      const balance = inputs[1].value.trim();
-      const repay = inputs[2].value.trim();
-      if (name || balance || repay) result.push({ creditor: name, balance_owing: balance ? '$'+balance : '', weekly_repayments: repay ? '$'+repay : '' });
+      const v1 = inputs[0]?.value.trim();
+      const v2 = inputs[1]?.value.trim();
+      const v3 = inputs[2]?.value.trim();
+      if (v1 || v2 || v3) {
+        const obj = {};
+        if (col1Name) obj[col1Name] = v1 || '';
+        if (col2Name) obj[col2Name] = v2 ? '$'+v2 : '';
+        if (col3Name) obj[col3Name] = v3 ? '$'+v3 : '';
+        result.push(obj);
+      }
     });
     return result;
   }
+  function collectDebtors() { return collectRepeatable('hfDebtorRows','creditor','balance_owing','weekly_repayments'); }
 
   /* ── File input feedback ── */
   document.getElementById('hfFileInput').addEventListener('change', function() {
@@ -540,6 +575,10 @@
       payload.asset_savings           = el('hfSavings').value ? '$'+el('hfSavings').value : '—';
       const debtors = collectDebtors();
       payload.debtor_commitments      = debtors.length ? JSON.stringify(debtors) : 'None declared';
+      const otherIncome = collectRepeatable('hfOtherIncomeRows','source','amount_per_week',null);
+      payload.other_income            = otherIncome.length ? JSON.stringify(otherIncome) : 'None declared';
+      const otherExp = collectRepeatable('hfOtherExpRows','expense_type','amount_per_week',null);
+      payload.other_essential_expenses = otherExp.length ? JSON.stringify(otherExp) : 'None declared';
     }
 
     // Build FormData so files attach to the Formspree email
