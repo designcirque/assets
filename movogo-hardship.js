@@ -233,7 +233,7 @@
       <span class="hf-file-icon">📎</span>
       <span class="hf-file-text">
         <span class="hf-file-main">Choose files to attach</span>
-        <span class="hf-file-sub">PDF, JPG, PNG, DOC — up to 5MB total</span>
+        <span class="hf-file-sub">PDF, JPG, PNG, DOC — up to 2MB per file</span>
       </span>
     </label>
     <input type="file" id="hfFileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
@@ -510,7 +510,7 @@
     } else {
       label.classList.remove('has-file');
       label.querySelector('.hf-file-main').textContent = 'Choose files to attach';
-      label.querySelector('.hf-file-sub').textContent = 'PDF, JPG, PNG, DOC — up to 5MB total';
+      label.querySelector('.hf-file-sub').textContent = 'PDF, JPG, PNG, DOC — up to 2MB per file';
     }
   });
 
@@ -581,20 +581,36 @@
       payload.other_essential_expenses = otherExp.length ? JSON.stringify(otherExp) : 'None declared';
     }
 
-    // Build FormData so files attach to the Formspree email
-    const formData = new FormData();
-    Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
-    // Attach files
+    // Use JSON (fast) when no file attached, FormData (slower) only when file is present
     const fileInput = document.getElementById('hfFileInput');
-    if (fileInput.files.length > 0) {
+    const hasFiles = fileInput.files.length > 0;
+
+    // Validate file sizes — 2MB max per file
+    if (hasFiles) {
+      const oversized = Array.from(fileInput.files).filter(f => f.size > 2 * 1024 * 1024);
+      if (oversized.length > 0) {
+        alert(`The following file${oversized.length > 1 ? 's are' : ' is'} too large (max 2MB each):\n\n${oversized.map(f => f.name).join('\n')}\n\nPlease choose a smaller file.`);
+        return;
+      }
+    }
+
+    let body, headers;
+    if (hasFiles) {
+      const formData = new FormData();
+      Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
       Array.from(fileInput.files).forEach(file => formData.append('supporting_documents', file));
+      body = formData;
+      headers = { 'Accept': 'application/json' };
+    } else {
+      body = JSON.stringify(payload);
+      headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
     }
 
     try {
       const res = await fetch('https://formspree.io/f/meedjpgp', {
         method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: formData
+        headers,
+        body
       });
       if (res.ok) {
         el('hfSuccess').classList.add('show');
