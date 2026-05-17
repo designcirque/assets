@@ -104,22 +104,6 @@
 
 
 
-/* File upload */
-#mvg-hardship .hf-file-label{
-  display:flex;align-items:center;gap:14px;
-  padding:16px 22px;border-radius:var(--rm);
-  border:2px dashed var(--g900);background:#fff;
-  cursor:pointer;transition:all 0.15s;
-}
-#mvg-hardship .hf-file-label:hover{background:var(--cream);}
-#mvg-hardship .hf-file-label.has-file{border-style:solid;border-color:var(--lime);background:var(--lime);}
-#mvg-hardship .hf-file-icon{font-size:24px;flex-shrink:0;}
-#mvg-hardship .hf-file-text{flex:1;}
-#mvg-hardship .hf-file-main{font-size:14px;font-weight:700;color:var(--g900);}
-#mvg-hardship .hf-file-label.has-file .hf-file-main{color:var(--g900);}
-#mvg-hardship .hf-file-sub{font-size:12px;color:var(--ink-f);font-weight:600;margin-top:2px;}
-#mvg-hardship .hf-file-label.has-file .hf-file-sub{color:var(--g900);}
-#mvg-hardship input[type=file]{display:none;}
 
 #mvg-hardship .hf-submit{
   display:inline-flex;align-items:center;gap:8px;
@@ -229,14 +213,9 @@
 
   <div class="hf-field">
     <label class="hf-lbl">Supporting documents <span class="hf-optional">(optional)</span></label>
-    <label class="hf-file-label" id="hfFileLabel" for="hfFileInput">
-      <span class="hf-file-icon">📎</span>
-      <span class="hf-file-text">
-        <span class="hf-file-main">Choose files to attach</span>
-        <span class="hf-file-sub">PDF, JPG, PNG, DOC — up to 2MB per file</span>
-      </span>
-    </label>
-    <input type="file" id="hfFileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+    <div style="background:var(--cream);border-radius:var(--rm);padding:16px 20px;font-size:14px;font-weight:600;color:#333;line-height:1.6;">
+      If you have supporting documents, please email them to <strong>hardship@movogo.co.nz</strong> with your name in the subject line. You can do this before or after submitting this form.
+    </div>
   </div>
 
   <hr class="hf-divider">
@@ -499,20 +478,6 @@
   }
   function collectDebtors() { return collectRepeatable('hfDebtorRows','creditor','balance_owing','weekly_repayments'); }
 
-  /* ── File input feedback ── */
-  document.getElementById('hfFileInput').addEventListener('change', function() {
-    const label = el('hfFileLabel');
-    if (this.files.length > 0) {
-      const names = Array.from(this.files).map(f => f.name).join(', ');
-      label.classList.add('has-file');
-      label.querySelector('.hf-file-main').textContent = this.files.length === 1 ? this.files[0].name : `${this.files.length} files selected`;
-      label.querySelector('.hf-file-sub').textContent = names;
-    } else {
-      label.classList.remove('has-file');
-      label.querySelector('.hf-file-main').textContent = 'Choose files to attach';
-      label.querySelector('.hf-file-sub').textContent = 'PDF, JPG, PNG, DOC — up to 2MB per file';
-    }
-  });
 
 
   function setErr(errId, inputId, show) {
@@ -556,23 +521,24 @@
     };
 
     if (includeStatement) {
-      payload.dependents              = el('hfDependents').value;
-      payload.income_salary           = el('hfSalary').value ? '$'+el('hfSalary').value : '—';
-      payload.income_employer         = el('hfEmployer').value.trim() || '—';
-      payload.income_benefits         = el('hfBenefits').value ? '$'+el('hfBenefits').value : '—';
-      payload.income_child_support    = el('hfChildSupport').value ? '$'+el('hfChildSupport').value : '—';
-      payload.income_other            = el('hfOtherIncome').value ? '$'+el('hfOtherIncome').value : '—';
-      payload.expense_rent            = el('hfRent').value ? '$'+el('hfRent').value : '—';
-      payload.expense_utilities       = el('hfUtilities').value ? '$'+el('hfUtilities').value : '—';
-      payload.expense_food            = el('hfFood').value ? '$'+el('hfFood').value : '—';
-      payload.expense_fuel            = el('hfFuel').value ? '$'+el('hfFuel').value : '—';
-      payload.expense_insurance       = el('hfInsurance').value ? '$'+el('hfInsurance').value : '—';
-      payload.expense_medical         = el('hfMedical').value ? '$'+el('hfMedical').value : '—';
-      payload.expense_phone           = el('hfPhoneExp').value ? '$'+el('hfPhoneExp').value : '—';
-      payload.expense_childcare       = el('hfChildcare').value ? '$'+el('hfChildcare').value : '—';
-      payload.expense_other           = el('hfOtherExp').value ? '$'+el('hfOtherExp').value : '—';
-      payload.asset_vehicle_value     = el('hfVehicleVal').value ? '$'+el('hfVehicleVal').value : '—';
-      payload.asset_savings           = el('hfSavings').value ? '$'+el('hfSavings').value : '—';
+      const v = (id) => { const e = el(id); return e ? e.value : ''; };
+      payload.dependents              = v('hfDependents');
+      payload.income_salary           = v('hfSalary') ? '$'+v('hfSalary') : '—';
+      payload.income_employer         = v('hfEmployer') || '—';
+      payload.income_benefits         = v('hfBenefits') ? '$'+v('hfBenefits') : '—';
+      payload.income_child_support    = v('hfChildSupport') ? '$'+v('hfChildSupport') : '—';
+      payload.income_other            = v('hfOtherIncome') ? '$'+v('hfOtherIncome') : '—';
+      payload.expense_rent            = v('hfRent') ? '$'+v('hfRent') : '—';
+      payload.expense_utilities       = v('hfUtilities') ? '$'+v('hfUtilities') : '—';
+      payload.expense_food            = v('hfFood') ? '$'+v('hfFood') : '—';
+      payload.expense_fuel            = v('hfFuel') ? '$'+v('hfFuel') : '—';
+      payload.expense_insurance       = v('hfInsurance') ? '$'+v('hfInsurance') : '—';
+      payload.expense_medical         = v('hfMedical') ? '$'+v('hfMedical') : '—';
+      payload.expense_phone           = v('hfPhoneExp') ? '$'+v('hfPhoneExp') : '—';
+      payload.expense_childcare       = v('hfChildcare') ? '$'+v('hfChildcare') : '—';
+      payload.expense_other           = v('hfOtherExp') ? '$'+v('hfOtherExp') : '—';
+      payload.asset_vehicle_value     = v('hfVehicleVal') ? '$'+v('hfVehicleVal') : '—';
+      payload.asset_savings           = v('hfSavings') ? '$'+v('hfSavings') : '—';
       const debtors = collectDebtors();
       payload.debtor_commitments      = debtors.length ? JSON.stringify(debtors) : 'None declared';
       const otherIncome = collectRepeatable('hfOtherIncomeRows','source','amount_per_week',null);
@@ -581,36 +547,11 @@
       payload.other_essential_expenses = otherExp.length ? JSON.stringify(otherExp) : 'None declared';
     }
 
-    // Use JSON (fast) when no file attached, FormData (slower) only when file is present
-    const fileInput = document.getElementById('hfFileInput');
-    const hasFiles = fileInput.files.length > 0;
-
-    // Validate file sizes — 2MB max per file
-    if (hasFiles) {
-      const oversized = Array.from(fileInput.files).filter(f => f.size > 2 * 1024 * 1024);
-      if (oversized.length > 0) {
-        alert(`The following file${oversized.length > 1 ? 's are' : ' is'} too large (max 2MB each):\n\n${oversized.map(f => f.name).join('\n')}\n\nPlease choose a smaller file.`);
-        return;
-      }
-    }
-
-    let body, headers;
-    if (hasFiles) {
-      const formData = new FormData();
-      Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
-      Array.from(fileInput.files).forEach(file => formData.append('supporting_documents', file));
-      body = formData;
-      headers = { 'Accept': 'application/json' };
-    } else {
-      body = JSON.stringify(payload);
-      headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
-    }
-
     try {
       const res = await fetch('https://formspree.io/f/meedjpgp', {
         method: 'POST',
-        headers,
-        body
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
       });
       if (res.ok) {
         el('hfSuccess').classList.add('show');
