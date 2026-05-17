@@ -527,7 +527,7 @@
       try {
         const res = await fetch('https://formspree.io/f/xeeryage', {
           method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-          body: JSON.stringify({ name, phone, email, frequency: S.freq, membership_items: memKeys.join(', ')||'None', membership_estimate: fmtAmt(memW * FREQ_MULT[S.freq]) + ' ' + FREQ_LABEL[S.freq] })
+          body: JSON.stringify({ _subject: 'Membership enquiry', name, phone, email, frequency: S.freq, membership_items: memKeys.join(', ')||'None', membership_estimate: fmtAmt(memW * FREQ_MULT[S.freq]) + ' ' + FREQ_LABEL[S.freq] })
         });
         if (res.ok) {
           el('mvgSuccess').classList.add('show');
@@ -572,6 +572,12 @@
     if(add&&ids.includes(add)) S.selected.add(add);
     if(rem&&ids.includes(rem)) S.selected.delete(rem);
   })();
+
+  window.mvgOpenFinanceCalc = function() {
+    S.financeCalcOpen = true;
+    renderEstimate();
+    setTimeout(() => el('financeCalc').scrollIntoView({ behavior:'smooth', block:'start' }), 50);
+  };
 
   // Accordion
   function applyExpanded(key, open) {
