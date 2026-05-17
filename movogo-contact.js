@@ -206,6 +206,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
+         _subject: 'Contact form',
           first_name:    first,
           last_name:     last,
           email,
