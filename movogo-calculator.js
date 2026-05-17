@@ -25,7 +25,7 @@
 #mvg-root h2,#mvg-root h3,#mvg-root h4,#mvg-root p{margin:0;}
 #mvg-root .mvg-wrap{}
 #mvg-root .build{padding:72px 0;background:transparent;scroll-margin-top:132px;}
-#mvg-root .build-head{text-align:left;margin-bottom:48px;}
+#mvg-root .build-head{text-align:center;margin-bottom:48px;}
 #mvg-root .build-head h2{font-size:clamp(24px,3vw,32px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
 #mvg-root .build-head p{font-size:18px;color:#333;font-weight:600;}
 #mvg-root .categories{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;}
@@ -39,7 +39,7 @@
 #mvg-root .category-sub{font-size:13px;color:#333;font-weight:600;line-height:1.4;}
 
 
-#mvg-root .category-chevron{font-size:18px;color:rgba(255,255,255,0.7);transition:transform 0.25s;flex-shrink:0;}
+#mvg-root .category-chevron{font-size:22px;color:var(--g900);transition:transform 0.25s;flex-shrink:0;opacity:0.5;}
 #mvg-root .category.open .category-chevron{transform:rotate(180deg);}
 #mvg-root .category-body.collapsed{display:none;}
 #mvg-root .category-body{padding:0 28px 28px;}
