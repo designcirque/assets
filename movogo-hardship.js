@@ -8,17 +8,6 @@
 
 (function () {
 
-  /* ── Load Uploadcare widget ── */
-  if (!document.querySelector('script[src*="uploadcare"]')) {
-    const s = document.createElement('script');
-    s.src = 'https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js';
-    s.dataset.publicKey = 'meedjpgp';
-    s.dataset.imagesOnly = 'false';
-    s.dataset.multiple = 'true';
-    s.dataset.maxSize = '10485760'; // 10MB
-    document.head.appendChild(s);
-  }
-
   const CSS = `
 #mvg-hardship {
   --g900:#014b43;--g700:#0A665A;
@@ -118,19 +107,25 @@
 #mvg-hardship .hf-add-row{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;border:2px solid var(--g900);background:#fff;font-size:13px;font-weight:700;color:var(--g900);cursor:pointer;font-family:inherit;transition:all 0.15s;margin-top:4px;}
 #mvg-hardship .hf-add-row:hover{background:var(--g900);color:#fff;}
 
-/* Upload area */
-#mvg-hardship .hf-upload-wrap .uploadcare--widget__button{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:13px 24px;border-radius:999px;
-  border:2px solid var(--g900);background:#fff;
-  font-size:14px;font-weight:700;color:var(--g900);
-  cursor:pointer;font-family:area-normal,sans-serif;
-  transition:all 0.15s;
-}
-#mvg-hardship .hf-upload-wrap .uploadcare--widget__button:hover{background:var(--g900);color:#fff;}
-#mvg-hardship .hf-upload-note{font-size:12px;color:var(--ink-f);font-weight:600;margin-top:8px;}
 
-/* Submit */
+
+/* File upload */
+#mvg-hardship .hf-file-label{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 22px;border-radius:var(--rm);
+  border:2px dashed var(--g900);background:#fff;
+  cursor:pointer;transition:all 0.15s;
+}
+#mvg-hardship .hf-file-label:hover{background:var(--cream);}
+#mvg-hardship .hf-file-label.has-file{border-style:solid;border-color:var(--lime);background:var(--lime);}
+#mvg-hardship .hf-file-icon{font-size:24px;flex-shrink:0;}
+#mvg-hardship .hf-file-text{flex:1;}
+#mvg-hardship .hf-file-main{font-size:14px;font-weight:700;color:var(--g900);}
+#mvg-hardship .hf-file-label.has-file .hf-file-main{color:var(--g900);}
+#mvg-hardship .hf-file-sub{font-size:12px;color:var(--ink-f);font-weight:600;margin-top:2px;}
+#mvg-hardship .hf-file-label.has-file .hf-file-sub{color:var(--g900);}
+#mvg-hardship input[type=file]{display:none;}
+
 #mvg-hardship .hf-submit{
   display:inline-flex;align-items:center;gap:8px;
   padding:15px 40px;border-radius:999px;
@@ -247,11 +242,14 @@
 
   <div class="hf-field">
     <label class="hf-lbl">Supporting documents <span class="hf-optional">(optional)</span></label>
-    <div class="hf-upload-wrap">
-      <input type="hidden" role="uploadcare-uploader" id="hfUpload" name="supporting_documents">
-    </div>
-    <div class="hf-upload-note">Accepted: PDF, JPG, PNG, DOC. Max 10MB per file.</div>
-    <div class="hf-error" id="hfUploadErr"></div>
+    <label class="hf-file-label" id="hfFileLabel" for="hfFileInput">
+      <span class="hf-file-icon">📎</span>
+      <span class="hf-file-text">
+        <span class="hf-file-main">Choose files to attach</span>
+        <span class="hf-file-sub">PDF, JPG, PNG, DOC — up to 5MB total</span>
+      </span>
+    </label>
+    <input type="file" id="hfFileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
   </div>
 
   <hr class="hf-divider">
@@ -426,24 +424,6 @@
   /* ── Helpers ── */
   const el = id => document.getElementById(id);
   let debtorCount = 1;
-  let uploadedFileUrl = '';
-
-  /* ── Uploadcare ── */
-  function initUploadcare() {
-    if (typeof uploadcare === 'undefined') { setTimeout(initUploadcare, 300); return; }
-    const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-    widget.onChange(function(file) {
-      if (file) {
-        file.promise().then(function(info) {
-          uploadedFileUrl = info.cdnUrl;
-        });
-      } else {
-        uploadedFileUrl = '';
-      }
-    });
-  }
-  setTimeout(initUploadcare, 800);
-
   /* ── Toggle statement section ── */
   window.hfToggleStatement = function(val) {
     const section = el('hfStatementSection');
@@ -484,7 +464,22 @@
     return result;
   }
 
-  /* ── Validation helper ── */
+  /* ── File input feedback ── */
+  document.getElementById('hfFileInput').addEventListener('change', function() {
+    const label = el('hfFileLabel');
+    if (this.files.length > 0) {
+      const names = Array.from(this.files).map(f => f.name).join(', ');
+      label.classList.add('has-file');
+      label.querySelector('.hf-file-main').textContent = this.files.length === 1 ? this.files[0].name : `${this.files.length} files selected`;
+      label.querySelector('.hf-file-sub').textContent = names;
+    } else {
+      label.classList.remove('has-file');
+      label.querySelector('.hf-file-main').textContent = 'Choose files to attach';
+      label.querySelector('.hf-file-sub').textContent = 'PDF, JPG, PNG, DOC — up to 5MB total';
+    }
+  });
+
+
   function setErr(errId, inputId, show) {
     el(errId).classList.toggle('show', show);
     if (inputId && el(inputId)) el(inputId).classList.toggle('error', show);
@@ -522,7 +517,6 @@
       affordable_repayment:       '$' + el('hfAfford').value.trim() + ' per week',
       assistance_duration:        el('hfDuration').value,
       plan_to_get_back_on_track:  el('hfBackOnTrack').value.trim(),
-      supporting_documents:       uploadedFileUrl || 'None uploaded',
       statement_of_position:      statementMode === 'later' ? 'To be sent separately' : 'Completed below',
     };
 
@@ -548,11 +542,20 @@
       payload.debtor_commitments      = debtors.length ? JSON.stringify(debtors) : 'None declared';
     }
 
+    // Build FormData so files attach to the Formspree email
+    const formData = new FormData();
+    Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
+    // Attach files
+    const fileInput = document.getElementById('hfFileInput');
+    if (fileInput.files.length > 0) {
+      Array.from(fileInput.files).forEach(file => formData.append('supporting_documents', file));
+    }
+
     try {
       const res = await fetch('https://formspree.io/f/meedjpgp', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
+        headers: { 'Accept': 'application/json' },
+        body: formData
       });
       if (res.ok) {
         el('hfSuccess').classList.add('show');
