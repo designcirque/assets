@@ -24,7 +24,7 @@
 #mvg-root *,#mvg-root *::before,#mvg-root *::after{box-sizing:border-box;font-family:area-normal,sans-serif;}
 #mvg-root h2,#mvg-root h3,#mvg-root h4,#mvg-root p{margin:0;}
 #mvg-root .mvg-wrap{}
-#mvg-root .build{padding:72px 0;background:transparent;}
+#mvg-root .build{padding:72px 0;background:transparent;scroll-margin-top:132px;}
 #mvg-root .build-head{text-align:left;margin-bottom:48px;}
 #mvg-root .build-head h2{font-size:clamp(24px,3vw,32px);font-weight:800;color:var(--g900);letter-spacing:-0.02em;margin-bottom:10px;}
 #mvg-root .build-head p{font-size:18px;color:#333;font-weight:600;}
@@ -126,7 +126,7 @@
 #mvg-root .btn-outline{background:#fff;color:var(--g900);border:2px solid var(--g900);padding:11px 26px;}
 #mvg-root .btn-outline:hover{background:var(--g900);color:#fff;}
 #mvg-root .btn-sm{padding:9px 18px;font-size:13px;}
-#mvg-root .calc{background:#fff;border-radius:var(--rl);padding:28px 32px;margin-top:20px;border:1.5px solid var(--line);}
+#mvg-root .calc{background:#fff;border-radius:var(--rl);padding:28px 32px;margin-top:20px;border:1.5px solid var(--line);scroll-margin-top:132px;}
 #mvg-root .calc.hidden{display:none;}
 #mvg-root .calc-head{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
 #mvg-root .calc-head h3{font-size:20px;font-weight:800;color:var(--g900);}
@@ -443,7 +443,7 @@
     } else if (S.selected.size > 0) {
       mvgOpenModal('membership');
     } else {
-      document.querySelector('#mvg-root .build-head').scrollIntoView({behavior:'smooth'});
+      scrollTo('mvg-root');
     }
   };
 
@@ -560,7 +560,7 @@
   el('ctaConfigureLoan').addEventListener('click',()=>{
     S.financeCalcOpen = true;
     renderEstimate();
-    setTimeout(()=>el('financeCalc').scrollIntoView({behavior:'smooth', block:'start'}), 50);
+    setTimeout(() => scrollTo('financeCalc'), 50);
   });
   el('addCarShortcut').addEventListener('click',()=>{ if(!S.selected.has('buy')){S.selected.add('buy');renderGrids();renderEstimate();} });
   el('clearAllBtn').addEventListener('click',()=>{ if(!S.selected.size)return; if(!confirm('Clear your current selection? This will reset your estimate.'))return; S.selected.clear(); S.financeCalcOpen=false; renderGrids(); renderEstimate(); });
@@ -573,10 +573,16 @@
     if(rem&&ids.includes(rem)) S.selected.delete(rem);
   })();
 
+  // ── Scroll offset — controlled via scroll-margin-top in CSS ──
+  function scrollTo(elementId) {
+    const target = el(elementId);
+    if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
   window.mvgOpenFinanceCalc = function() {
     S.financeCalcOpen = true;
     renderEstimate();
-    setTimeout(() => el('financeCalc').scrollIntoView({ behavior:'smooth', block:'start' }), 50);
+    setTimeout(() => scrollTo('financeCalc'), 50);
   };
 
   // Accordion
