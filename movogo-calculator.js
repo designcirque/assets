@@ -1,6 +1,6 @@
 /* ============================================================
    MOVOGO Plan Builder — movogo-calculator.js
-   Host at: https://cdn.jsdelivr.net/gh/designcirque/assets@main/movogo-calculator.js
+   Host at: https://designcirque.github.io/assets/movogo-calculator.js
    Webflow embed: <div id="mvg-root"></div><script src="..." defer></script>
    ============================================================ */
 
@@ -37,12 +37,21 @@
 #mvg-root .category-title-wrap{flex:1;}
 #mvg-root .category-title{font-size:22px;font-weight:800;color:var(--g900);letter-spacing:-0.01em;margin-bottom:4px;}
 #mvg-root .category-sub{font-size:13px;color:#333;font-weight:600;line-height:1.4;}
-
-
 #mvg-root .category-chevron{font-size:22px;color:var(--g900);transition:transform 0.25s;flex-shrink:0;opacity:0.5;}
 #mvg-root .category.open .category-chevron{transform:rotate(180deg);}
 #mvg-root .category-body.collapsed{display:none;}
 #mvg-root .category-body{padding:0 28px 28px;}
+
+/* Summary pills — shown when collapsed */
+#mvg-root .category-summary{padding:0 28px 16px;display:flex;flex-wrap:wrap;gap:8px;}
+#mvg-root .category-summary.hidden{display:none;}
+#mvg-root .summary-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:700;border:2px solid var(--line);background:var(--paper);color:var(--ink-s);transition:all 0.15s;cursor:pointer;}
+#mvg-root .summary-pill:hover:not(.disabled){border-color:var(--g900);color:var(--g900);}
+#mvg-root .summary-pill.selected{background:var(--g900);border-color:var(--g900);color:#fff;}
+#mvg-root .category--membership .summary-pill.selected{background:var(--lime);border-color:var(--lime);color:var(--g900);}
+#mvg-root .summary-pill.disabled{opacity:0.4;cursor:not-allowed;}
+#mvg-root .summary-pill.selected .pill-check{display:inline;}
+#mvg-root .pill-check{display:none;font-size:11px;}
 
 #mvg-root .category-sub-heading{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--g900);font-weight:800;margin:24px 0 14px;padding-left:2px;}
 #mvg-root .addon-notice{background:var(--cream);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:#333;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
@@ -99,7 +108,6 @@
 #mvg-root .empty-estimate-amount .estimate-total-freq{font-size:15px;font-weight:600;color:rgba(255,255,255,0.3);margin-left:6px;}
 #mvg-root .empty-estimate-prompt{font-size:14px;color:rgba(255,255,255,0.5);font-weight:600;margin-bottom:20px;}
 #mvg-root .empty-estimate-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-
 #mvg-root .estimate-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px;margin-bottom:20px;}
 #mvg-root .estimate-total-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);font-weight:700;margin-bottom:4px;}
 #mvg-root .estimate-total-amount{font-size:32px;font-weight:800;letter-spacing:-0.02em;line-height:1;}
@@ -159,12 +167,11 @@
 #mvg-root .itemised-row .item{color:#333;font-weight:600;}
 #mvg-root .itemised-row .amt{color:var(--g900);font-weight:700;}
 #mvg-root .itemised-total{display:flex;justify-content:space-between;align-items:center;padding:12px 0 0;font-size:16px;font-weight:800;color:var(--g900);}
-
 #mvg-root .mvg-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,35,0.5);z-index:9999;align-items:center;justify-content:center;padding:16px;}
 #mvg-root .mvg-overlay.show{display:flex;}
 #mvg-root .mvg-modal{background:var(--paper);border-radius:var(--rl);padding:32px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
 #mvg-root .mvg-modal h3{font-size:22px;font-weight:800;color:var(--g900);margin-bottom:6px;}
-#mvg-root .modal-cancel{background:none;border:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--g900);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;}
+#mvg-root .modal-cancel{margin-left:auto;background:none;border:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--g900);text-decoration:underline;text-underline-offset:2px;cursor:pointer;padding:0;}
 #mvg-root .mvg-modal .modal-sub{font-size:14px;color:#333;font-weight:600;margin-bottom:22px;line-height:1.4;}
 #mvg-root .mvg-field{margin-bottom:14px;}
 #mvg-root .mvg-lbl{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#333;margin-bottom:5px;}
@@ -198,13 +205,14 @@
     { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue' },
   ];
   const FINANCE_ADDONS = [
-    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical cover',  subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime' },
-    { id:'redundancy', title:'Redundancy Waiver',              pill:'Job cover',          desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime' },
-    { id:'health',     title:'Health Waiver',                  pill:'Health cover',       desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral' },
-    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total loss cover',   desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue' },
-    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment holiday',  desc:'Press pause on repayments for an approved period. A scheduling feature that puts you in control of timing.',                  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green' },
+    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'MBI',               subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime' },
+    { id:'redundancy', title:'Redundancy Waiver',              pill:'Redundancy Waiver',  desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime' },
+    { id:'health',     title:'Health Waiver',                  pill:'Health Waiver',      desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral' },
+    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total Loss Waiver',  desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue' },
+    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment Holiday',  desc:'Press pause on repayments for an approved period. A scheduling feature that puts you in control of timing.',  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green' },
   ];
   const ALL_PRODUCTS = [...MEMBERSHIP, ...FINANCE_LOANS, ...FINANCE_ADDONS];
+  const ALL_FINANCE = [...FINANCE_LOANS, ...FINANCE_ADDONS];
 
   const productUrl = id => '/products/' + (id || 'overview');
   const FREQ_MULT   = { weekly:1, fortnightly:2, monthly:52/12 };
@@ -213,8 +221,9 @@
 
   const S = {
     selected: new Set(), freq:'weekly',
-    borrow:20000, term:60, rate:14.95, path:'finance',
-    financeCalcOpen:false, expanded:{ membership:true, finance:true },
+    borrow:20000, term:60, rate:14.95,
+    financeCalcOpen:false,
+    expanded:{ membership:true, finance:true },
     modalMode: 'membership'
   };
 
@@ -227,22 +236,17 @@
   <div class="mvg-modal">
     <h3 id="mvgModalTitle">Almost there</h3>
     <p class="modal-sub" id="mvgModalSub">Give us a few details and we'll pre-fill your application.</p>
-
-    <!-- Finance fields -->
     <div id="mvgFinanceFields">
       <div class="mvg-field"><label class="mvg-lbl" for="mvgFirst">First name</label><input class="mvg-input" type="text" id="mvgFirst" placeholder="Jane"><div class="mvg-error" id="mvgFirstErr">Please enter your first name.</div></div>
       <div class="mvg-field"><label class="mvg-lbl" for="mvgLast">Last name</label><input class="mvg-input" type="text" id="mvgLast" placeholder="Smith"><div class="mvg-error" id="mvgLastErr">Please enter your last name.</div></div>
       <div class="mvg-field"><label class="mvg-lbl" for="mvgAppEmail">Email</label><input class="mvg-input" type="email" id="mvgAppEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgAppEmailErr">Please enter a valid email.</div></div>
       <div class="mvg-field"><label class="mvg-lbl" for="mvgMobile">Mobile</label><input class="mvg-input" type="tel" id="mvgMobile" placeholder="+64 21 123 4567"><div class="mvg-error" id="mvgMobileErr">Please enter your mobile number.</div></div>
     </div>
-
-    <!-- Membership-only fields -->
     <div id="mvgMembershipFields" style="display:none">
       <div class="mvg-field"><label class="mvg-lbl" for="mvgName">Name</label><input class="mvg-input" type="text" id="mvgName" placeholder="Jane Smith"><div class="mvg-error" id="mvgNameErr">Please enter your name.</div></div>
       <div class="mvg-field"><label class="mvg-lbl" for="mvgPhone">Phone</label><input class="mvg-input" type="tel" id="mvgPhone" placeholder="021 123 4567"><div class="mvg-error" id="mvgPhoneErr">Please enter your phone number.</div></div>
       <div class="mvg-field"><label class="mvg-lbl" for="mvgEmail">Email</label><input class="mvg-input" type="email" id="mvgEmail" placeholder="jane@example.com"><div class="mvg-error" id="mvgEmailErr">Please enter a valid email.</div></div>
     </div>
-
     <div class="mvg-success" id="mvgSuccess">✓ Thanks! We'll be in touch shortly.</div>
     <div class="modal-btns">
       <button class="btn btn-lime" id="mvgModalSubmit" onclick="mvgSubmitModal()" style="padding-top:17px;padding-bottom:19px;padding-left:28px;padding-right:28px;font-size:15px;">Send enquiry</button>
@@ -256,19 +260,21 @@
     <div class="build-head"><h2>Here's what you can get.</h2><p>Mix and match whatever suits your situation. Your estimate builds as you go.</p></div>
     <div class="categories">
       <div class="category category--membership" data-category="membership">
-      <button class="category-head" data-toggle="membership" aria-expanded="true">
+        <button class="category-head" data-toggle="membership" aria-expanded="true">
           <div class="wonky wonky--md wonky--lime"><span class="emoji">🔧</span></div>
           <div class="category-title-wrap"><div class="category-title">Membership</div><div class="category-sub">Look after the car you've got, or the one you're financing. Spread across your regular payment.</div></div>
           <div class="category-chevron">▾</div>
         </button>
+        <div class="category-summary hidden" id="membershipSummary"></div>
         <div class="category-body" id="membershipBody"><div class="cards-col" id="membershipGrid"></div></div>
       </div>
       <div class="category category--finance" data-category="finance">
-      <button class="category-head" data-toggle="finance" aria-expanded="true">
+        <button class="category-head" data-toggle="finance" aria-expanded="true">
           <div class="wonky wonky--md wonky--coral"><span class="emoji">🔑</span></div>
           <div class="category-title-wrap"><div class="category-title">Finance</div><div class="category-sub">Borrow for a car, refinance, or fund repairs. Plus optional loan cover.</div></div>
           <div class="category-chevron">▾</div>
         </button>
+        <div class="category-summary hidden" id="financeSummary"></div>
         <div class="category-body" id="financeBody">
           <div class="cards-col" id="financeGrid"></div>
           <div class="category-sub-heading">Optional loan products</div>
@@ -340,7 +346,6 @@
 
   </div>
 </section>
-
 `;
 
   /* ── Helpers ── */
@@ -379,6 +384,33 @@
       </div></div>`;
   }
 
+  function renderSummaryPills() {
+    // Membership pills
+    const memPills = MEMBERSHIP.map(p => {
+      const sel = S.selected.has(p.id);
+      const disabled = p.soon ? 'data-disabled="true"' : '';
+      return `<span class="summary-pill${sel?' selected':''}${p.soon?' disabled':''}" data-id="${p.id}" ${disabled}>${sel?'<span class="pill-check">✓ </span>':''}${p.pill}</span>`;
+    }).join('');
+    el('membershipSummary').innerHTML = memPills;
+
+    // Finance pills
+    const loan = hasLoan();
+    const finPills = ALL_FINANCE.map(p => {
+      const sel = S.selected.has(p.id);
+      const isDisabled = p.requiresFinance && !loan;
+      return `<span class="summary-pill${sel?' selected':''}${isDisabled?' disabled':''}" data-id="${p.id}" data-disabled="${isDisabled}">${sel?'<span class="pill-check">✓ </span>':''}${p.pill}</span>`;
+    }).join('');
+    el('financeSummary').innerHTML = finPills;
+
+    // Attach click handlers to pills
+    document.querySelectorAll('#mvg-root .category-summary .summary-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        if (pill.dataset.disabled === 'true') return;
+        toggleSelect(pill.dataset.id);
+      });
+    });
+  }
+
   function renderGrids() {
     const loan = hasLoan();
     el('membershipGrid').innerHTML = MEMBERSHIP.map(p => cardHTML(p,false)).join('');
@@ -387,6 +419,7 @@
     el('addonNotice').classList.toggle('active',loan);
     el('addonText').textContent = loan ? "You've got a loan. Add any of these optional products to your plan." : "These need a Movogo loan. Pick a finance product above to add them.";
     attachCardHandlers();
+    renderSummaryPills();
   }
 
   function attachCardHandlers() {
@@ -453,7 +486,7 @@
     const isFinance = S.modalMode === 'finance';
     el('mvgModalTitle').textContent = isFinance ? 'Step one' : 'Almost there';
     el('mvgModalSub').textContent = isFinance
-      ? 'A few quick details so we can pick up where you left off.'
+      ? 'A few quick details:'
       : 'Give us a few details and we\'ll be in touch to set up your membership.';
     el('mvgFinanceFields').style.display = isFinance ? 'block' : 'none';
     el('mvgMembershipFields').style.display = isFinance ? 'none' : 'block';
@@ -462,80 +495,57 @@
     el('mvgModalCancel').textContent = 'Cancel';
     el('mvgSuccess').classList.remove('show');
     el('mvgModal').classList.add('show');
-    const b = el('mvgModalSubmit'); b.disabled = false;
+    el('mvgModalSubmit').disabled = false;
   };
   window.mvgCloseModal = function() { el('mvgModal').classList.remove('show'); };
   el('mvgModal').addEventListener('click', e => { if(e.target===el('mvgModal')) mvgCloseModal(); });
 
   window.mvgSubmitModal = async function() {
     const isFinance = S.modalMode === 'finance';
-
     if (isFinance) {
-      // Validate finance fields
-      const first  = el('mvgFirst').value.trim();
-      const last   = el('mvgLast').value.trim();
-      const email  = el('mvgAppEmail').value.trim();
-      const mobile = el('mvgMobile').value.trim();
-      let ok = true;
-      if (!first)  { el('mvgFirstErr').classList.add('show');    el('mvgFirst').classList.add('error');    ok=false; } else { el('mvgFirstErr').classList.remove('show');    el('mvgFirst').classList.remove('error'); }
-      if (!last)   { el('mvgLastErr').classList.add('show');     el('mvgLast').classList.add('error');     ok=false; } else { el('mvgLastErr').classList.remove('show');     el('mvgLast').classList.remove('error'); }
-      if (!email||!email.includes('@')) { el('mvgAppEmailErr').classList.add('show'); el('mvgAppEmail').classList.add('error'); ok=false; } else { el('mvgAppEmailErr').classList.remove('show'); el('mvgAppEmail').classList.remove('error'); }
-      if (!mobile) { el('mvgMobileErr').classList.add('show');   el('mvgMobile').classList.add('error');   ok=false; } else { el('mvgMobileErr').classList.remove('show');   el('mvgMobile').classList.remove('error'); }
-      if (!ok) return;
-
-      // Format mobile to E.164
-      let mob = mobile.replace(/\s+/g, '');
-      if (mob.startsWith('0')) mob = '+64' + mob.slice(1);
-      else if (!mob.startsWith('+')) mob = '+64' + mob;
-
-      // Build params and redirect
-      const p = new URLSearchParams({
-        form_first_name:        first,
-        form_last_name:         last,
-        form_applicant_email:   email,
-        form_applicant_mobile:  mob,
-        form_intent_new_car:    S.selected.has('buy')      ? 'true' : 'false',
-        form_intent_refinance:  S.selected.has('refi')     ? 'true' : 'false',
-        form_intent_repairs:    S.selected.has('repairs')  ? 'true' : 'false',
-        form_loan_amount:       S.borrow,
-        form_loan_durationin_months: S.term,
-        form_repayment_frequency: S.freq.charAt(0).toUpperCase() + S.freq.slice(1),
-        form_mechanical_breakdown_insurance: S.selected.has('provident')  ? 'true' : 'false',
-        form_redundancy_waiver:              S.selected.has('redundancy') ? 'true' : 'false',
-        form_health_waiver:                  S.selected.has('health')     ? 'true' : 'false',
-        form_total_loss_waiver:              S.selected.has('totalloss')  ? 'true' : 'false',
-        form_repayment_holiday:              S.selected.has('holiday')    ? 'true' : 'false',
+      const first=el('mvgFirst').value.trim(), last=el('mvgLast').value.trim();
+      const email=el('mvgAppEmail').value.trim(), mobile=el('mvgMobile').value.trim();
+      let ok=true;
+      if(!first){el('mvgFirstErr').classList.add('show');el('mvgFirst').classList.add('error');ok=false;}else{el('mvgFirstErr').classList.remove('show');el('mvgFirst').classList.remove('error');}
+      if(!last){el('mvgLastErr').classList.add('show');el('mvgLast').classList.add('error');ok=false;}else{el('mvgLastErr').classList.remove('show');el('mvgLast').classList.remove('error');}
+      if(!email||!email.includes('@')){el('mvgAppEmailErr').classList.add('show');el('mvgAppEmail').classList.add('error');ok=false;}else{el('mvgAppEmailErr').classList.remove('show');el('mvgAppEmail').classList.remove('error');}
+      if(!mobile){el('mvgMobileErr').classList.add('show');el('mvgMobile').classList.add('error');ok=false;}else{el('mvgMobileErr').classList.remove('show');el('mvgMobile').classList.remove('error');}
+      if(!ok)return;
+      let mob=mobile.replace(/\s+/g,'');
+      if(mob.startsWith('0')) mob='+64'+mob.slice(1);
+      else if(!mob.startsWith('+')) mob='+64'+mob;
+      const p=new URLSearchParams({
+        form_first_name:first, form_last_name:last,
+        form_applicant_email:email, form_applicant_mobile:mob,
+        form_intent_new_car:S.selected.has('buy')?'true':'false',
+        form_intent_refinance:S.selected.has('refi')?'true':'false',
+        form_intent_repairs:S.selected.has('repairs')?'true':'false',
+        form_loan_amount:S.borrow, form_loan_durationin_months:S.term,
+        form_repayment_frequency:S.freq.charAt(0).toUpperCase()+S.freq.slice(1),
+        form_mechanical_breakdown_insurance:S.selected.has('provident')?'true':'false',
+        form_redundancy_waiver:S.selected.has('redundancy')?'true':'false',
+        form_health_waiver:S.selected.has('health')?'true':'false',
+        form_total_loss_waiver:S.selected.has('totalloss')?'true':'false',
+        form_repayment_holiday:S.selected.has('holiday')?'true':'false',
       });
-      const memNames = MEMBERSHIP.filter(p => S.selected.has(p.id)).map(p => p.title);
-      if (memNames.length) p.set('form_autocare', memNames.join(', '));
-      window.location.href = 'https://apply.movogo.co.nz/?' + p.toString();
-
+      const memNames=MEMBERSHIP.filter(p=>S.selected.has(p.id)).map(p=>p.title);
+      if(memNames.length) p.set('form_autocare',memNames.join(', '));
+      window.location.href='https://apply.movogo.co.nz/?'+p.toString();
     } else {
-      // Membership only — validate and POST to Formspree
-      const name  = el('mvgName').value.trim();
-      const phone = el('mvgPhone').value.trim();
-      const email = el('mvgEmail').value.trim();
-      let ok = true;
-      if (!name)  { el('mvgNameErr').classList.add('show');  el('mvgName').classList.add('error');  ok=false; } else { el('mvgNameErr').classList.remove('show');  el('mvgName').classList.remove('error'); }
-      if (!phone) { el('mvgPhoneErr').classList.add('show'); el('mvgPhone').classList.add('error'); ok=false; } else { el('mvgPhoneErr').classList.remove('show'); el('mvgPhone').classList.remove('error'); }
-      if (!email||!email.includes('@')) { el('mvgEmailErr').classList.add('show'); el('mvgEmail').classList.add('error'); ok=false; } else { el('mvgEmailErr').classList.remove('show'); el('mvgEmail').classList.remove('error'); }
-      if (!ok) return;
-
-      const btn = el('mvgModalSubmit'); btn.textContent = 'Sending…'; btn.disabled = true;
-      const memKeys = MEMBERSHIP.filter(p => S.selected.has(p.id)).map(p => p.title);
-      const memW = MEMBERSHIP.filter(p=>S.selected.has(p.id)&&!p.soon&&p.price!==null).reduce((a,p)=>a+p.price,0);
+      const name=el('mvgName').value.trim(), phone=el('mvgPhone').value.trim(), email=el('mvgEmail').value.trim();
+      let ok=true;
+      if(!name){el('mvgNameErr').classList.add('show');el('mvgName').classList.add('error');ok=false;}else{el('mvgNameErr').classList.remove('show');el('mvgName').classList.remove('error');}
+      if(!phone){el('mvgPhoneErr').classList.add('show');el('mvgPhone').classList.add('error');ok=false;}else{el('mvgPhoneErr').classList.remove('show');el('mvgPhone').classList.remove('error');}
+      if(!email||!email.includes('@')){el('mvgEmailErr').classList.add('show');el('mvgEmail').classList.add('error');ok=false;}else{el('mvgEmailErr').classList.remove('show');el('mvgEmail').classList.remove('error');}
+      if(!ok)return;
+      const btn=el('mvgModalSubmit'); btn.textContent='Sending…'; btn.disabled=true;
+      const memKeys=MEMBERSHIP.filter(p=>S.selected.has(p.id)).map(p=>p.title);
+      const memW=MEMBERSHIP.filter(p=>S.selected.has(p.id)&&!p.soon&&p.price!==null).reduce((a,p)=>a+p.price,0);
       try {
-        const res = await fetch('https://formspree.io/f/xeeryage', {
-          method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-          body: JSON.stringify({ _subject: 'Membership enquiry', name, phone, email, frequency: S.freq, membership_items: memKeys.join(', ')||'None', membership_estimate: fmtAmt(memW * FREQ_MULT[S.freq]) + ' ' + FREQ_LABEL[S.freq] })
-        });
-        if (res.ok) {
-          el('mvgSuccess').classList.add('show');
-          el('mvgModalSubmit').style.display = 'none';
-          el('mvgModalCancel').textContent = 'Close';
-        }
+        const res=await fetch('https://formspree.io/f/xeeryage',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'Membership enquiry',name,phone,email,frequency:S.freq,membership_items:memKeys.join(', ')||'None',membership_estimate:fmtAmt(memW*FREQ_MULT[S.freq])+' '+FREQ_LABEL[S.freq]})});
+        if(res.ok){el('mvgSuccess').classList.add('show');el('mvgModalSubmit').style.display='none';el('mvgModalCancel').textContent='Close';}
         else throw new Error();
-      } catch { btn.textContent = 'Send enquiry'; btn.disabled = false; alert('Something went wrong. Please try again or email join@movogo.co.nz'); }
+      } catch { btn.textContent='Send enquiry'; btn.disabled=false; alert('Something went wrong. Please try again or email join@movogo.co.nz'); }
     }
   };
 
@@ -546,63 +556,59 @@
   el('rateSlider').addEventListener('input',function(){ S.rate=parseFloat(this.value); el('rateVal').textContent=S.rate.toFixed(2); updateSliderFill(this,7.95,29.95); renderEstimate(); });
 
   function updateSliderFill(input, min, max) {
-    const pct = ((input.value - min) / (max - min)) * 100;
-    input.style.background = `linear-gradient(to right, var(--g900) ${pct}%, var(--line) ${pct}%)`;
+    const pct=((input.value-min)/(max-min))*100;
+    input.style.background=`linear-gradient(to right, var(--g900) ${pct}%, var(--line) ${pct}%)`;
   }
-  // Init fills
-  updateSliderFill(el('borrowSlider'), 5000, 70000);
-  updateSliderFill(el('termSlider'), 36, 66);
-  updateSliderFill(el('rateSlider'), 7.95, 29.95);
+  updateSliderFill(el('borrowSlider'),5000,70000);
+  updateSliderFill(el('termSlider'),36,66);
+  updateSliderFill(el('rateSlider'),7.95,29.95);
 
-
-
-
-  el('ctaConfigureLoan').addEventListener('click',()=>{
-    S.financeCalcOpen = true;
-    renderEstimate();
-    setTimeout(() => scrollTo('financeCalc'), 50);
-  });
+  el('ctaConfigureLoan').addEventListener('click',()=>{ S.financeCalcOpen=true; renderEstimate(); setTimeout(()=>scrollTo('financeCalc'),50); });
   el('addCarShortcut').addEventListener('click',()=>{ if(!S.selected.has('buy')){S.selected.add('buy');renderGrids();renderEstimate();} });
   el('clearAllBtn').addEventListener('click',()=>{ if(!S.selected.size)return; if(!confirm('Clear your current selection? This will reset your estimate.'))return; S.selected.clear(); S.financeCalcOpen=false; renderGrids(); renderEstimate(); });
 
   (function applyUrlParams(){
     const p=new URLSearchParams(window.location.search);
-    const add=p.get('add'), rem=p.get('remove');
+    const add=p.get('add'),rem=p.get('remove');
     const ids=ALL_PRODUCTS.map(x=>x.id);
     if(add&&ids.includes(add)) S.selected.add(add);
     if(rem&&ids.includes(rem)) S.selected.delete(rem);
   })();
 
-  // ── Scroll offset — controlled via scroll-margin-top in CSS ──
   function scrollTo(elementId) {
-    const target = el(elementId);
-    if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    const target=el(elementId);
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
   }
 
   window.mvgOpenFinanceCalc = function() {
-    S.financeCalcOpen = true;
-    renderEstimate();
-    setTimeout(() => scrollTo('financeCalc'), 50);
+    S.financeCalcOpen=true; renderEstimate();
+    setTimeout(()=>scrollTo('financeCalc'),50);
   };
 
-  // Accordion
+  /* ── Accordion ── */
   function applyExpanded(key, open) {
-    const cat = document.querySelector(`#mvg-root .category[data-category="${key}"]`);
-    if (!cat) return;
-    cat.classList.toggle('open', open);
-    const body = document.getElementById(key + 'Body');
-    if (body) body.classList.toggle('collapsed', !open);
-    const btn = cat.querySelector('.category-head');
-    if (btn) btn.setAttribute('aria-expanded', String(open));
+    const cat=document.querySelector(`#mvg-root .category[data-category="${key}"]`);
+    if(!cat)return;
+    cat.classList.toggle('open',open);
+    const body=document.getElementById(key+'Body');
+    if(body) body.classList.toggle('collapsed',!open);
+    const summary=document.getElementById(key+'Summary');
+    if(summary) summary.classList.toggle('hidden',open);
+    const btn=cat.querySelector('.category-head');
+    if(btn) btn.setAttribute('aria-expanded',String(open));
   }
-  const expanded = { membership: true, finance: true };
-  document.querySelectorAll('#mvg-root [data-toggle]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const key = btn.dataset.toggle;
-      expanded[key] = !expanded[key];
-      applyExpanded(key, expanded[key]);
+
+  const expanded={membership:true,finance:true};
+  document.querySelectorAll('#mvg-root [data-toggle]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const key=btn.dataset.toggle;
+      expanded[key]=!expanded[key];
+      applyExpanded(key,expanded[key]);
     });
   });
+
   renderGrids(); renderEstimate();
+  applyExpanded('membership',true);
+  applyExpanded('finance',true);
 
 })();
