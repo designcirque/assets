@@ -191,25 +191,25 @@
 
   /* ── Product data ── */
   const MEMBERSHIP = [
-    { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WoF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime' },
-    { id:'rego',      title:'Registration',         pill:'Registration',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral' },
-    { id:'ruc',       title:'Road User Charges',    pill:'Road User Charges',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue' },
-    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing & Repairs',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime' },
-    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres & Repairs',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime' },
-    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside Assistance',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral' },
-    { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--green' },
+    { id:'wof', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11911f719c90f36a0de05e_Icons_wof.svg',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WoF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime' },
+    { id:'rego', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119122d548aecb2f886b36_Icons_rego.svg',      title:'Registration',         pill:'Registration',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral' },
+    { id:'ruc', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a1191226d8984fcaaae9030_Icons_ruc.svg',       title:'Road User Charges',    pill:'Road User Charges',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue' },
+    { id:'service', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11911f9c01125a75c855a6_Icons_service.svg',   title:'Servicing & Repairs',  pill:'Servicing & Repairs',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime' },
+    { id:'tyres', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11911fa0ca9c5988679f43_Icons_tyres.svg',     title:'Tyres & Repairs',      pill:'Tyres & Repairs',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime' },
+    { id:'roadside', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119122c871525c245d718d_Icons_roadside.svg',  title:'Roadside Assistance',  pill:'Roadside Assistance',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral' },
+    { id:'insurance', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a1191215738e8a9c5950121_Icons_insurance.svg', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--green' },
   ];
   const FINANCE_LOANS = [
-    { id:'buy',     title:'Buy my next car',         pill:'Buy my next car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--lime' },
-    { id:'refi',    title:'Refinance existing loan', pill:'Refinance existing loan',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--coral' },
-    { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue' },
+    { id:'buy', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11911f04965e45943de219_Icons_buy.svg',     title:'Buy my next car',         pill:'Buy my next car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--lime' },
+    { id:'refi', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119122d2ea2cb28a33dbf6_Icons_refi.svg',    title:'Refinance existing loan', pill:'Refinance existing loan',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--coral' },
+    { id:'repairs', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119122f0a6cff8626ec867_Icons_repairs.svg', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue' },
   ];
   const FINANCE_ADDONS = [
-    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical Breakdown Insurance',               subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime' },
-    { id:'redundancy', title:'Redundancy Waiver',              pill:'Redundancy Waiver',  desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime' },
-    { id:'health',     title:'Health Waiver',                  pill:'Health Waiver',      desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral' },
-    { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total Loss Waiver',  desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue' },
-    { id:'holiday',    title:'Repayment Holiday',              pill:'Repayment Holiday',  desc:'Press pause on repayments for an approved period. A scheduling feature that puts you in control of timing.',  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green' },
+    { id:'provident', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119121b0f6cbf0090a85ca_Icons_provident.svg',  title:'Mechanical Breakdown Insurance', pill:'Mechanical Breakdown Insurance',               subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime' },
+    { id:'redundancy', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11912125255052623e3e74_Icons_redundancy.svg', title:'Redundancy Waiver',              pill:'Redundancy Waiver',  desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime' },
+    { id:'health', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119121bd9cebc720acefac_Icons_health.svg',     title:'Health Waiver',                  pill:'Health Waiver',      desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral' },
+    { id:'totalloss', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11911ec213f44863fd46d7_Icons_totalloss.svg',  title:'Total Loss Waiver',              pill:'Total Loss Waiver',  desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue' },
+    { id:'holiday', icon:'https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a1191219c01125a75c855c5_Icons_holiday.svg',    title:'Repayment Holiday',              pill:'Repayment Holiday',  desc:'Press pause on repayments for an approved period. A scheduling feature that puts you in control of timing.',  requiresFinance:true, emoji:'⏸️', wonky:'wonky--green' },
   ];
   const ALL_PRODUCTS = [...MEMBERSHIP, ...FINANCE_LOANS, ...FINANCE_ADDONS];
   const ALL_FINANCE = [...FINANCE_LOANS, ...FINANCE_ADDONS];
@@ -261,7 +261,7 @@
     <div class="categories">
       <div class="category category--membership" data-category="membership">
         <button class="category-head" data-toggle="membership" aria-expanded="true">
-          <div class="wonky wonky--md wonky--lime"><span class="emoji">🔧</span></div>
+          <img src="https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119121a0ca9c5988679f9e_Icons_membership.svg" alt="Membership" width="72" height="72" style="flex-shrink:0;">
           <div class="category-title-wrap"><div class="category-title">Membership</div><div class="category-sub">Look after the car you've got, or the one you're financing. Spread across your regular payment.</div></div>
           <div class="category-chevron">▾</div>
         </button>
@@ -270,7 +270,7 @@
       </div>
       <div class="category category--finance" data-category="finance">
         <button class="category-head" data-toggle="finance" aria-expanded="true">
-          <div class="wonky wonky--md wonky--coral"><span class="emoji">🔑</span></div>
+          <img src="https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11911f21801b31896fb9ef_Icons_finance.svg" alt="Finance" width="72" height="72" style="flex-shrink:0;">
           <div class="category-title-wrap"><div class="category-title">Finance</div><div class="category-sub">Borrow for a car, refinance, or fund repairs. Plus optional loan cover.</div></div>
           <div class="category-chevron">▾</div>
         </button>
@@ -373,7 +373,7 @@
       : p.requiresFinance ? '<div class="pricing-note">Included with loan</div>'
       : `<div class="pricing-note">Calculated at quote ${tooltipHTML}</div>`;
     return `<div class="${['card',sel?'selected':'',isDisabled?'disabled':''].filter(Boolean).join(' ')}" data-id="${p.id}">
-      <div class="card-wonky"><div class="wonky wonky--md ${p.wonky}"><span class="emoji">${p.emoji}</span></div></div>
+      <div class="card-wonky"><img src="${p.icon}" alt="${p.title}" width="80" height="80" style="display:block;"></div>
       ${sticker}
       <div class="card-body">
         <h3>${p.title}</h3>
