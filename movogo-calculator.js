@@ -192,20 +192,20 @@
   /* ── Product data ── */
   const MEMBERSHIP = [
     { id:'wof',       title:'WoF / CoF',           pill:'WoF / CoF',    desc:'Never miss a WoF. We track it, remind you, and help you book.',                  price:1.73,  emoji:'📋', wonky:'wonky--lime' },
-    { id:'rego',      title:'Registration',         pill:'Rego',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral' },
-    { id:'ruc',       title:'Road User Charges',    pill:'RUC',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue' },
-    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime' },
-    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime' },
-    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral' },
+    { id:'rego',      title:'Registration',         pill:'Registration',         desc:'We take care of your annual rego. No year-end bill to dread.',                    price:3.33,  emoji:'🚙', wonky:'wonky--coral' },
+    { id:'ruc',       title:'Road User Charges',    pill:'Road User Charges',          desc:'For diesel, electric, and plug-in hybrids. We track and pay your RUC.',          price:14.62, emoji:'🛣️', wonky:'wonky--blue' },
+    { id:'service',   title:'Servicing & Repairs',  pill:'Servicing & Repairs',    desc:'Regular servicing keeps your car reliable. We budget for it and help you book.', price:5.77,  emoji:'🔧', wonky:'wonky--lime' },
+    { id:'tyres',     title:'Tyres & Repairs',      pill:'Tyres & Repairs',        desc:'Budget for tyres and small repairs before the bill lands.',                      price:null,  soon:true, emoji:'⚫', wonky:'wonky--lime' },
+    { id:'roadside',  title:'Roadside Assistance',  pill:'Roadside Assistance',     desc:'Help when you need it. Breakdowns, lockouts, tows. 24/7 across NZ.',             price:1.25,  emoji:'🚨', wonky:'wonky--coral' },
     { id:'insurance', title:'Insurance',            pill:'Insurance',    desc:'Comprehensive vehicle cover, bundled into your regular payment. Coming soon.',    price:null,  soon:true, emoji:'🛡️', wonky:'wonky--green' },
   ];
   const FINANCE_LOANS = [
-    { id:'buy',     title:'Buy my next car',         pill:'Buy a car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--lime' },
-    { id:'refi',    title:'Refinance existing loan', pill:'Refinance',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--coral' },
+    { id:'buy',     title:'Buy my next car',         pill:'Buy my next car',    desc:'Finance to buy your next vehicle. Regular repayments timed to your payday.',  price:null, isLoan:true, emoji:'🔑', wonky:'wonky--lime' },
+    { id:'refi',    title:'Refinance existing loan', pill:'Refinance existing loan',    desc:'Replace your current car loan. Potentially lower repayments.',                price:null, isLoan:true, emoji:'↻',  wonky:'wonky--coral' },
     { id:'repairs', title:'Fund repairs',            pill:'Fund repairs', desc:'Finance unexpected or planned repairs and spread the cost.',                   price:null, isLoan:true, emoji:'🛠️', wonky:'wonky--blue' },
   ];
   const FINANCE_ADDONS = [
-    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'MBI',               subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime' },
+    { id:'provident',  title:'Mechanical Breakdown Insurance', pill:'Mechanical Breakdown Insurance',               subtitle:'by Provident Insurance', desc:"Covers unexpected failures after the manufacturer's warranty.",       requiresFinance:true, emoji:'⚙️', wonky:'wonky--lime' },
     { id:'redundancy', title:'Redundancy Waiver',              pill:'Redundancy Waiver',  desc:"We waive your loan repayments if you're made involuntarily redundant.",             requiresFinance:true, emoji:'💼', wonky:'wonky--lime' },
     { id:'health',     title:'Health Waiver',                  pill:'Health Waiver',      desc:'We waive your repayments if illness or injury stops you working.',                   requiresFinance:true, emoji:'❤️', wonky:'wonky--coral' },
     { id:'totalloss',  title:'Total Loss Waiver',              pill:'Total Loss Waiver',  desc:'If your car is written off or stolen, we waive the outstanding balance.',             requiresFinance:true, emoji:'🚨', wonky:'wonky--blue' },
