@@ -154,19 +154,19 @@
     <div>
       <label class="hf-lbl" for="hfDob">Date of birth</label>
       <input class="hf-input" type="text" id="hfDob" placeholder="DD/MM/YYYY" autocomplete="bday">
-      <div class="hf-error" id="hfDobErr">Please enter your date of birth.</div>
+      <div class="hf-error" id="hfDobErr">Please enter your date of birth in DD/MM/YYYY format.</div>
     </div>
     <div>
       <label class="hf-lbl" for="hfPhone">Contact number</label>
       <input class="hf-input" type="tel" id="hfPhone" placeholder="021 123 4567" autocomplete="tel">
-      <div class="hf-error" id="hfPhoneErr">Please enter your contact number.</div>
+      <div class="hf-error" id="hfPhoneErr">Please enter a valid phone number (digits only).</div>
     </div>
   </div>
 
   <div class="hf-field">
     <label class="hf-lbl" for="hfEmail">Email address</label>
     <input class="hf-input" type="email" id="hfEmail" placeholder="jane@example.com" autocomplete="email">
-    <div class="hf-error" id="hfEmailErr">Please enter a valid email address.</div>
+    <div class="hf-error" id="hfEmailErr">Please enter a valid email address (e.g. jane@example.com).</div>
   </div>
 
   <hr class="hf-divider">
@@ -491,9 +491,15 @@
     let invalid = false;
     invalid |= setErr('hfFirstErr',       'hfFirst',       !el('hfFirst').value.trim());
     invalid |= setErr('hfLastErr',        'hfLast',        !el('hfLast').value.trim());
-    invalid |= setErr('hfDobErr',         'hfDob',         !el('hfDob').value.trim());
-    invalid |= setErr('hfPhoneErr',       'hfPhone',       !el('hfPhone').value.trim());
-    invalid |= setErr('hfEmailErr',       'hfEmail',       !el('hfEmail').value.trim() || !el('hfEmail').value.includes('@'));
+    const hfDob = el('hfDob').value.trim();
+    const hfDobValid = /^\d{2}\/\d{2}\/\d{4}$/.test(hfDob);
+    invalid |= setErr('hfDobErr', 'hfDob', !hfDobValid);
+    const hfPhone = el('hfPhone').value.trim();
+    const hfPhoneValid = hfPhone.length >= 7 && /^[\d\s\+\-\(\)]+$/.test(hfPhone);
+    invalid |= setErr('hfPhoneErr', 'hfPhone', !hfPhoneValid);
+    const hfEmail = el('hfEmail').value.trim();
+    const hfEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(hfEmail);
+    invalid |= setErr('hfEmailErr', 'hfEmail', !hfEmailValid);
     invalid |= setErr('hfReasonErr',      'hfReason',      !el('hfReason').value.trim());
     invalid |= setErr('hfAffordErr',      'hfAfford',      !el('hfAfford').value.trim());
     invalid |= setErr('hfDurationErr',    'hfDuration',    !el('hfDuration').value);
