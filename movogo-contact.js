@@ -131,12 +131,12 @@
     <div>
       <label class="cf-lbl" for="cfEmail">Email address</label>
       <input class="cf-input" type="email" id="cfEmail" placeholder="jane@example.com" autocomplete="email">
-      <div class="cf-error" id="cfEmailErr">Please enter a valid email address.</div>
+      <div class="cf-error" id="cfEmailErr">Please enter a valid email address (e.g. jane@example.com).</div>
     </div>
     <div>
       <label class="cf-lbl" for="cfPhone">Contact number</label>
       <input class="cf-input" type="tel" id="cfPhone" placeholder="021 123 4567" autocomplete="tel">
-      <div class="cf-error" id="cfPhoneErr">Please enter your contact number.</div>
+      <div class="cf-error" id="cfPhoneErr">Please enter a valid phone number (digits only).</div>
     </div>
   </div>
 
@@ -191,8 +191,10 @@
 
     setErr('cfFirstErr',   'cfFirst',   !first);
     setErr('cfLastErr',    'cfLast',    !last);
-    setErr('cfEmailErr',   'cfEmail',   !email || !email.includes('@'));
-    setErr('cfPhoneErr',   'cfPhone',   !phone);
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    setErr('cfEmailErr',   'cfEmail',   !emailValid);
+    const phoneValid = phone.length >= 7 && /^[\d\s\+\-\(\)]+$/.test(phone);
+    setErr('cfPhoneErr',   'cfPhone',   !phoneValid);
     setErr('cfNatureErr',  null,        !nature);
     setErr('cfMessageErr', 'cfMessage', !message);
 
@@ -206,7 +208,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
-         _subject: 'Contact form',
+          _subject: 'Contact form',
           first_name:    first,
           last_name:     last,
           email,
