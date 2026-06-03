@@ -107,12 +107,12 @@
     <div>
       <label class="cc-lbl" for="ccEmail">Email address</label>
       <input class="cc-input" type="email" id="ccEmail" placeholder="jane@example.com" autocomplete="email">
-      <div class="cc-error" id="ccEmailErr">Please enter a valid email address.</div>
+      <div class="cc-error" id="ccEmailErr">Please enter a valid email address (e.g. jane@example.com).</div>
     </div>
     <div>
       <label class="cc-lbl" for="ccPhone">Contact number</label>
       <input class="cc-input" type="tel" id="ccPhone" placeholder="021 123 4567" autocomplete="tel">
-      <div class="cc-error" id="ccPhoneErr">Please enter your contact number.</div>
+      <div class="cc-error" id="ccPhoneErr">Please enter a valid phone number (digits only).</div>
     </div>
   </div>
 
@@ -168,8 +168,10 @@
 
     setErr('ccFirstErr',   'ccFirst',   !first);
     setErr('ccLastErr',    'ccLast',    !last);
-    setErr('ccEmailErr',   'ccEmail',   !email || !email.includes('@'));
-    setErr('ccPhoneErr',   'ccPhone',   !phone);
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    setErr('ccEmailErr',   'ccEmail',   !emailValid);
+    const phoneValid = phone.length >= 7 && /^[\d\s\+\-\(\)]+$/.test(phone);
+    setErr('ccPhoneErr',   'ccPhone',   !phoneValid);
     setErr('ccNatureErr',  null,        !nature);
     setErr('ccDetailsErr', 'ccDetails', !details);
 
