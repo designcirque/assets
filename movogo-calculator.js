@@ -261,7 +261,6 @@
     <div class="categories">
       <div class="category category--membership" data-category="membership">
         <button class="category-head" data-toggle="membership" aria-expanded="true">
-          <img src="https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a119121a0ca9c5988679f9e_Icons_membership.svg" alt="Membership" width="72" height="72" style="flex-shrink:0;">
           <div class="category-title-wrap"><div class="category-title">Membership</div><div class="category-sub">Look after the car you've got, or the one you're financing. Spread across your regular payment.</div></div>
           <div class="category-chevron">▾</div>
         </button>
@@ -270,7 +269,6 @@
       </div>
       <div class="category category--finance" data-category="finance">
         <button class="category-head" data-toggle="finance" aria-expanded="true">
-          <img src="https://cdn.prod.website-files.com/696b3ad4dc97d40f573bc46e/6a11911f21801b31896fb9ef_Icons_finance.svg" alt="Finance" width="72" height="72" style="flex-shrink:0;">
           <div class="category-title-wrap"><div class="category-title">Finance</div><div class="category-sub">Borrow for a car, refinance, or fund repairs. Plus optional loan cover.</div></div>
           <div class="category-chevron">▾</div>
         </button>
