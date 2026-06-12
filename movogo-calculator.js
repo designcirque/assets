@@ -528,7 +528,7 @@
       });
       const memNames=MEMBERSHIP.filter(p=>S.selected.has(p.id)).map(p=>p.title);
       if(memNames.length) p.set('form_autocare',memNames.join(', '));
-      window.location.href='https://apply.movogo.co.nz/?'+p.toString();
+      window.location.href='https://application.movogo.co.nz/?'+p.toString();
     } else {
       const name=el('mvgName').value.trim(), phone=el('mvgPhone').value.trim(), email=el('mvgEmail').value.trim();
       let ok=true;
